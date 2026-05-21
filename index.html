@@ -29,6 +29,8 @@
     --success-soft: #dcfce7;
     --amber: #d97706;
     --amber-soft: #fef3c7;
+    --indigo: #4338ca;
+    --indigo-soft: #e0e7ff;
     --shadow-sm: 0 1px 2px rgba(16,24,40,.04);
     --shadow-md: 0 4px 12px rgba(16,24,40,.05), 0 1px 2px rgba(16,24,40,.04);
     --radius: 12px;
@@ -45,91 +47,104 @@
     -webkit-font-smoothing: antialiased;
   }
   button { font-family: inherit; cursor: pointer; }
-  a { color: inherit; }
 
   /* ============ App shell ============ */
-  .app {
-    display: grid;
-    grid-template-columns: 248px 1fr;
-    min-height: 100vh;
-  }
+  .app { display: grid; grid-template-columns: 252px 1fr; min-height: 100vh; }
 
   /* ============ Sidebar ============ */
   .sidebar {
     background: var(--navy);
     color: var(--cream);
-    padding: 20px 16px;
+    padding: 20px 14px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
     position: sticky;
     top: 0;
     height: 100vh;
+    overflow-y: auto;
   }
+  .sidebar::-webkit-scrollbar { width: 0; }
   .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 8px 18px;
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 8px 16px;
     border-bottom: 1px solid var(--navy-line);
     margin-bottom: 12px;
   }
-  .brand-mark {
-    width: 36px; height: 36px;
-    flex-shrink: 0;
-  }
-  .brand-name {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-    letter-spacing: 0.04em;
-    color: var(--cream);
-    line-height: 1;
-  }
-  .brand-tag {
-    font-size: 10px;
-    color: var(--cream);
-    opacity: 0.55;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
-  .nav-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(236,228,210,0.45);
-    padding: 14px 10px 6px;
-  }
-  .nav-item {
+  .brand-mark { width: 36px; height: 36px; flex-shrink: 0; }
+  .brand-name { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.04em; color: var(--cream); line-height: 1; }
+  .brand-tag { font-size: 10px; color: var(--cream); opacity: 0.55; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
+
+  .nav-section { margin-top: 4px; }
+  .nav-parent {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 9px 10px;
     border-radius: var(--radius-sm);
-    color: rgba(236,228,210,0.78);
-    text-decoration: none;
+    color: rgba(236,228,210,0.85);
     font-weight: 500;
     font-size: 14px;
     cursor: pointer;
     user-select: none;
+    transition: background .15s ease;
+  }
+  .nav-parent:hover { background: rgba(236,228,210,0.05); color: var(--cream); }
+  .nav-parent.expanded { color: var(--cream); }
+  .nav-parent.expanded .chev { transform: rotate(90deg); }
+  .nav-parent.has-active { color: var(--cream); }
+  .nav-icon { width: 18px; height: 18px; color: rgba(236,228,210,0.6); flex-shrink: 0; }
+  .nav-parent.has-active .nav-icon,
+  .nav-parent.expanded .nav-icon { color: var(--orange); }
+  .chev {
+    width: 14px; height: 14px;
+    margin-left: auto;
+    color: rgba(236,228,210,0.45);
+    transition: transform .18s ease;
+  }
+  .nav-children {
+    display: none;
+    flex-direction: column;
+    padding: 4px 0 6px 38px;
+    gap: 1px;
+  }
+  .nav-parent.expanded + .nav-children { display: flex; }
+  .nav-child {
+    padding: 7px 10px;
+    border-radius: 6px;
+    color: rgba(236,228,210,0.62);
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
     transition: background .15s ease, color .15s ease;
+    position: relative;
   }
-  .nav-item:hover {
-    background: rgba(236,228,210,0.06);
+  .nav-child:hover { background: rgba(236,228,210,0.05); color: var(--cream); }
+  .nav-child.active {
     color: var(--cream);
-  }
-  .nav-item.active {
     background: rgba(232,94,45,0.14);
-    color: var(--cream);
   }
-  .nav-item.active .nav-icon { color: var(--orange); }
-  .nav-icon {
-    width: 18px; height: 18px;
-    color: rgba(236,228,210,0.6);
-    flex-shrink: 0;
+  .nav-child.active::before {
+    content: "";
+    position: absolute;
+    left: -16px; top: 50%; transform: translateY(-50%);
+    width: 3px; height: 14px;
+    background: var(--orange);
+    border-radius: 0 2px 2px 0;
   }
-  .nav-item .badge {
+  .nav-single {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 10px;
+    border-radius: var(--radius-sm);
+    color: rgba(236,228,210,0.85);
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .nav-single:hover { background: rgba(236,228,210,0.05); color: var(--cream); }
+  .nav-single.active { background: rgba(232,94,45,0.14); color: var(--cream); }
+  .nav-single.active .nav-icon { color: var(--orange); }
+  .badge {
     margin-left: auto;
     background: var(--orange);
     color: #fff;
@@ -139,6 +154,9 @@
     border-radius: 10px;
     line-height: 1.4;
   }
+
+  .nav-divider { height: 1px; background: var(--navy-line); margin: 10px 4px; }
+
   .ai-status {
     margin-top: auto;
     background: rgba(236,228,210,0.04);
@@ -147,31 +165,13 @@
     padding: 12px;
     margin-bottom: 8px;
   }
-  .ai-status-row {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px;
-    color: rgba(236,228,210,0.7);
-  }
-  .pulse {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: #4ade80;
-    box-shadow: 0 0 0 0 rgba(74,222,128,0.7);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(74,222,128,0.6); }
-    70% { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
-    100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
-  }
+  .ai-status-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(236,228,210,0.7); }
+  .pulse { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 0 rgba(74,222,128,0.7); animation: pulse 2s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(74,222,128,0.6); } 70% { box-shadow: 0 0 0 8px rgba(74,222,128,0); } 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); } }
   .ai-status strong { color: var(--cream); font-weight: 600; display: block; margin-top: 4px; font-size: 13px; }
   .ai-status-sub { font-size: 11px; opacity: 0.55; margin-top: 2px; }
 
-  .user-chip {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-  }
+  .user-chip { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: var(--radius-sm); cursor: pointer; }
   .user-chip:hover { background: rgba(236,228,210,0.05); }
   .avatar {
     width: 32px; height: 32px;
@@ -187,21 +187,18 @@
   .user-chip .sub  { font-size: 11px; color: rgba(236,228,210,0.55); }
 
   /* ============ Main ============ */
-  .main {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-  }
+  .main { min-width: 0; display: flex; flex-direction: column; }
   .topbar {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    padding: 16px 32px;
+    padding: 14px 32px;
     display: flex;
     align-items: center;
     gap: 24px;
+    position: sticky; top: 0; z-index: 10;
   }
-  .page-title { font-size: 20px; font-weight: 600; color: var(--text); }
-  .page-sub   { font-size: 13px; color: var(--text-2); }
+  .crumb { font-size: 12px; color: var(--text-3); margin-bottom: 2px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .page-title { font-size: 19px; font-weight: 600; color: var(--text); }
   .topbar-spacer { flex: 1; }
   .search {
     display: flex; align-items: center; gap: 8px;
@@ -224,165 +221,44 @@
     position: relative;
   }
   .icon-btn:hover { background: var(--bg); color: var(--text); }
-  .icon-btn .dot {
-    position: absolute; top: 6px; right: 8px;
-    width: 8px; height: 8px;
-    background: var(--orange);
-    border-radius: 50%;
-    border: 2px solid var(--surface);
-  }
+  .icon-btn .dot { position: absolute; top: 6px; right: 8px; width: 8px; height: 8px; background: var(--orange); border-radius: 50%; border: 2px solid var(--surface); }
 
   .view { padding: 24px 32px 48px; }
+  [hidden] { display: none !important; }
 
-  /* ============ Hero card ============ */
-  .hero {
-    background: var(--navy);
-    color: var(--cream);
-    border-radius: 16px;
-    padding: 28px 32px;
-    overflow: hidden;
-    position: relative;
+  /* ============ In-page sub-tabs ============ */
+  .subtabs {
+    display: flex;
+    gap: 2px;
     margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
   }
-  .hero::before {
-    content: "";
-    position: absolute;
-    right: -80px; bottom: -120px;
-    width: 320px; height: 320px;
-    background: radial-gradient(circle, rgba(232,94,45,0.18) 0%, rgba(232,94,45,0) 65%);
-    pointer-events: none;
-  }
-  .hero h1 {
-    font-family: 'Inter', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    margin: 0 0 6px;
-    color: var(--cream);
-  }
-  .hero p { margin: 0; font-size: 15px; color: rgba(236,228,210,0.78); max-width: 620px; }
-  .hero-stats {
-    margin-top: 24px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr) auto;
-    gap: 16px;
-    align-items: end;
-  }
-  .stat {
-    background: rgba(236,228,210,0.06);
-    border: 1px solid var(--navy-line);
-    border-radius: 10px;
-    padding: 14px 16px;
-  }
-  .stat-num {
-    font-family: 'Oswald', sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--cream);
-    line-height: 1;
-    letter-spacing: 0.02em;
-  }
-  .stat-label {
-    font-size: 12px;
-    color: rgba(236,228,210,0.65);
-    margin-top: 6px;
-  }
-  .hero .cta {
-    background: var(--orange);
-    color: #fff;
+  .subtabs::-webkit-scrollbar { height: 0; }
+  .subtab {
+    padding: 10px 18px;
     border: 0;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 14px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: background .15s ease;
-    white-space: nowrap;
-  }
-  .hero .cta:hover { background: var(--orange-2); }
-
-  /* ============ Layout grid ============ */
-  .grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.7fr) minmax(320px, 1fr);
-    gap: 24px;
-  }
-  .col { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
-
-  /* ============ Card ============ */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
-  }
-  .card-head {
-    padding: 18px 20px 12px;
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-  }
-  .card-title { font-size: 15px; font-weight: 600; color: var(--text); }
-  .card-sub { font-size: 13px; color: var(--text-2); }
-  .card-action {
-    margin-left: auto;
-    font-size: 13px;
-    color: var(--text-2);
     background: transparent;
-    border: 0;
-    padding: 4px 6px;
-    border-radius: 6px;
+    color: var(--text-2);
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color .15s ease, border-color .15s ease;
   }
-  .card-action:hover { background: var(--bg); color: var(--text); }
-  .card-body { padding: 8px 20px 20px; }
-
-  /* ============ Pending approvals ============ */
-  .approval {
-    display: flex;
-    gap: 14px;
-    padding: 16px 0;
-    border-top: 1px solid var(--border);
-    align-items: flex-start;
-  }
-  .approval:first-child { border-top: 0; padding-top: 4px; }
-  .approval .avatar.lg { width: 38px; height: 38px; font-size: 14px; background: var(--navy); }
-  .approval-body { flex: 1; min-width: 0; }
-  .approval-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-  .approval-name { font-weight: 600; color: var(--text); font-size: 14px; }
-  .approval-meta { font-size: 12px; color: var(--text-3); }
-  .approval-summary { color: var(--text-2); margin-top: 2px; font-size: 13px; }
-  .ai-draft {
-    margin-top: 10px;
-    background: var(--cream-2);
-    border-left: 3px solid var(--orange);
-    border-radius: 6px;
-    padding: 10px 12px;
-    font-size: 13px;
-    color: var(--text);
-  }
-  .ai-draft-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+  .subtab:hover { color: var(--text); }
+  .subtab.active {
     color: var(--orange-2);
-    margin-bottom: 4px;
+    border-bottom-color: var(--orange);
   }
-  .ai-draft-label svg { width: 12px; height: 12px; }
-  .approval-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-  }
+  .subview { animation: fadeIn .18s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* ============ Buttons ============ */
   .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    display: inline-flex; align-items: center; gap: 6px;
     padding: 8px 14px;
     border-radius: 8px;
     font-size: 13px;
@@ -393,239 +269,625 @@
     transition: all .15s ease;
   }
   .btn:hover { background: var(--bg); }
-  .btn-primary {
-    background: var(--orange);
-    color: #fff;
-    border-color: var(--orange);
-  }
+  .btn-primary { background: var(--orange); color: #fff; border-color: var(--orange); }
   .btn-primary:hover { background: var(--orange-2); border-color: var(--orange-2); }
-  .btn svg { width: 14px; height: 14px; }
   .btn-ghost { background: transparent; border-color: transparent; color: var(--text-2); }
   .btn-ghost:hover { background: var(--bg); color: var(--text); }
+  .btn-navy { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+  .btn-navy:hover { background: var(--navy-2); border-color: var(--navy-2); }
+  .btn svg { width: 14px; height: 14px; }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+  .btn-lg { padding: 12px 22px; font-size: 14px; border-radius: 10px; }
 
-  /* ============ Schedule ============ */
-  .job {
-    display: grid;
-    grid-template-columns: 84px 1fr auto;
-    gap: 16px;
-    padding: 14px 0;
-    border-top: 1px solid var(--border);
-    align-items: center;
-  }
-  .job:first-child { border-top: 0; padding-top: 6px; }
-  .job-time { font-weight: 600; color: var(--text); font-size: 13px; }
-  .job-time-sub { font-size: 12px; color: var(--text-3); margin-top: 2px; }
-  .job-title { font-weight: 500; color: var(--text); font-size: 14px; }
-  .job-sub { font-size: 12px; color: var(--text-2); margin-top: 2px; display: flex; align-items: center; gap: 6px; }
-  .job-sub svg { width: 12px; height: 12px; }
-  .job-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 500;
-    background: var(--bg);
-    color: var(--text-2);
-  }
-  .job-status.upnext { background: var(--orange-soft); color: var(--orange-2); }
-  .job-status.upnext::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); }
-  .job-status.confirmed { background: var(--success-soft); color: var(--success); }
-  .job-status.estimate  { background: #eef2ff; color: #4338ca; }
-
-  /* ============ Money strip ============ */
-  .money-strip {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-  }
-  .money-tile {
-    padding: 14px 16px;
+  /* ============ Card ============ */
+  .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
   }
-  .money-label { font-size: 12px; color: var(--text-2); }
-  .money-value { font-size: 22px; font-weight: 600; color: var(--text); margin-top: 4px; font-family: 'Oswald', sans-serif; letter-spacing: 0.02em; }
-  .money-trend { font-size: 12px; margin-top: 4px; }
-  .money-trend.up { color: var(--success); }
-  .money-trend.down { color: var(--orange-2); }
+  .card-head { padding: 18px 20px 12px; display: flex; align-items: baseline; gap: 12px; }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .card-sub { font-size: 13px; color: var(--text-2); }
+  .card-action { margin-left: auto; font-size: 13px; color: var(--text-2); background: transparent; border: 0; padding: 4px 6px; border-radius: 6px; }
+  .card-action:hover { background: var(--bg); color: var(--text); }
+  .card-body { padding: 8px 20px 20px; }
 
-  /* ============ Activity feed ============ */
-  .activity .card-body { padding-top: 0; }
-  .feed { display: flex; flex-direction: column; }
-  .feed-item {
-    display: flex;
-    gap: 12px;
-    padding: 12px 0;
-    border-top: 1px solid var(--border);
-    align-items: flex-start;
+  /* ============ Status pills ============ */
+  .pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--bg); color: var(--text-2); letter-spacing: 0.02em; }
+  .pill.dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .pill-orange { background: var(--orange-soft); color: var(--orange-2); }
+  .pill-green  { background: var(--success-soft); color: var(--success); }
+  .pill-indigo { background: var(--indigo-soft); color: var(--indigo); }
+  .pill-amber  { background: var(--amber-soft); color: var(--amber); }
+  .pill-navy   { background: rgba(22,34,62,0.08); color: var(--navy); }
+
+  /* ===================================================
+     ASK CHUCK
+     =================================================== */
+  .chuck-shell {
+    max-width: 880px;
+    margin: 0 auto;
   }
-  .feed-item:first-child { border-top: 0; }
-  .feed-icon {
-    width: 28px; height: 28px;
-    border-radius: 8px;
+  .chuck-hero {
+    text-align: center;
+    margin: 32px 0 28px;
+  }
+  .chuck-hero h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    margin: 0 0 8px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .chuck-hero p { margin: 0; color: var(--text-2); font-size: 15px; }
+  .chuck-hero .chuck-orange { color: var(--orange-2); font-weight: 600; }
+
+  .chuck-thread {
+    display: flex; flex-direction: column; gap: 18px;
+    margin-bottom: 24px;
+  }
+  .chuck-msg-you {
+    align-self: flex-end;
+    max-width: 78%;
+    background: var(--navy);
+    color: var(--cream);
+    padding: 12px 16px;
+    border-radius: 16px;
+    border-bottom-right-radius: 4px;
+    font-size: 14px;
+  }
+  .chuck-msg-chuck {
+    align-self: flex-start;
+    max-width: 92%;
+    display: flex; gap: 12px;
+  }
+  .chuck-mark {
+    width: 32px; height: 32px; border-radius: 50%;
     background: var(--cream-2);
     color: var(--orange-2);
     display: grid; place-items: center;
     flex-shrink: 0;
+    border: 1px solid var(--border);
   }
-  .feed-icon svg { width: 14px; height: 14px; }
-  .feed-icon.blue { background: #e0e7ff; color: #4338ca; }
-  .feed-icon.green { background: var(--success-soft); color: var(--success); }
-  .feed-icon.navy { background: rgba(22,34,62,0.08); color: var(--navy); }
-  .feed-text { font-size: 13px; color: var(--text); flex: 1; min-width: 0; }
-  .feed-time { font-size: 11px; color: var(--text-3); margin-top: 2px; }
-  .feed-text b { font-weight: 600; }
+  .chuck-mark svg { width: 16px; height: 16px; }
+  .chuck-bubble {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    border-bottom-left-radius: 4px;
+    padding: 14px 18px;
+    flex: 1;
+    box-shadow: var(--shadow-sm);
+  }
+  .chuck-name { font-size: 12px; font-weight: 600; color: var(--orange-2); margin-bottom: 6px; letter-spacing: 0.02em; }
+  .chuck-bubble p { margin: 0 0 8px; }
+  .chuck-bubble p:last-child { margin-bottom: 0; }
 
-  /* ============ Inbox view ============ */
-  .inbox {
+  .chuck-jobs {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .chuck-job {
     display: grid;
-    grid-template-columns: 320px 1fr 320px;
-    gap: 0;
+    grid-template-columns: 72px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 11px 14px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .chuck-job:first-child { border-top: 0; }
+  .chuck-job .t { font-weight: 600; font-size: 13px; }
+  .chuck-job .who { font-weight: 500; font-size: 14px; }
+  .chuck-job .sub { font-size: 12px; color: var(--text-2); margin-top: 1px; }
+
+  .chuck-suggestions {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+    margin-bottom: 16px;
+  }
+  .chuck-suggest {
+    text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    color: var(--text);
+    cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    transition: all .15s ease;
+  }
+  .chuck-suggest:hover { border-color: var(--orange); background: var(--cream-2); }
+  .chuck-suggest svg { width: 14px; height: 14px; color: var(--orange); flex-shrink: 0; }
+
+  .chuck-composer {
+    position: sticky;
+    bottom: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 14px;
+    box-shadow: var(--shadow-md);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .chuck-composer input {
+    flex: 1;
+    border: 0;
+    outline: none;
+    font-size: 15px;
+    font-family: inherit;
+    background: transparent;
+    color: var(--text);
+    padding: 6px 4px;
+  }
+  .chuck-composer input::placeholder { color: var(--text-3); }
+  .mic-btn, .send-btn {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    border: 0;
+    display: grid; place-items: center;
+  }
+  .mic-btn { background: var(--bg); color: var(--text-2); }
+  .mic-btn:hover { background: var(--border); color: var(--text); }
+  .send-btn { background: var(--orange); color: #fff; }
+  .send-btn:hover { background: var(--orange-2); }
+
+  /* ===================================================
+     CUSTOMERS (Sales > CRM)
+     =================================================== */
+  .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .filter-pill {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 12.5px; color: var(--text-2);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .filter-pill:hover { background: var(--bg); color: var(--text); }
+  .filter-pill svg { width: 12px; height: 12px; }
+
+  .data-table {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
-    min-height: 70vh;
   }
-  .conv-list {
-    border-right: 1px solid var(--border);
-    background: var(--surface);
-    display: flex; flex-direction: column;
-  }
-  .conv-search { padding: 14px 16px; border-bottom: 1px solid var(--border); }
-  .conv-search .search { width: 100%; }
-  .conv {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
+  .table-row {
+    display: grid;
+    grid-template-columns: 1.6fr 1.2fr 1fr 1fr 1fr 0.9fr;
+    gap: 12px;
+    padding: 12px 20px;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    font-size: 13.5px;
     cursor: pointer;
-    display: flex; gap: 12px;
   }
-  .conv:hover { background: var(--bg); }
-  .conv.active { background: var(--cream-2); }
-  .conv-body { flex: 1; min-width: 0; }
-  .conv-row { display: flex; align-items: baseline; gap: 8px; }
-  .conv-name { font-weight: 600; font-size: 14px; color: var(--text); }
-  .conv-time { font-size: 11px; color: var(--text-3); margin-left: auto; flex-shrink: 0; }
-  .conv-preview {
-    font-size: 13px; color: var(--text-2);
-    overflow: hidden; text-overflow: ellipsis;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    margin-top: 2px;
-  }
-  .conv-tag {
-    display: inline-block;
-    font-size: 10px;
+  .table-row:hover { background: var(--bg); }
+  .table-row.active { background: var(--cream-2); }
+  .table-head {
+    border-top: 0;
+    cursor: default;
+    background: var(--bg);
+    color: var(--text-2);
+    font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 2px 7px;
-    border-radius: 4px;
-    margin-top: 6px;
+    letter-spacing: 0.04em;
   }
-  .tag-draft  { background: var(--orange-soft); color: var(--orange-2); }
-  .tag-waiting { background: var(--bg); color: var(--text-2); }
-  .tag-resolved { background: var(--success-soft); color: var(--success); }
-  .tag-new { background: #e0e7ff; color: #4338ca; }
+  .table-head:hover { background: var(--bg); }
+  .cust-name { display: flex; align-items: center; gap: 10px; font-weight: 500; color: var(--text); }
+  .cust-name .avatar { width: 28px; height: 28px; font-size: 11px; }
+  .cust-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; }
 
-  .conv-detail { display: flex; flex-direction: column; min-width: 0; }
-  .conv-detail-head {
-    padding: 16px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 12px;
-  }
-  .conv-detail-head .name { font-weight: 600; font-size: 15px; }
-  .conv-detail-head .meta { font-size: 12px; color: var(--text-2); }
-  .conv-thread {
-    flex: 1;
-    padding: 20px 24px;
-    overflow-y: auto;
-    background: var(--bg);
-    display: flex; flex-direction: column; gap: 14px;
-  }
-  .msg { max-width: 78%; padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.45; }
-  .msg.them { background: var(--surface); border: 1px solid var(--border); align-self: flex-start; border-bottom-left-radius: 4px; }
-  .msg.you  { background: var(--navy); color: var(--cream); align-self: flex-end; border-bottom-right-radius: 4px; }
-  .msg-meta { font-size: 11px; color: var(--text-3); margin-top: 4px; padding: 0 4px; }
-  .msg.them + .msg-meta { align-self: flex-start; }
-  .msg.you + .msg-meta { align-self: flex-end; }
+  /* Customer detail panel */
+  .split { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; }
+  .panel-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .panel-head { display: flex; gap: 14px; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+  .panel-head .avatar { width: 48px; height: 48px; font-size: 16px; }
+  .panel-head .name { font-size: 17px; font-weight: 600; }
+  .panel-head .meta { font-size: 13px; color: var(--text-2); }
 
-  .ai-panel {
-    border-left: 1px solid var(--border);
+  .kv-grid { display: grid; grid-template-columns: 130px 1fr; gap: 10px 14px; font-size: 13px; }
+  .kv-grid dt { color: var(--text-2); }
+  .kv-grid dd { margin: 0; color: var(--text); font-weight: 500; }
+  .kv-grid dd .tag { background: var(--cream-2); color: var(--orange-2); font-size: 11px; padding: 2px 7px; border-radius: 4px; margin-right: 4px; font-weight: 600; }
+
+  .timeline { display: flex; flex-direction: column; }
+  .timeline-item {
+    display: grid; grid-template-columns: 32px 1fr; gap: 12px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .timeline-item:first-child { border-top: 0; padding-top: 4px; }
+  .timeline-icon {
+    width: 30px; height: 30px; border-radius: 8px;
+    display: grid; place-items: center;
     background: var(--cream-2);
-    padding: 20px;
-    display: flex; flex-direction: column; gap: 16px;
-    overflow-y: auto;
+    color: var(--orange-2);
+    flex-shrink: 0;
   }
-  .panel-section h4 {
-    margin: 0 0 8px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--text-2);
+  .timeline-icon svg { width: 14px; height: 14px; }
+  .timeline-icon.green { background: var(--success-soft); color: var(--success); }
+  .timeline-icon.blue  { background: var(--indigo-soft); color: var(--indigo); }
+  .timeline-icon.navy  { background: rgba(22,34,62,0.08); color: var(--navy); }
+  .timeline-text { font-size: 13.5px; }
+  .timeline-text b { font-weight: 600; }
+  .timeline-time { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+
+  /* ===================================================
+     INTAKE
+     =================================================== */
+  .config-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .config-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--border); font-size: 13.5px; }
+  .config-row:first-of-type { border-top: 0; }
+  .config-row .label { color: var(--text); flex: 1; }
+  .config-row .value { color: var(--text-2); font-weight: 500; }
+  .toggle {
+    position: relative; width: 36px; height: 20px;
+    background: var(--border-strong); border-radius: 999px;
+    cursor: pointer; transition: background .15s ease;
+    flex-shrink: 0;
   }
-  .panel-card {
-    background: var(--surface);
+  .toggle::after {
+    content: ""; position: absolute; top: 2px; left: 2px;
+    width: 16px; height: 16px;
+    background: #fff; border-radius: 50%;
+    transition: left .15s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .toggle.on { background: var(--orange); }
+  .toggle.on::after { left: 18px; }
+  .radio-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .radio-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  .radio-row.selected { border-color: var(--orange); background: var(--cream-2); color: var(--text); }
+  .radio-dot {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid var(--border-strong);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .radio-row.selected .radio-dot { border-color: var(--orange); }
+  .radio-row.selected .radio-dot::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+
+  .intake-q {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px;
+    background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 14px;
-    font-size: 13px;
+    margin-bottom: 8px;
+    font-size: 13.5px;
   }
-  .panel-card.draft { border-left: 3px solid var(--orange); }
-  .draft-body { color: var(--text); white-space: pre-wrap; font-size: 13.5px; line-height: 1.55; }
-  .draft-actions { display: flex; gap: 8px; margin-top: 12px; }
-  .customer-kv { display: grid; grid-template-columns: 95px 1fr; gap: 6px 12px; font-size: 13px; }
-  .customer-kv dt { color: var(--text-2); }
-  .customer-kv dd { margin: 0; color: var(--text); font-weight: 500; }
+  .intake-q .num { width: 22px; height: 22px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); color: var(--text-2); display: grid; place-items: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+  .intake-q .q { flex: 1; color: var(--text); }
+  .intake-q .grip { color: var(--text-3); cursor: grab; }
 
-  /* ============ Generic placeholder views ============ */
-  .placeholder {
+  /* ===================================================
+     QUOTES
+     =================================================== */
+  .quote-split { display: grid; grid-template-columns: 280px 1fr; gap: 24px; }
+  .price-book h4 {
+    margin: 16px 0 6px; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-2); font-weight: 700;
+  }
+  .price-book h4:first-of-type { margin-top: 0; }
+  .price-item { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-top: 1px solid var(--border); font-size: 13px; }
+  .price-item:first-of-type { border-top: 0; padding-top: 0; }
+  .price-item .name { color: var(--text); }
+  .price-item .px { color: var(--text-2); font-weight: 500; font-family: 'Oswald', sans-serif; letter-spacing: 0.02em; }
+
+  .quote-doc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 32px; }
+  .quote-doc-head { display: flex; gap: 16px; align-items: flex-start; padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+  .quote-doc-head .biz { font-weight: 600; font-size: 16px; color: var(--text); }
+  .quote-doc-head .biz-sub { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+  .quote-doc-head .num { margin-left: auto; text-align: right; }
+  .quote-doc-head .num-label { font-size: 11px; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.06em; }
+  .quote-doc-head .num-val { font-family: 'Oswald', sans-serif; font-size: 22px; color: var(--text); letter-spacing: 0.02em; }
+
+  .quote-section h3 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-2); font-weight: 700; margin: 0 0 10px;
+  }
+  .quote-line {
+    display: grid;
+    grid-template-columns: 1fr 60px 90px 90px;
+    gap: 12px;
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+    font-size: 13.5px;
+    align-items: center;
+  }
+  .quote-line:first-of-type { border-top: 0; padding-top: 0; }
+  .quote-line .desc { color: var(--text); }
+  .quote-line .desc-sub { font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+  .quote-line .qty, .quote-line .rate, .quote-line .tot {
+    text-align: right; color: var(--text-2);
+    font-family: 'Oswald', sans-serif; letter-spacing: 0.02em;
+  }
+  .quote-line .tot { color: var(--text); font-weight: 600; }
+  .quote-totals { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; align-items: flex-end; }
+  .quote-totals .row { display: flex; gap: 24px; min-width: 240px; justify-content: space-between; }
+  .quote-totals .lbl { color: var(--text-2); }
+  .quote-totals .v { color: var(--text); font-family: 'Oswald', sans-serif; letter-spacing: 0.02em; }
+  .quote-totals .total { padding-top: 8px; border-top: 1px solid var(--border); }
+  .quote-totals .total .v { font-size: 22px; font-weight: 700; color: var(--text); }
+
+  .photo-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+  .photo-tile { aspect-ratio: 4/3; border-radius: 8px; border: 1px solid var(--border); display: grid; place-items: center; color: var(--text-3); font-size: 11px; }
+  .photo-tile.before { background: linear-gradient(135deg, #c4c8d0, #9aa1ac); color: rgba(255,255,255,0.8); }
+  .photo-tile.after  { background: linear-gradient(135deg, #d8c9a3, #ad9870); color: rgba(255,255,255,0.85); }
+
+  .testimonial {
+    background: var(--cream-2);
+    border-left: 3px solid var(--orange);
+    padding: 12px 14px;
+    border-radius: 6px;
+    margin-top: 8px;
+    font-size: 13.5px;
+    color: var(--text);
+  }
+  .testimonial .stars { color: var(--orange); font-size: 13px; margin-bottom: 4px; letter-spacing: 1px; }
+  .testimonial .who { font-size: 12px; color: var(--text-2); margin-top: 6px; }
+
+  /* ===================================================
+     SCHEDULE (calendar)
+     =================================================== */
+  .cal-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .cal-tabs { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 3px; }
+  .cal-tab { padding: 5px 12px; font-size: 12px; border-radius: 6px; cursor: pointer; color: var(--text-2); }
+  .cal-tab.active { background: var(--navy); color: var(--cream); }
+  .cal-grid {
     background: var(--surface);
-    border: 1px dashed var(--border-strong);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 80px 40px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 50px repeat(7, 1fr);
+  }
+  .cal-cell-h { padding: 10px 8px; font-size: 12px; color: var(--text-2); text-align: center; border-bottom: 1px solid var(--border); }
+  .cal-cell-h.today { color: var(--orange-2); font-weight: 600; }
+  .cal-cell-h strong { display: block; color: var(--text); font-size: 16px; font-weight: 600; margin-top: 2px; }
+  .cal-cell-h.today strong { color: var(--orange-2); }
+  .cal-time { font-size: 11px; color: var(--text-3); text-align: right; padding: 8px 6px; border-top: 1px solid var(--border); }
+  .cal-cell {
+    border-top: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    min-height: 56px;
+    padding: 4px;
+    position: relative;
+  }
+  .cal-event {
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    margin-bottom: 3px;
+    border-left: 3px solid var(--orange);
+    background: var(--orange-soft);
+    color: var(--orange-2);
+    line-height: 1.3;
+  }
+  .cal-event .e-title { font-weight: 600; color: var(--text); }
+  .cal-event .e-sub { color: var(--text-2); font-size: 10.5px; }
+  .cal-event.estimate { background: var(--indigo-soft); color: var(--indigo); border-left-color: var(--indigo); }
+  .cal-event.followup { background: var(--success-soft); color: var(--success); border-left-color: var(--success); }
+  .cal-event.estimate .e-title, .cal-event.followup .e-title { color: var(--text); }
+  .cal-legend { display: flex; gap: 14px; font-size: 12px; color: var(--text-2); margin-left: auto; }
+  .cal-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .cal-legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+  /* ===================================================
+     JOB LIST (kanban)
+     =================================================== */
+  .kanban {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(180px, 1fr));
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+  }
+  .kanban-col {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 10px;
+    min-height: 200px;
+  }
+  .kanban-col h4 {
+    margin: 0 0 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-2);
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .kanban-col h4 .ct { background: var(--surface); border: 1px solid var(--border); color: var(--text-2); padding: 1px 7px; border-radius: 999px; font-size: 10px; }
+  .kanban-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 8px;
+    font-size: 12.5px;
+    cursor: grab;
+  }
+  .kanban-card .who { font-weight: 600; color: var(--text); }
+  .kanban-card .what { color: var(--text-2); font-size: 11.5px; margin-top: 2px; }
+  .kanban-card .meta { display: flex; gap: 8px; margin-top: 6px; font-size: 10.5px; color: var(--text-3); }
+
+  /* ===================================================
+     SCOPE CHANGES
+     =================================================== */
+  .change-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .change-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+  .change-title { font-weight: 600; font-size: 15px; }
+  .change-meta { font-size: 12px; color: var(--text-2); margin-left: auto; }
+  .change-row { display: grid; grid-template-columns: 1fr 90px 90px; gap: 10px; padding: 8px 0; border-top: 1px solid var(--border); font-size: 13.5px; align-items: center; }
+  .change-row:first-of-type { border-top: 0; }
+  .change-row .nm { color: var(--text); }
+  .change-row .px { text-align: right; font-family: 'Oswald', sans-serif; color: var(--text-2); }
+  .change-row .add { color: var(--success); font-weight: 600; }
+
+  /* ===================================================
+     FINANCES — Job costing
+     =================================================== */
+  .cost-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .cost-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .cost-label { font-size: 12px; color: var(--text-2); }
+  .cost-value { font-size: 22px; font-weight: 700; color: var(--text); font-family: 'Oswald', sans-serif; margin-top: 4px; letter-spacing: 0.02em; }
+  .cost-bar { height: 6px; background: var(--bg); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+  .cost-bar div { height: 100%; background: var(--orange); }
+  .cost-bar.green div { background: var(--success); }
+  .cost-bar.amber div { background: var(--amber); }
+
+  .receipt {
+    display: grid;
+    grid-template-columns: 48px 1fr auto auto;
+    gap: 14px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    align-items: center;
+    font-size: 13.5px;
+  }
+  .receipt:first-of-type { border-top: 0; }
+  .receipt-thumb {
+    width: 48px; height: 48px; border-radius: 8px;
+    background: linear-gradient(135deg, #e8d9bd, #c8b48a);
+    display: grid; place-items: center;
+    color: rgba(255,255,255,0.7);
+    flex-shrink: 0;
+  }
+  .receipt .vendor { font-weight: 600; color: var(--text); }
+  .receipt .meta { font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+  .receipt .amt { font-family: 'Oswald', sans-serif; font-weight: 600; color: var(--text); }
+  .upload-zone {
+    border: 2px dashed var(--border-strong);
+    border-radius: 12px;
+    padding: 28px;
     text-align: center;
     color: var(--text-2);
+    background: var(--bg);
   }
-  .placeholder h3 { color: var(--text); margin: 0 0 8px; font-size: 18px; font-weight: 600; }
-  .placeholder p { margin: 0; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .upload-zone strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 14px; }
+  .upload-zone svg { width: 28px; height: 28px; color: var(--text-3); margin-bottom: 8px; }
 
-  /* ============ Misc utility ============ */
-  .row { display: flex; align-items: center; gap: 8px; }
+  /* ===================================================
+     BUDGET
+     =================================================== */
+  .budget-row { display: grid; grid-template-columns: 1fr 110px 110px 110px; gap: 12px; padding: 12px 0; border-top: 1px solid var(--border); font-size: 13.5px; align-items: center; }
+  .budget-row:first-of-type { border-top: 0; }
+  .budget-row.head { color: var(--text-2); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; padding-bottom: 8px; }
+  .budget-row .nm { color: var(--text); font-weight: 500; }
+  .budget-row .v { text-align: right; font-family: 'Oswald', sans-serif; color: var(--text-2); letter-spacing: 0.02em; }
+  .budget-row .var.pos { color: var(--success); font-weight: 600; }
+  .budget-row .var.neg { color: var(--orange-2); font-weight: 600; }
+
+  /* ===================================================
+     MARKETING
+     =================================================== */
+  .review-card {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .review-card:first-of-type { border-top: 0; }
+  .review-card .stars { color: var(--orange); font-size: 14px; letter-spacing: 1px; margin-bottom: 3px; }
+  .review-card .body { font-size: 13.5px; color: var(--text); }
+  .review-card .who { font-size: 11.5px; color: var(--text-3); margin-top: 4px; }
+  .review-card .src { font-size: 11px; color: var(--text-2); white-space: nowrap; }
+
+  .post-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .post-img {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #c8b48a, #8d6f3f);
+    display: grid; place-items: center; color: rgba(255,255,255,0.6);
+    font-size: 12px;
+  }
+  .post-body { padding: 16px; }
+  .post-text { font-size: 13.5px; color: var(--text); white-space: pre-wrap; line-height: 1.55; }
+  .post-meta { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 11.5px; color: var(--text-2); }
+  .post-meta .src { display: flex; align-items: center; gap: 5px; }
+
+  /* ===================================================
+     INTEGRATIONS
+     =================================================== */
+  .int-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .int-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .int-row { display: flex; align-items: center; gap: 10px; }
+  .int-logo {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--bg); border: 1px solid var(--border);
+    display: grid; place-items: center;
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .int-name { font-weight: 600; font-size: 14px; color: var(--text); }
+  .int-desc { font-size: 12.5px; color: var(--text-2); }
+  .int-status { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+  .int-status.connected { background: var(--success-soft); color: var(--success); }
+  .int-status.not { background: var(--bg); color: var(--text-3); }
+
+  /* ===================================================
+     UTILITY
+     =================================================== */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .row-between { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+  .stack-tight { display: flex; flex-direction: column; gap: 8px; }
+  .stack { display: flex; flex-direction: column; gap: 16px; }
   .spacer { flex: 1; }
-  [hidden] { display: none !important; }
 
-  /* fade-out for dismissed approvals */
+  /* fade-out for dismissed items */
   .fade-out { opacity: 0; transform: translateX(8px); transition: opacity .2s ease, transform .2s ease; }
 
-  /* Responsive nicety */
-  @media (max-width: 1100px) {
-    .grid { grid-template-columns: 1fr; }
-    .inbox { grid-template-columns: 280px 1fr; }
-    .inbox .ai-panel { display: none; }
-  }
-  @media (max-width: 800px) {
-    .app { grid-template-columns: 72px 1fr; }
-    .sidebar { padding: 16px 8px; }
-    .brand-name, .brand-tag, .nav-label, .nav-item span:not(.badge), .ai-status-row span, .ai-status strong, .ai-status-sub, .user-chip .name, .user-chip .sub { display: none; }
-    .nav-item { justify-content: center; }
-    .hero-stats { grid-template-columns: repeat(2, 1fr); }
-    .money-strip { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 1180px) {
+    .split { grid-template-columns: 1fr; }
+    .quote-split { grid-template-columns: 1fr; }
+    .grid-2, .grid-3, .config-grid { grid-template-columns: 1fr; }
+    .cost-grid { grid-template-columns: repeat(2, 1fr); }
+    .int-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
 <body>
 <div class="app">
-  <!-- =================== SIDEBAR =================== -->
+  <!-- ============== SIDEBAR ============== -->
   <aside class="sidebar">
     <div class="brand">
-      <!-- Simplified roundhouse mark -->
       <svg class="brand-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <rect width="40" height="40" rx="8" fill="#16223e"/>
-        <!-- arches -->
         <path d="M6 26 V20 a3 3 0 0 1 6 0 V26 Z" fill="#ece4d2"/>
         <path d="M14 26 V18 a3 3 0 0 1 6 0 V26 Z" fill="#ece4d2"/>
         <path d="M22 26 V18 a3 3 0 0 1 6 0 V26 Z" fill="#e85e2d"/>
@@ -639,51 +901,49 @@
       </div>
     </div>
 
-    <div class="nav-label">Workspace</div>
-    <a class="nav-item active" data-view="today">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/></svg>
-      <span>Today</span>
-    </a>
-    <a class="nav-item" data-view="inbox">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-      <span>Inbox</span>
-      <span class="badge">4</span>
-    </a>
-    <a class="nav-item" data-view="jobs">
+    <!-- Ask Chuck -->
+    <div class="nav-single active" data-view="chuck">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span>Ask Chuck</span>
+    </div>
+
+    <!-- Sales -->
+    <div class="nav-single" data-view="sales">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Sales</span>
+    </div>
+
+    <!-- Jobs -->
+    <div class="nav-single" data-view="jobs">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
       <span>Jobs</span>
-    </a>
-    <a class="nav-item" data-view="quotes">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>
-      <span>Quotes</span>
-      <span class="badge">2</span>
-    </a>
-    <a class="nav-item" data-view="customers">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      <span>Customers</span>
-    </a>
-    <a class="nav-item" data-view="money">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-      <span>Money</span>
-    </a>
+    </div>
 
-    <div class="nav-label">Automations</div>
-    <a class="nav-item" data-view="agents">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M12 4v4M9 4h6"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg>
-      <span>AI agents</span>
-    </a>
-    <a class="nav-item" data-view="rules">
+    <!-- Finances -->
+    <div class="nav-single" data-view="finances">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <span>Finances</span>
+    </div>
+
+    <!-- Marketing -->
+    <div class="nav-single" data-view="marketing">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-8-8 18-2-8z"/></svg>
+      <span>Marketing</span>
+    </div>
+
+    <!-- Integrations -->
+    <div class="nav-single" data-view="integrations">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      <span>Rules</span>
-    </a>
+      <span>Integrations</span>
+    </div>
 
     <div class="ai-status">
       <div class="ai-status-row">
         <span class="pulse"></span>
-        <span>AI team active</span>
+        <span>Chuck is on the clock</span>
       </div>
-      <strong>3 agents on the clock</strong>
-      <div class="ai-status-sub">Dispatcher · Concierge · Bookkeeper</div>
+      <strong>Handled 23 things today</strong>
+      <div class="ai-status-sub">3 waiting on you · Tap Ask Chuck</div>
     </div>
 
     <div class="user-chip">
@@ -695,13 +955,13 @@
     </div>
   </aside>
 
-  <!-- =================== MAIN =================== -->
+  <!-- ============== MAIN ============== -->
   <main class="main">
     <!-- TOPBAR -->
     <header class="topbar">
       <div>
-        <div class="page-title" id="pageTitle">Today</div>
-        <div class="page-sub" id="pageSub">Thursday, May 21 · Clear, 68°F · 4 jobs on the books</div>
+        <div class="crumb" id="crumb">Workspace</div>
+        <div class="page-title" id="pageTitle">Ask Chuck</div>
       </div>
       <div class="topbar-spacer"></div>
       <div class="search">
@@ -714,538 +974,1091 @@
       </button>
     </header>
 
-    <!-- =================== TODAY VIEW =================== -->
-    <section class="view view-today" data-view="today">
-      <!-- HERO -->
-      <div class="hero">
-        <h1>Good morning, Mike.</h1>
-        <p>While you wrap up the Sanderson fence job, your AI team handled 23 things this morning — 3 need a 30-second look from you.</p>
-        <div class="hero-stats">
-          <div class="stat">
-            <div class="stat-num">7</div>
-            <div class="stat-label">Calls answered</div>
+    <!-- ====================================================
+         ASK CHUCK
+         ==================================================== -->
+    <section class="view" data-view="chuck">
+      <div class="chuck-shell">
+        <div class="chuck-hero">
+          <h1>Hi Mike. What do you need?</h1>
+          <p><span class="chuck-orange">Chuck</span> can pull up jobs, draft quotes, schedule estimates, write posts, run the numbers — just ask.</p>
+        </div>
+
+        <div class="chuck-thread">
+          <div class="chuck-msg-you">Show me today's jobs</div>
+
+          <div class="chuck-msg-chuck">
+            <div class="chuck-mark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+            </div>
+            <div class="chuck-bubble">
+              <div class="chuck-name">Chuck</div>
+              <p>You've got 4 stops today — 20 miles total, optimized from north to south. Linda's bath tile job is the longest at 2h 15m.</p>
+              <div class="chuck-jobs">
+                <div class="chuck-job">
+                  <div class="t">8:00 AM</div>
+                  <div>
+                    <div class="who">Sanderson — fence repair</div>
+                    <div class="sub">412 Maple Ave · in progress</div>
+                  </div>
+                  <span class="pill pill-indigo dot">Live</span>
+                </div>
+                <div class="chuck-job">
+                  <div class="t">11:30 AM</div>
+                  <div>
+                    <div class="who">Nguyen — ceiling fan install</div>
+                    <div class="sub">88 Pine St · 4 mi from previous</div>
+                  </div>
+                  <span class="pill pill-orange dot">Up next</span>
+                </div>
+                <div class="chuck-job">
+                  <div class="t">2:00 PM</div>
+                  <div>
+                    <div class="who">Hendricks — bathroom tile</div>
+                    <div class="sub">217 Oak Dr · grout & sealer already in the van</div>
+                  </div>
+                  <span class="pill pill-green dot">Confirmed</span>
+                </div>
+                <div class="chuck-job">
+                  <div class="t">4:30 PM</div>
+                  <div>
+                    <div class="who">Ruiz — deck refinish estimate</div>
+                    <div class="sub">1004 Elm · 7 mi · 30-min walk-through</div>
+                  </div>
+                  <span class="pill pill-navy dot">Estimate</span>
+                </div>
+              </div>
+              <p style="margin-top: 12px;">Want me to text everyone a 15-minute heads-up before you arrive?</p>
+            </div>
           </div>
-          <div class="stat">
-            <div class="stat-num">4</div>
-            <div class="stat-label">Quotes drafted</div>
-          </div>
-          <div class="stat">
-            <div class="stat-num">9</div>
-            <div class="stat-label">Customer texts sent</div>
-          </div>
-          <div class="stat">
-            <div class="stat-num">3</div>
-            <div class="stat-label">Invoices paid</div>
-          </div>
-          <button class="cta" onclick="document.querySelector('.approvals').scrollIntoView({behavior:'smooth', block:'start'})">
-            Review the morning
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+
+        <div class="chuck-suggestions">
+          <button class="chuck-suggest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg> Draft a quote for Johnson</button>
+          <button class="chuck-suggest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> What jobs are waiting on approval?</button>
+          <button class="chuck-suggest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Which customers haven't responded?</button>
+          <button class="chuck-suggest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> Schedule an estimate for Friday</button>
+          <button class="chuck-suggest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg> Create a Facebook post from yesterday's deck job</button>
+          <button class="chuck-suggest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> What was my revenue last month?</button>
+        </div>
+
+        <div class="chuck-composer">
+          <button class="mic-btn" title="Voice input">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+          </button>
+          <input placeholder="Ask Chuck anything — type or tap the mic">
+          <button class="send-btn" title="Send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
         </div>
       </div>
-
-      <!-- Money strip -->
-      <div class="money-strip" style="margin-bottom: 24px;">
-        <div class="money-tile">
-          <div class="money-label">Collected this week</div>
-          <div class="money-value">$4,820</div>
-          <div class="money-trend up">▲ 18% vs last week</div>
-        </div>
-        <div class="money-tile">
-          <div class="money-label">Outstanding</div>
-          <div class="money-value">$2,160</div>
-          <div class="money-trend"><span style="color:var(--text-3)">3 invoices · auto-chasing</span></div>
-        </div>
-        <div class="money-tile">
-          <div class="money-label">Avg days to paid</div>
-          <div class="money-value">4.2</div>
-          <div class="money-trend up">▼ from 11.4 in March</div>
-        </div>
-        <div class="money-tile">
-          <div class="money-label">Booked next 7 days</div>
-          <div class="money-value">$8,950</div>
-          <div class="money-trend"><span style="color:var(--text-3)">11 jobs · 2 estimates</span></div>
-        </div>
-      </div>
-
-      <!-- TWO COL GRID -->
-      <div class="grid">
-        <div class="col">
-          <!-- PENDING APPROVALS -->
-          <div class="card approvals">
-            <div class="card-head">
-              <div>
-                <div class="card-title">Needs your eyes</div>
-                <div class="card-sub">Roundhouse drafted these. Approve in one tap.</div>
-              </div>
-              <button class="card-action">View all</button>
-            </div>
-            <div class="card-body" id="approvalsBody">
-              <div class="approval">
-                <div class="avatar lg">LT</div>
-                <div class="approval-body">
-                  <div class="approval-head">
-                    <div class="approval-name">Linda Torres</div>
-                    <span class="approval-meta">· Quote · 217 Maple Ave</span>
-                  </div>
-                  <div class="approval-summary">Replied to your estimate with questions about the timeline and whether you can match the existing baseboards.</div>
-                  <div class="ai-draft">
-                    <div class="ai-draft-label">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
-                      Drafted reply
-                    </div>
-                    "Hi Linda — yes, I can start the week of June 2nd. For the baseboards, I'll pick up matching 1×4 colonial profile at the supply house and stain to match the photo you sent. Quote stands at $1,240. Want me to lock you in?"
-                  </div>
-                  <div class="approval-actions">
-                    <button class="btn btn-primary" onclick="dismissApproval(this)">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                      Approve & send
-                    </button>
-                    <button class="btn">Edit</button>
-                    <button class="btn btn-ghost" onclick="dismissApproval(this)">Skip</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="approval">
-                <div class="avatar lg">MR</div>
-                <div class="approval-body">
-                  <div class="approval-head">
-                    <div class="approval-name">Mark Reilly</div>
-                    <span class="approval-meta">· New customer · Wants Saturday</span>
-                  </div>
-                  <div class="approval-summary">Called about a leaking dishwasher. Wants someone Saturday — your calendar is half-booked.</div>
-                  <div class="ai-draft">
-                    <div class="ai-draft-label">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
-                      Proposed
-                    </div>
-                    Saturday 10:30 AM slot, $145 trip + diagnostic. Roundhouse already pulled the dishwasher model from the photo Mark texted — likely a worn door gasket ($28 part in stock at Ferguson).
-                  </div>
-                  <div class="approval-actions">
-                    <button class="btn btn-primary" onclick="dismissApproval(this)">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                      Book it
-                    </button>
-                    <button class="btn">Suggest a different time</button>
-                    <button class="btn btn-ghost" onclick="dismissApproval(this)">Skip</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="approval">
-                <div class="avatar lg">JW</div>
-                <div class="approval-body">
-                  <div class="approval-head">
-                    <div class="approval-name">Jennifer Wu</div>
-                    <span class="approval-meta">· Refund request · $85</span>
-                  </div>
-                  <div class="approval-summary">Asking for a $85 partial refund — says the closet shelves came out 1/2" lower than agreed. You signed off on the spec.</div>
-                  <div class="ai-draft">
-                    <div class="ai-draft-label">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
-                      Suggested
-                    </div>
-                    Offer to come back and re-mount at no charge — keeps the relationship and saves the 5-star review. Cost estimate: 45 min + $0 in parts. Cheaper than the refund and the review risk.
-                  </div>
-                  <div class="approval-actions">
-                    <button class="btn btn-primary" onclick="dismissApproval(this)">Offer re-mount</button>
-                    <button class="btn">Refund $85</button>
-                    <button class="btn btn-ghost" onclick="dismissApproval(this)">Skip</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- TODAY'S SCHEDULE -->
-          <div class="card">
-            <div class="card-head">
-              <div>
-                <div class="card-title">Today's route</div>
-                <div class="card-sub">Roundhouse optimized for 18 fewer miles than yesterday.</div>
-              </div>
-              <button class="card-action">Open map</button>
-            </div>
-            <div class="card-body">
-              <div class="job">
-                <div>
-                  <div class="job-time">8:00 AM</div>
-                  <div class="job-time-sub">1h 30m</div>
-                </div>
-                <div>
-                  <div class="job-title">Sanderson — fence repair</div>
-                  <div class="job-sub">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    412 Maple Ave · 6 mi
-                  </div>
-                </div>
-                <div><span class="job-status confirmed">In progress</span></div>
-              </div>
-
-              <div class="job">
-                <div>
-                  <div class="job-time">11:30 AM</div>
-                  <div class="job-time-sub">45 min</div>
-                </div>
-                <div>
-                  <div class="job-title">Nguyen — ceiling fan install</div>
-                  <div class="job-sub">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    88 Pine St · 4 mi from previous
-                  </div>
-                </div>
-                <div><span class="job-status upnext">Up next</span></div>
-              </div>
-
-              <div class="job">
-                <div>
-                  <div class="job-time">2:00 PM</div>
-                  <div class="job-time-sub">2h 15m</div>
-                </div>
-                <div>
-                  <div class="job-title">Hendricks — bathroom tile</div>
-                  <div class="job-sub">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    217 Oak Dr · 3 mi · grout & sealer in van
-                  </div>
-                </div>
-                <div><span class="job-status confirmed">Confirmed</span></div>
-              </div>
-
-              <div class="job">
-                <div>
-                  <div class="job-time">4:30 PM</div>
-                  <div class="job-time-sub">30 min</div>
-                </div>
-                <div>
-                  <div class="job-title">Ruiz — walk-through estimate</div>
-                  <div class="job-sub">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    1004 Elm · 7 mi · deck refinish
-                  </div>
-                </div>
-                <div><span class="job-status estimate">Estimate</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- RIGHT COL -->
-        <div class="col">
-          <div class="card activity">
-            <div class="card-head">
-              <div>
-                <div class="card-title">Live activity</div>
-                <div class="card-sub">What your AI team is doing right now</div>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="feed">
-                <div class="feed-item">
-                  <div class="feed-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-                  <div class="feed-text"><b>Answered missed call</b> from Maria Chen (Oak St). Drafted a quote for kitchen faucet replacement.<div class="feed-time">2 min ago</div></div>
-                </div>
-                <div class="feed-item">
-                  <div class="feed-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-                  <div class="feed-text"><b>Sent ETA</b> to David Park: running 15 min late from Sanderson job.<div class="feed-time">11 min ago</div></div>
-                </div>
-                <div class="feed-item">
-                  <div class="feed-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="feed-text"><b>Got a 5-star review</b> from Robert Kim (Tue ceiling fan install). Posted to Google.<div class="feed-time">22 min ago</div></div>
-                </div>
-                <div class="feed-item">
-                  <div class="feed-icon navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="22" height="5" rx="1"/><line x1="10" y1="12" x2="14" y2="12"/><path d="M20 8v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8"/></svg></div>
-                  <div class="feed-text"><b>Categorized</b> $47.82 Home Depot receipt to Hendricks bathroom (Job #1284).<div class="feed-time">34 min ago</div></div>
-                </div>
-                <div class="feed-item">
-                  <div class="feed-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-                  <div class="feed-text"><b>Invoice paid</b> — $620 from Patel family (deck stain). Funds in your account Friday.<div class="feed-time">1h ago</div></div>
-                </div>
-                <div class="feed-item">
-                  <div class="feed-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-                  <div class="feed-text"><b>Followed up</b> with 3 customers from quotes you sent last week.<div class="feed-time">1h ago</div></div>
-                </div>
-                <div class="feed-item">
-                  <div class="feed-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-                  <div class="feed-text"><b>Rescheduled</b> Tuesday's 3pm with the Andersons to Thursday — they were double-booked.<div class="feed-time">2h ago</div></div>
-                </div>
-                <div class="feed-item">
-                  <div class="feed-icon navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
-                  <div class="feed-text"><b>Generated W-9</b> for new commercial client Greenline Property Mgmt — sent for your signature.<div class="feed-time">3h ago</div></div>
-                </div>
-                <div class="feed-item">
-                  <div class="feed-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                  <div class="feed-text"><b>Confirmed</b> tomorrow's 4 appointments via text. All 4 confirmed back.<div class="feed-time">3h ago</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
 
-    <!-- =================== INBOX VIEW =================== -->
-    <section class="view view-inbox" data-view="inbox" hidden>
-      <div class="inbox">
-        <!-- Conversation list -->
-        <div class="conv-list">
-          <div class="conv-search">
-            <div class="search">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input placeholder="Search messages…">
-            </div>
+    <!-- ====================================================
+         SALES (sub-tabs: customers, intake, quotes)
+         ==================================================== -->
+    <section class="view" data-view="sales" hidden>
+      <div class="subtabs">
+        <button class="subtab active" data-subview="customers">Customers</button>
+        <button class="subtab" data-subview="intake">Intake</button>
+        <button class="subtab" data-subview="quotes">Quotes</button>
+      </div>
+      <div class="subview" data-subview="customers">
+      <div class="toolbar">
+        <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add customer</button>
+        <button class="filter-pill">Lead source: All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="filter-pill">Tag: All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="filter-pill">Last contact: 90 days <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="spacer"></div>
+        <div style="font-size:13px; color:var(--text-2);">247 customers · 18 added this month</div>
+      </div>
+
+      <div class="split">
+        <div class="data-table">
+          <div class="table-row table-head">
+            <div>Name</div><div>Phone</div><div>Tags</div><div>Lead source</div><div>Last contact</div><div style="text-align:right;">LTV</div>
           </div>
-          <div class="conv active" data-conv="0">
-            <div class="avatar" style="background:#7c3aed">MC</div>
-            <div class="conv-body">
-              <div class="conv-row">
-                <div class="conv-name">Maria Chen</div>
-                <div class="conv-time">2m</div>
-              </div>
-              <div class="conv-preview">"Hi! Got your number from Lisa down the street. My kitchen faucet has been dripping for weeks and now…"</div>
-              <span class="conv-tag tag-draft">Draft ready</span>
-            </div>
+          <div class="table-row active">
+            <div class="cust-name"><div class="avatar" style="background:#7c3aed">MC</div><div><div>Maria Chen</div><div class="cust-sub">1422 Oak St</div></div></div>
+            <div>(415) 555-2188</div>
+            <div><span class="pill pill-orange">Hot lead</span></div>
+            <div>Referral</div>
+            <div>Today</div>
+            <div style="text-align:right; font-family:'Oswald'; color:var(--text);">$0</div>
           </div>
-          <div class="conv" data-conv="1">
-            <div class="avatar" style="background:#0891b2">DP</div>
-            <div class="conv-body">
-              <div class="conv-row">
-                <div class="conv-name">David Park</div>
-                <div class="conv-time">11m</div>
-              </div>
-              <div class="conv-preview">"Sounds good, see you soon."</div>
-              <span class="conv-tag tag-resolved">Resolved by AI</span>
-            </div>
+          <div class="table-row">
+            <div class="cust-name"><div class="avatar" style="background:var(--orange)">LT</div><div><div>Linda Torres</div><div class="cust-sub">217 Maple Ave</div></div></div>
+            <div>(415) 555-7724</div>
+            <div><span class="pill pill-indigo">Repeat</span></div>
+            <div>Google</div>
+            <div>1 hour ago</div>
+            <div style="text-align:right; font-family:'Oswald'; color:var(--text);">$3,420</div>
           </div>
-          <div class="conv" data-conv="2">
-            <div class="avatar" style="background:#16a34a">RK</div>
-            <div class="conv-body">
-              <div class="conv-row">
-                <div class="conv-name">Robert Kim</div>
-                <div class="conv-time">22m</div>
-              </div>
-              <div class="conv-preview">"Mike was great. Left a 5-star review on Google. Will definitely call again."</div>
-              <span class="conv-tag tag-resolved">Resolved by AI</span>
-            </div>
+          <div class="table-row">
+            <div class="cust-name"><div class="avatar" style="background:#0891b2">DP</div><div><div>David Park</div><div class="cust-sub">512 Cedar Ln</div></div></div>
+            <div>(415) 555-9012</div>
+            <div><span class="pill pill-green">VIP</span></div>
+            <div>Direct</div>
+            <div>Today</div>
+            <div style="text-align:right; font-family:'Oswald'; color:var(--text);">$8,940</div>
           </div>
-          <div class="conv" data-conv="3">
-            <div class="avatar" style="background:var(--orange)">LT</div>
-            <div class="conv-body">
-              <div class="conv-row">
-                <div class="conv-name">Linda Torres</div>
-                <div class="conv-time">1h</div>
-              </div>
-              <div class="conv-preview">"One question on the quote — can you match the existing baseboards? They're a colonial profile."</div>
-              <span class="conv-tag tag-draft">Draft ready</span>
-            </div>
+          <div class="table-row">
+            <div class="cust-name"><div class="avatar" style="background:#16a34a">RK</div><div><div>Robert Kim</div><div class="cust-sub">880 Birch Way</div></div></div>
+            <div>(415) 555-3346</div>
+            <div><span class="pill pill-indigo">Repeat</span></div>
+            <div>Yelp</div>
+            <div>Tuesday</div>
+            <div style="text-align:right; font-family:'Oswald'; color:var(--text);">$2,180</div>
           </div>
-          <div class="conv" data-conv="4">
-            <div class="avatar" style="background:#dc2626">MR</div>
-            <div class="conv-body">
-              <div class="conv-row">
-                <div class="conv-name">Mark Reilly</div>
-                <div class="conv-time">1h</div>
-              </div>
-              <div class="conv-preview">"My dishwasher started leaking. New customer — Lisa Chen referred. Can you come Saturday?"</div>
-              <span class="conv-tag tag-new">New customer</span>
-            </div>
+          <div class="table-row">
+            <div class="cust-name"><div class="avatar" style="background:#dc2626">MR</div><div><div>Mark Reilly</div><div class="cust-sub">14 Sunset Blvd</div></div></div>
+            <div>(415) 555-6680</div>
+            <div><span class="pill pill-orange">Hot lead</span></div>
+            <div>Referral</div>
+            <div>1 hour ago</div>
+            <div style="text-align:right; font-family:'Oswald'; color:var(--text);">$0</div>
           </div>
-          <div class="conv" data-conv="5">
-            <div class="avatar" style="background:#0d9488">SL</div>
-            <div class="conv-body">
-              <div class="conv-row">
-                <div class="conv-name">Sarah Liu</div>
-                <div class="conv-time">3h</div>
-              </div>
-              <div class="conv-preview">"Reminder sent for tomorrow 10am — fence repair follow-up walk."</div>
-              <span class="conv-tag tag-waiting">Awaiting reply</span>
-            </div>
+          <div class="table-row">
+            <div class="cust-name"><div class="avatar" style="background:#0d9488">SL</div><div><div>Sarah Liu</div><div class="cust-sub">62 River Rd</div></div></div>
+            <div>(415) 555-2204</div>
+            <div><span class="pill pill-navy">Commercial</span></div>
+            <div>Cold call</div>
+            <div>Yesterday</div>
+            <div style="text-align:right; font-family:'Oswald'; color:var(--text);">$11,200</div>
           </div>
-          <div class="conv" data-conv="6">
-            <div class="avatar" style="background:#b45309">TH</div>
-            <div class="conv-body">
-              <div class="conv-row">
-                <div class="conv-name">Tracy Hendricks</div>
-                <div class="conv-time">4h</div>
-              </div>
-              <div class="conv-preview">"Just confirming our 2pm. Door code is 4421. Coffee's on if you want some."</div>
-              <span class="conv-tag tag-resolved">Resolved by AI</span>
-            </div>
+          <div class="table-row">
+            <div class="cust-name"><div class="avatar" style="background:#b45309">TH</div><div><div>Tracy Hendricks</div><div class="cust-sub">217 Oak Dr</div></div></div>
+            <div>(415) 555-1199</div>
+            <div><span class="pill pill-indigo">Repeat</span></div>
+            <div>Referral</div>
+            <div>4 hours ago</div>
+            <div style="text-align:right; font-family:'Oswald'; color:var(--text);">$5,640</div>
           </div>
-          <div class="conv" data-conv="7">
-            <div class="avatar" style="background:#9333ea">JW</div>
-            <div class="conv-body">
-              <div class="conv-row">
-                <div class="conv-name">Jennifer Wu</div>
-                <div class="conv-time">6h</div>
-              </div>
-              <div class="conv-preview">"The shelves came out about half an inch lower than we discussed. Hoping for a partial refund."</div>
-              <span class="conv-tag tag-draft">Draft ready</span>
-            </div>
+          <div class="table-row">
+            <div class="cust-name"><div class="avatar" style="background:#9333ea">JW</div><div><div>Jennifer Wu</div><div class="cust-sub">9 Linden Ct</div></div></div>
+            <div>(415) 555-4458</div>
+            <div></div>
+            <div>Google</div>
+            <div>6 hours ago</div>
+            <div style="text-align:right; font-family:'Oswald'; color:var(--text);">$420</div>
           </div>
         </div>
 
-        <!-- Conversation detail -->
-        <div class="conv-detail">
-          <div class="conv-detail-head">
+        <!-- Customer detail panel -->
+        <div class="panel-card">
+          <div class="panel-head">
             <div class="avatar" style="background:#7c3aed">MC</div>
             <div>
               <div class="name">Maria Chen</div>
-              <div class="meta">(415) 555-2188 · Oak St · First time customer · Referred by Lisa Patel</div>
+              <div class="meta">Hot lead · added today by Chuck</div>
             </div>
-            <div class="spacer"></div>
-            <button class="icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+            <button class="btn btn-sm">Edit</button>
           </div>
-          <div class="conv-thread">
-            <div class="msg them">Hi! Got your number from Lisa down the street. My kitchen faucet has been dripping for weeks and now it won't shut off all the way. Any chance you could help?</div>
-            <div class="msg-meta">Maria · 9:42 AM</div>
+          <dl class="kv-grid">
+            <dt>Phone</dt><dd>(415) 555-2188</dd>
+            <dt>Email</dt><dd>maria.chen@email.com</dd>
+            <dt>Address</dt><dd>1422 Oak St, #2A</dd>
+            <dt>Tags</dt><dd><span class="tag">Hot lead</span><span class="tag" style="background:#e0e7ff;color:#4338ca;">Referral</span></dd>
+            <dt>Lead source</dt><dd>Referred by Lisa Patel</dd>
+            <dt>Last contact</dt><dd>9:58 AM today (SMS)</dd>
+            <dt>Notes</dt><dd style="color:var(--text-2);font-weight:400">Moen single-handle faucet, kitchen. Booked Fri 11 AM. Prefers texts over calls.</dd>
+          </dl>
 
-            <div class="msg you">Hi Maria — sorry to hear that. Lisa's a great customer. To help quote it accurately, could you snap a quick photo of the faucet from underneath the sink so I can see the connections?</div>
-            <div class="msg-meta">Roundhouse (AI) · 9:43 AM · auto-sent</div>
-
-            <div class="msg them">Here you go.<br><span style="display:inline-block;margin-top:8px;padding:8px 12px;background:var(--bg);border-radius:8px;font-size:12px;color:var(--text-2)">📷 IMG_2841.jpg</span></div>
-            <div class="msg-meta">Maria · 9:51 AM</div>
-
-            <div class="msg you">Thanks! Looks like a Moen single-handle — the cartridge is a common wear item, usually a 30-minute fix. Out-the-door I'd quote $185 (cartridge included). Best times: Friday 11 AM or Monday 8 AM. Want me to lock one in?</div>
-            <div class="msg-meta">Roundhouse (AI) · 9:52 AM · auto-sent</div>
-
-            <div class="msg them">Friday 11 works great. Do I need to do anything to prep?</div>
-            <div class="msg-meta">Maria · 9:58 AM</div>
-          </div>
-        </div>
-
-        <!-- AI panel -->
-        <aside class="ai-panel">
-          <div class="panel-section">
-            <h4>Drafted reply</h4>
-            <div class="panel-card draft">
-              <div class="draft-body">Nope, you're all set — just clear out the area under the sink so I have room to work. I'll bring the cartridge and the tools. I'll text you when I'm about 15 minutes out. See you Friday at 11!
-
-— Mike</div>
-              <div class="draft-actions">
-                <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send</button>
-                <button class="btn">Edit</button>
+          <h3 style="margin: 22px 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-2); font-weight: 700;">Timeline</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              <div>
+                <div class="timeline-text"><b>SMS</b> — Friday 11 works great. Do I need to do anything to prep?</div>
+                <div class="timeline-time">9:58 AM</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-icon navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+              <div>
+                <div class="timeline-text"><b>Quote sent</b> — Faucet replacement, $185 out-the-door</div>
+                <div class="timeline-time">9:52 AM · drafted by Chuck</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              <div>
+                <div class="timeline-text"><b>SMS</b> — sent photo request after first message</div>
+                <div class="timeline-time">9:43 AM · Chuck</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+              <div>
+                <div class="timeline-text"><b>Inbound call</b> — Chuck answered, captured the lead</div>
+                <div class="timeline-time">9:42 AM · 2 min, transcribed</div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      </div>
 
-          <div class="panel-section">
-            <h4>What Roundhouse will do next</h4>
-            <div class="panel-card" style="display:flex;flex-direction:column;gap:8px;">
-              <div class="row" style="gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:var(--cream-2);color:var(--orange-2);display:grid;place-items:center;font-size:11px;font-weight:700">1</span> Add Maria as a customer · tag "referred by Lisa Patel"</div>
-              <div class="row" style="gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:var(--cream-2);color:var(--orange-2);display:grid;place-items:center;font-size:11px;font-weight:700">2</span> Book Friday 11 AM in your calendar</div>
-              <div class="row" style="gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:var(--cream-2);color:var(--orange-2);display:grid;place-items:center;font-size:11px;font-weight:700">3</span> Add Moen 1225 cartridge to your van checklist</div>
-              <div class="row" style="gap:10px"><span style="width:22px;height:22px;border-radius:6px;background:var(--cream-2);color:var(--orange-2);display:grid;place-items:center;font-size:11px;font-weight:700">4</span> Send "on the way" text Friday at 10:40 AM</div>
+      <div class="subview" data-subview="intake" hidden>
+      <div class="grid-2">
+        <!-- Service hours -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Service hours</div>
+              <div class="card-sub">When you're working — and when Chuck takes over</div>
             </div>
           </div>
+          <div class="card-body">
+            <div class="config-row"><div class="label">Monday — Friday</div><div class="value">7:00 AM — 5:00 PM</div><div class="toggle on"></div></div>
+            <div class="config-row"><div class="label">Saturday</div><div class="value">8:00 AM — 12:00 PM</div><div class="toggle on"></div></div>
+            <div class="config-row"><div class="label">Sunday</div><div class="value">Closed</div><div class="toggle"></div></div>
+            <div class="config-row"><div class="label">Emergency after-hours</div><div class="value">2x rate</div><div class="toggle on"></div></div>
+          </div>
+        </div>
 
-          <div class="panel-section">
-            <h4>Customer</h4>
-            <div class="panel-card">
-              <dl class="customer-kv">
-                <dt>Phone</dt><dd>(415) 555-2188</dd>
-                <dt>Address</dt><dd>1422 Oak St, #2A</dd>
-                <dt>Referred by</dt><dd>Lisa Patel</dd>
-                <dt>Lifetime value</dt><dd>$0 (new)</dd>
-                <dt>Tag</dt><dd>Hot lead</dd>
-              </dl>
+        <!-- Phone setup -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Phone setup</div>
+              <div class="card-sub">How Chuck handles inbound calls</div>
             </div>
           </div>
-        </aside>
+          <div class="card-body">
+            <div class="radio-list">
+              <div class="radio-row"><div class="radio-dot"></div> Chuck always answers first</div>
+              <div class="radio-row selected"><div class="radio-dot"></div> Chuck answers missed calls only</div>
+              <div class="radio-row"><div class="radio-dot"></div> Chuck answers after hours only</div>
+              <div class="radio-row"><div class="radio-dot"></div> Forward to me, Chuck takes voicemail</div>
+            </div>
+            <div class="config-row" style="margin-top: 8px;"><div class="label">Forward emergencies straight to me</div><div></div><div class="toggle on"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intake questions -->
+      <div class="card" style="margin-top: 20px;">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Intake questions</div>
+            <div class="card-sub">What Chuck asks every new customer. Drag to reorder.</div>
+          </div>
+          <button class="btn btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add question</button>
+        </div>
+        <div class="card-body">
+          <div class="intake-q"><div class="num">1</div><div class="q">What type of project do you need help with?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
+          <div class="intake-q"><div class="num">2</div><div class="q">Service address?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
+          <div class="intake-q"><div class="num">3</div><div class="q">What's your timeline?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
+          <div class="intake-q"><div class="num">4</div><div class="q">Residential or commercial?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
+          <div class="intake-q"><div class="num">5</div><div class="q">What's your budget range?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
+          <div class="intake-q"><div class="num">6</div><div class="q">How did you hear about us?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
+        </div>
+      </div>
+
+      <!-- Qualification rules -->
+      <div class="card" style="margin-top: 20px;">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Qualification rules</div>
+            <div class="card-sub">Chuck will politely decline jobs that don't fit</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="config-row"><div class="label">Minimum project size</div><div class="value">$150</div><div class="toggle on"></div></div>
+          <div class="config-row"><div class="label">Service area — within 15 miles of 94110</div><div></div><div class="toggle on"></div></div>
+          <div class="config-row"><div class="label">Residential only</div><div></div><div class="toggle"></div></div>
+          <div class="config-row"><div class="label">Skip emergency electrical (refer out)</div><div></div><div class="toggle on"></div></div>
+          <div class="config-row"><div class="label">Repeat customers get priority booking</div><div></div><div class="toggle on"></div></div>
+        </div>
+      </div>
+      </div>
+
+      <div class="subview" data-subview="quotes" hidden>
+      <div class="toolbar">
+        <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New quote</button>
+        <div class="spacer"></div>
+        <div style="font-size:13px;color:var(--text-2);">12 open · 4 drafted today · 64% win rate (30 days)</div>
+      </div>
+
+      <div class="quote-split">
+        <!-- Price book -->
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Price book</div><div class="card-sub">Drag items into the quote</div></div>
+          </div>
+          <div class="card-body price-book">
+            <h4>Services</h4>
+            <div class="price-item"><span class="name">Faucet replacement</span><span class="px">$185</span></div>
+            <div class="price-item"><span class="name">Drywall repair (sm)</span><span class="px">$140</span></div>
+            <div class="price-item"><span class="name">Deck staining (sq ft)</span><span class="px">$2.40</span></div>
+            <div class="price-item"><span class="name">Bathroom tile install</span><span class="px">$8/sf</span></div>
+            <div class="price-item"><span class="name">Ceiling fan install</span><span class="px">$165</span></div>
+            <h4>Materials</h4>
+            <div class="price-item"><span class="name">Behr exterior stain (gal)</span><span class="px">$42</span></div>
+            <div class="price-item"><span class="name">Mulch (cu yd)</span><span class="px">$48</span></div>
+            <div class="price-item"><span class="name">1x4 colonial baseboard (lf)</span><span class="px">$3.20</span></div>
+            <h4>Labor</h4>
+            <div class="price-item"><span class="name">Journeyman</span><span class="px">$85/hr</span></div>
+            <div class="price-item"><span class="name">Apprentice</span><span class="px">$55/hr</span></div>
+            <div class="price-item"><span class="name">Helper</span><span class="px">$35/hr</span></div>
+            <h4>Rules</h4>
+            <div class="price-item"><span class="name">Markup</span><span class="px">25%</span></div>
+            <div class="price-item"><span class="name">Minimum charge</span><span class="px">$150</span></div>
+            <div class="price-item"><span class="name">Trip fee</span><span class="px">$45</span></div>
+            <div class="price-item"><span class="name">Emergency surcharge</span><span class="px">2x</span></div>
+          </div>
+        </div>
+
+        <!-- Quote document -->
+        <div>
+          <div class="quote-doc">
+            <div class="quote-doc-head">
+              <div>
+                <div class="biz">Kowalski Handyman</div>
+                <div class="biz-sub">Lic. #948213 · (415) 555-0117 · mike@kowalskihandyman.com</div>
+              </div>
+              <div class="num">
+                <div class="num-label">Quote</div>
+                <div class="num-val">#Q-1287</div>
+                <div style="font-size:11px;color:var(--text-2);margin-top:2px;">For Linda Torres · 217 Maple Ave</div>
+              </div>
+            </div>
+
+            <div style="background:var(--cream-2); border-left:3px solid var(--orange); border-radius:6px; padding:10px 14px; margin-bottom: 18px;">
+              <div style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--orange-2);margin-bottom:4px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+                Drafted by Chuck
+              </div>
+              <div style="font-size:13px;color:var(--text);">From the intake call + 3 photos Linda sent. Pulled the colonial baseboard SKU from your price book. Added the Patel deck testimonial since it's similar scope.</div>
+            </div>
+
+            <div class="quote-section">
+              <h3>Scope</h3>
+              <div class="quote-line">
+                <div>
+                  <div class="desc">Baseboard replacement, downstairs hallway</div>
+                  <div class="desc-sub">Match existing 1×4 colonial profile, stain to sample provided</div>
+                </div>
+                <div class="qty">42 lf</div>
+                <div class="rate">$18/lf</div>
+                <div class="tot">$756</div>
+              </div>
+              <div class="quote-line">
+                <div>
+                  <div class="desc">Drywall patch (3 spots) and prep</div>
+                  <div class="desc-sub">Behind removed quarter-round</div>
+                </div>
+                <div class="qty">3</div>
+                <div class="rate">$140</div>
+                <div class="tot">$420</div>
+              </div>
+              <div class="quote-line">
+                <div>
+                  <div class="desc">Materials — baseboard, stain, finish nails</div>
+                </div>
+                <div class="qty">1</div>
+                <div class="rate"></div>
+                <div class="tot">$148</div>
+              </div>
+              <div class="quote-line">
+                <div>
+                  <div class="desc">Trip & disposal</div>
+                </div>
+                <div class="qty">1</div>
+                <div class="rate"></div>
+                <div class="tot">$45</div>
+              </div>
+              <div class="quote-totals">
+                <div class="row"><div class="lbl">Subtotal</div><div class="v">$1,369</div></div>
+                <div class="row"><div class="lbl">Markup applied (loyalty discount)</div><div class="v">−$129</div></div>
+                <div class="row total"><div class="lbl">Total (out the door)</div><div class="v">$1,240</div></div>
+              </div>
+            </div>
+
+            <div class="quote-section" style="margin-top: 28px;">
+              <h3>Reference photos</h3>
+              <div class="photo-strip">
+                <div class="photo-tile before">Before</div>
+                <div class="photo-tile before">Before</div>
+                <div class="photo-tile after">Match sample</div>
+                <div class="photo-tile after">Existing baseboard</div>
+              </div>
+            </div>
+
+            <div class="quote-section" style="margin-top: 28px;">
+              <h3>What customers like Linda have said</h3>
+              <div class="testimonial">
+                <div class="stars">★★★★★</div>
+                "Mike replaced our baseboards and you can't tell the new ones from the original. Showed up on time, cleaned up after himself, and the quote was exactly what we paid."
+                <div class="who">— Patel family · Cedar Ln · April 2026</div>
+              </div>
+              <div class="testimonial">
+                <div class="stars">★★★★★</div>
+                "Honest pricing, no surprises. Already booked him for our kitchen."
+                <div class="who">— Robert Kim · Birch Way · March 2026</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:8px; margin-top: 28px;">
+              <button class="btn btn-primary btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Approve & send to Linda</button>
+              <button class="btn btn-lg">Edit</button>
+              <button class="btn btn-lg btn-ghost">Save draft</button>
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
     </section>
 
-    <!-- =================== STUB VIEWS =================== -->
+    <!-- ====================================================
+         JOBS (sub-tabs: schedule, job list, scope changes)
+         ==================================================== -->
     <section class="view" data-view="jobs" hidden>
-      <div class="placeholder">
-        <h3>Jobs board</h3>
-        <p>Calendar and list view of every job — past, today, and scheduled. Drag to reschedule, and Roundhouse will text affected customers automatically.</p>
+      <div class="subtabs">
+        <button class="subtab active" data-subview="schedule">Schedule</button>
+        <button class="subtab" data-subview="joblist">Job list</button>
+        <button class="subtab" data-subview="scope">Scope changes</button>
+      </div>
+      <div class="subview" data-subview="schedule">
+      <div class="cal-bar">
+        <button class="btn btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button class="btn btn-sm">Today</button>
+        <button class="btn btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        <div style="font-weight:600; font-size:15px; margin-left:8px;">May 18 — 24, 2026</div>
+        <div class="cal-legend">
+          <span><i style="background:var(--orange);"></i> Job</span>
+          <span><i style="background:var(--indigo);"></i> Estimate</span>
+          <span><i style="background:var(--success);"></i> Follow-up</span>
+        </div>
+        <div class="cal-tabs">
+          <div class="cal-tab">Day</div>
+          <div class="cal-tab active">Week</div>
+          <div class="cal-tab">Month</div>
+        </div>
+      </div>
+
+      <div class="cal-grid">
+        <div></div>
+        <div class="cal-cell-h">Mon<strong>18</strong></div>
+        <div class="cal-cell-h">Tue<strong>19</strong></div>
+        <div class="cal-cell-h">Wed<strong>20</strong></div>
+        <div class="cal-cell-h today">Thu<strong>21</strong></div>
+        <div class="cal-cell-h">Fri<strong>22</strong></div>
+        <div class="cal-cell-h">Sat<strong>23</strong></div>
+        <div class="cal-cell-h">Sun<strong>24</strong></div>
+
+        <div class="cal-time">8 AM</div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"><div class="cal-event"><div class="e-title">Patel — deck stain</div><div class="e-sub">8:30 · 3h</div></div></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"><div class="cal-event"><div class="e-title">Sanderson — fence</div><div class="e-sub">8:00 · 1h 30m</div></div></div>
+        <div class="cal-cell"><div class="cal-event"><div class="e-title">Anderson — gutter</div><div class="e-sub">8:30 · 2h</div></div></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+
+        <div class="cal-time">10 AM</div>
+        <div class="cal-cell"><div class="cal-event estimate"><div class="e-title">Greenline — site walk</div><div class="e-sub">10:00 · 45m</div></div></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"><div class="cal-event"><div class="e-title">Kim — ceiling fan</div><div class="e-sub">10:00 · 45m</div></div></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"><div class="cal-event"><div class="e-title">Chen — faucet</div><div class="e-sub">11:00 · 30m</div></div></div>
+        <div class="cal-cell"><div class="cal-event"><div class="e-title">Reilly — dishwasher</div><div class="e-sub">10:30 · 1h</div></div></div>
+        <div class="cal-cell"></div>
+
+        <div class="cal-time">12 PM</div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+
+        <div class="cal-time">2 PM</div>
+        <div class="cal-cell"><div class="cal-event followup"><div class="e-title">Patel — follow-up call</div><div class="e-sub">2:00 · 15m</div></div></div>
+        <div class="cal-cell"><div class="cal-event estimate"><div class="e-title">Torres — baseboard walk</div><div class="e-sub">2:30 · 45m</div></div></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"><div class="cal-event"><div class="e-title">Hendricks — bath tile</div><div class="e-sub">2:00 · 2h 15m</div></div></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+
+        <div class="cal-time">4 PM</div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"><div class="cal-event"><div class="e-title">Liu — drywall</div><div class="e-sub">4:00 · 1h 30m</div></div></div>
+        <div class="cal-cell"><div class="cal-event estimate"><div class="e-title">Ruiz — deck walk</div><div class="e-sub">4:30 · 30m</div></div></div>
+        <div class="cal-cell"><div class="cal-event followup"><div class="e-title">Hendricks — check in</div><div class="e-sub">4:00 · 10m</div></div></div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell"></div>
+      </div>
+      </div>
+
+      <div class="subview" data-subview="joblist" hidden>
+      <div class="toolbar">
+        <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New job</button>
+        <button class="filter-pill">All assignees <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="filter-pill">This month <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="spacer"></div>
+        <div style="font-size:13px;color:var(--text-2);">31 active jobs · $24,140 pipeline</div>
+      </div>
+
+      <div class="kanban">
+        <div class="kanban-col">
+          <h4>Lead <span class="ct">4</span></h4>
+          <div class="kanban-card"><div class="who">Maria Chen</div><div class="what">Faucet drip</div><div class="meta">Today · Referral</div></div>
+          <div class="kanban-card"><div class="who">Mark Reilly</div><div class="what">Dishwasher leak</div><div class="meta">Today · New</div></div>
+          <div class="kanban-card"><div class="who">B. Owens</div><div class="what">Door handle repair</div><div class="meta">Mon · Google</div></div>
+          <div class="kanban-card"><div class="who">J. Hardin</div><div class="what">Closet shelving</div><div class="meta">Mon · Yelp</div></div>
+        </div>
+        <div class="kanban-col">
+          <h4>Qualified <span class="ct">3</span></h4>
+          <div class="kanban-card"><div class="who">Ruiz</div><div class="what">Deck refinish</div><div class="meta">Walk Thu 4:30</div></div>
+          <div class="kanban-card"><div class="who">Greenline Mgmt</div><div class="what">Office bathroom punch list</div><div class="meta">Commercial</div></div>
+          <div class="kanban-card"><div class="who">Holloway</div><div class="what">Garage door hinge</div><div class="meta">Awaiting photo</div></div>
+        </div>
+        <div class="kanban-col">
+          <h4>Quoted <span class="ct">5</span></h4>
+          <div class="kanban-card"><div class="who">Linda Torres</div><div class="what">Baseboards · $1,240</div><div class="meta">Awaiting reply</div></div>
+          <div class="kanban-card"><div class="who">Watanabe</div><div class="what">Tile backsplash · $820</div><div class="meta">Sent 2d ago</div></div>
+          <div class="kanban-card"><div class="who">P. Davis</div><div class="what">Fence stain · $640</div><div class="meta">Sent 1d ago</div></div>
+          <div class="kanban-card"><div class="who">Garcia</div><div class="what">Light fixture · $310</div><div class="meta">Sent 3d ago</div></div>
+          <div class="kanban-card"><div class="who">M. Iqbal</div><div class="what">Pet door · $480</div><div class="meta">Sent 4d ago</div></div>
+        </div>
+        <div class="kanban-col">
+          <h4>Approved <span class="ct">3</span></h4>
+          <div class="kanban-card"><div class="who">Park</div><div class="what">Pantry build-out · $2,140</div><div class="meta">Approved Tue</div></div>
+          <div class="kanban-card"><div class="who">Sarah Liu</div><div class="what">Drywall · $480</div><div class="meta">Approved Wed</div></div>
+          <div class="kanban-card"><div class="who">Anderson</div><div class="what">Gutter clean · $220</div><div class="meta">Approved today</div></div>
+        </div>
+        <div class="kanban-col">
+          <h4>Scheduled <span class="ct">6</span></h4>
+          <div class="kanban-card"><div class="who">Chen</div><div class="what">Faucet</div><div class="meta">Fri 11:00</div></div>
+          <div class="kanban-card"><div class="who">Reilly</div><div class="what">Dishwasher</div><div class="meta">Sat 10:30</div></div>
+          <div class="kanban-card"><div class="who">Park</div><div class="what">Pantry</div><div class="meta">Mon 8:00</div></div>
+          <div class="kanban-card"><div class="who">Anderson</div><div class="what">Gutter</div><div class="meta">Fri 8:30</div></div>
+          <div class="kanban-card"><div class="who">Liu</div><div class="what">Drywall</div><div class="meta">Wed 4:00</div></div>
+          <div class="kanban-card"><div class="who">Kim</div><div class="what">Ceiling fan</div><div class="meta">Wed 10:00</div></div>
+        </div>
+        <div class="kanban-col">
+          <h4>In progress <span class="ct">2</span></h4>
+          <div class="kanban-card"><div class="who">Sanderson</div><div class="what">Fence repair</div><div class="meta">Started 8:00</div></div>
+          <div class="kanban-card"><div class="who">Hendricks</div><div class="what">Bathroom tile</div><div class="meta">Day 2 of 3</div></div>
+        </div>
+        <div class="kanban-col">
+          <h4>Complete <span class="ct">5</span></h4>
+          <div class="kanban-card"><div class="who">Patel</div><div class="what">Deck stain · $620</div><div class="meta">Mon · invoiced</div></div>
+          <div class="kanban-card"><div class="who">Watanabe</div><div class="what">Trim install</div><div class="meta">Tue · invoiced</div></div>
+          <div class="kanban-card"><div class="who">Robert Kim</div><div class="what">Ceiling fan</div><div class="meta">Tue · review ★★★★★</div></div>
+          <div class="kanban-card"><div class="who">Garcia</div><div class="what">Faucet</div><div class="meta">Wed · invoiced</div></div>
+          <div class="kanban-card"><div class="who">Tracy Hendricks</div><div class="what">Toilet install</div><div class="meta">Mon · invoiced</div></div>
+        </div>
+        <div class="kanban-col">
+          <h4>Paid <span class="ct">3</span></h4>
+          <div class="kanban-card"><div class="who">Patel</div><div class="what">$620</div><div class="meta">Today</div></div>
+          <div class="kanban-card"><div class="who">Garcia</div><div class="what">$310</div><div class="meta">Yesterday</div></div>
+          <div class="kanban-card"><div class="who">Watanabe</div><div class="what">$1,820</div><div class="meta">Mon</div></div>
+        </div>
+      </div>
+      </div>
+
+      <div class="subview" data-subview="scope" hidden>
+      <div class="toolbar">
+        <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New change order</button>
+        <div class="spacer"></div>
+        <div style="font-size:13px;color:var(--text-2);">3 pending customer approval · 2 approved this week</div>
+      </div>
+
+      <div class="change-card">
+        <div class="change-head">
+          <div>
+            <div class="change-title">Hendricks bathroom tile — Change order #2</div>
+            <div style="font-size:13px;color:var(--text-2);margin-top:2px;">Original $1,860 → revised $2,310</div>
+          </div>
+          <span class="pill pill-orange dot" style="margin-left:auto;">Awaiting customer approval</span>
+        </div>
+        <div style="background:var(--cream-2); border-left:3px solid var(--orange); border-radius:6px; padding:10px 14px; margin-bottom: 12px; font-size:13px;">
+          <div style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--orange-2);margin-bottom:4px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+            Captured by Chuck from your voice note
+          </div>
+          You said: "Found rotted subfloor under the toilet — need to swap a 3x3 section before tile goes down."
+        </div>
+        <div class="change-row" style="font-size:11px;text-transform:uppercase;color:var(--text-2);letter-spacing:0.04em;border-top:0;font-weight:600;"><div>Added</div><div style="text-align:right;">Qty</div><div style="text-align:right;">Total</div></div>
+        <div class="change-row">
+          <div class="nm">Subfloor replacement (3'×3' section)</div>
+          <div class="px">9 sf</div>
+          <div class="px add">+$280</div>
+        </div>
+        <div class="change-row">
+          <div class="nm">Additional materials (3/4" plywood, sealant)</div>
+          <div class="px">1</div>
+          <div class="px add">+$58</div>
+        </div>
+        <div class="change-row">
+          <div class="nm">Labor (1.5 hr, journeyman)</div>
+          <div class="px">1.5</div>
+          <div class="px add">+$112</div>
+        </div>
+        <div class="photo-strip" style="margin-top: 12px;">
+          <div class="photo-tile before">Subfloor</div>
+          <div class="photo-tile before">After cut</div>
+          <div class="photo-tile after">New plywood</div>
+          <div class="photo-tile" style="background:var(--bg);"></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top: 16px;">
+          <button class="btn btn-primary">Send to Tracy for approval</button>
+          <button class="btn">Edit</button>
+        </div>
+      </div>
+
+      <div class="change-card">
+        <div class="change-head">
+          <div>
+            <div class="change-title">Park pantry build-out — Change order #1</div>
+            <div style="font-size:13px;color:var(--text-2);margin-top:2px;">Original $2,140 → revised $2,360</div>
+          </div>
+          <span class="pill pill-green dot" style="margin-left:auto;">Approved Tue</span>
+        </div>
+        <div class="change-row" style="font-size:11px;text-transform:uppercase;color:var(--text-2);letter-spacing:0.04em;border-top:0;font-weight:600;"><div>Added</div><div style="text-align:right;">Qty</div><div style="text-align:right;">Total</div></div>
+        <div class="change-row"><div class="nm">Upgrade to soft-close drawer slides</div><div class="px">3</div><div class="px add">+$135</div></div>
+        <div class="change-row"><div class="nm">Add 1 extra shelf</div><div class="px">1</div><div class="px add">+$85</div></div>
+      </div>
       </div>
     </section>
-    <section class="view" data-view="quotes" hidden>
-      <div class="placeholder">
-        <h3>Quotes</h3>
-        <p>Every estimate Roundhouse has drafted, sent, and followed up on — with win-rate tracking.</p>
+
+    <!-- ====================================================
+         FINANCES (sub-tabs: job costing, budget, accounting, payroll)
+         ==================================================== -->
+    <section class="view" data-view="finances" hidden>
+      <div class="subtabs">
+        <button class="subtab active" data-subview="costing">Job costing</button>
+        <button class="subtab" data-subview="budget">Budget</button>
+        <button class="subtab" data-subview="accounting">Accounting</button>
+        <button class="subtab" data-subview="payroll">Payroll</button>
+      </div>
+      <div class="subview" data-subview="costing">
+      <div class="toolbar">
+        <div style="font-weight:600;">Hendricks bathroom tile · Job #1284</div>
+        <span class="pill pill-indigo dot">In progress · day 2</span>
+        <div class="spacer"></div>
+        <button class="btn">Switch job</button>
+      </div>
+
+      <div class="cost-grid">
+        <div class="cost-tile">
+          <div class="cost-label">Quoted</div>
+          <div class="cost-value">$2,310</div>
+          <div class="cost-bar"><div style="width:100%"></div></div>
+        </div>
+        <div class="cost-tile">
+          <div class="cost-label">Spent so far</div>
+          <div class="cost-value">$1,180</div>
+          <div class="cost-bar"><div style="width:51%"></div></div>
+        </div>
+        <div class="cost-tile">
+          <div class="cost-label">Labor hours</div>
+          <div class="cost-value">9.5 / 18</div>
+          <div class="cost-bar amber"><div style="width:53%"></div></div>
+        </div>
+        <div class="cost-tile">
+          <div class="cost-label">Projected margin</div>
+          <div class="cost-value">38%</div>
+          <div class="cost-bar green"><div style="width:75%"></div></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Receipts</div><div class="card-sub">Snap a photo — Chuck extracts vendor, date, amount, category</div></div>
+            <button class="btn btn-sm">Add receipt</button>
+          </div>
+          <div class="card-body" style="padding-bottom: 12px;">
+            <div class="receipt">
+              <div class="receipt-thumb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+              <div><div class="vendor">The Home Depot</div><div class="meta">May 21 · Tile & grout · Materials</div></div>
+              <div class="amt">$47.82</div>
+              <span class="pill pill-green">Categorized</span>
+            </div>
+            <div class="receipt">
+              <div class="receipt-thumb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+              <div><div class="vendor">Ferguson Plumbing Supply</div><div class="meta">May 20 · Toilet flange · Materials</div></div>
+              <div class="amt">$28.40</div>
+              <span class="pill pill-green">Categorized</span>
+            </div>
+            <div class="receipt">
+              <div class="receipt-thumb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+              <div><div class="vendor">Lowe's</div><div class="meta">May 20 · Underlayment + sealant · Materials</div></div>
+              <div class="amt">$86.14</div>
+              <span class="pill pill-green">Categorized</span>
+            </div>
+          </div>
+          <div style="padding: 0 20px 20px;">
+            <div class="upload-zone">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <strong>Drop a receipt here or snap a photo</strong>
+              Chuck will read the vendor, total, and category — and attach it to this job.
+            </div>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="card">
+            <div class="card-head">
+              <div><div class="card-title">Labor</div><div class="card-sub">Hours logged this job</div></div>
+              <button class="btn btn-sm">Add hours</button>
+            </div>
+            <div class="card-body">
+              <div class="config-row"><div class="label">Mike (you) — journeyman @ $85/hr</div><div class="value">6.5h</div><div></div></div>
+              <div class="config-row"><div class="label">Tony — helper @ $35/hr</div><div class="value">3.0h</div><div></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div><div class="card-title">Mileage</div><div class="card-sub">Tracked via your phone</div></div>
+            </div>
+            <div class="card-body">
+              <div class="config-row"><div class="label">Trips to the job site</div><div class="value">3 trips · 18 mi</div><div></div></div>
+              <div class="config-row"><div class="label">Supply runs (Home Depot, Ferguson, Lowe's)</div><div class="value">3 trips · 14 mi</div><div></div></div>
+              <div class="config-row" style="border-top:1px solid var(--border); padding-top:10px;"><div class="label" style="font-weight:600;">Total reimbursable</div><div class="value" style="font-weight:600;color:var(--text);">$22.40 (32 mi @ $0.70)</div><div></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <div><div class="card-title">Job photos</div><div class="card-sub">8 photos attached</div></div>
+              <button class="btn btn-sm">Add</button>
+            </div>
+            <div class="card-body">
+              <div class="photo-strip" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="photo-tile before">Day 1</div>
+                <div class="photo-tile before">Day 1</div>
+                <div class="photo-tile before">Subfloor</div>
+                <div class="photo-tile after">Layout</div>
+                <div class="photo-tile after">Day 2</div>
+                <div class="photo-tile after">Grout</div>
+                <div class="photo-tile" style="background:var(--bg);"></div>
+                <div class="photo-tile" style="background:var(--bg);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="subview" data-subview="budget" hidden>
+      <div class="toolbar">
+        <div style="font-weight:600;font-size:15px;">May 2026 — budget vs. actual</div>
+        <div class="spacer"></div>
+        <button class="filter-pill">May 2026 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="btn btn-sm">Export</button>
+      </div>
+
+      <div class="grid-3" style="margin-bottom:20px;">
+        <div class="cost-tile">
+          <div class="cost-label">Revenue (MTD)</div>
+          <div class="cost-value">$28,640</div>
+          <div class="money-trend" style="font-size:12px;color:var(--success);margin-top:4px;">▲ 22% vs target</div>
+        </div>
+        <div class="cost-tile">
+          <div class="cost-label">Expenses (MTD)</div>
+          <div class="cost-value">$9,420</div>
+          <div class="money-trend" style="font-size:12px;color:var(--text-3);margin-top:4px;">on track</div>
+        </div>
+        <div class="cost-tile">
+          <div class="cost-label">Net margin</div>
+          <div class="cost-value">38%</div>
+          <div class="money-trend" style="font-size:12px;color:var(--success);margin-top:4px;">▲ 4 pts vs. April</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Categories</div><div class="card-sub">Variance flagged in orange</div></div>
+        </div>
+        <div class="card-body">
+          <div class="budget-row head"><div>Category</div><div style="text-align:right;">Budget</div><div style="text-align:right;">Actual</div><div style="text-align:right;">Variance</div></div>
+          <div class="budget-row"><div class="nm">Materials</div><div class="v">$4,000</div><div class="v">$3,820</div><div class="v var pos">+$180</div></div>
+          <div class="budget-row"><div class="nm">Subcontractor labor</div><div class="v">$2,500</div><div class="v">$2,840</div><div class="v var neg">−$340</div></div>
+          <div class="budget-row"><div class="nm">Fuel & mileage</div><div class="v">$700</div><div class="v">$612</div><div class="v var pos">+$88</div></div>
+          <div class="budget-row"><div class="nm">Tools & equipment</div><div class="v">$500</div><div class="v">$340</div><div class="v var pos">+$160</div></div>
+          <div class="budget-row"><div class="nm">Insurance</div><div class="v">$420</div><div class="v">$420</div><div class="v">$0</div></div>
+          <div class="budget-row"><div class="nm">Software (Roundhouse)</div><div class="v">$149</div><div class="v">$149</div><div class="v">$0</div></div>
+          <div class="budget-row"><div class="nm">Marketing</div><div class="v">$300</div><div class="v">$240</div><div class="v var pos">+$60</div></div>
+          <div class="budget-row"><div class="nm">Office / admin</div><div class="v">$180</div><div class="v">$140</div><div class="v var pos">+$40</div></div>
+        </div>
+      </div>
+      </div>
+
+      <div class="subview" data-subview="accounting" hidden>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Bank feed</div><div class="card-sub">Last sync 4 min ago · 247 transactions this month</div></div></div>
+          <div class="card-body">
+            <div class="receipt"><div class="receipt-thumb" style="background:#16a34a;color:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><div class="vendor">Patel — invoice payment</div><div class="meta">May 21 · ACH · Income</div></div><div class="amt" style="color:var(--success);">+$620.00</div><span class="pill pill-green">Posted</span></div>
+            <div class="receipt"><div class="receipt-thumb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div><div class="vendor">The Home Depot</div><div class="meta">May 21 · Card · Materials → Hendricks</div></div><div class="amt">−$47.82</div><span class="pill pill-green">Categorized</span></div>
+            <div class="receipt"><div class="receipt-thumb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div><div class="vendor">Shell</div><div class="meta">May 20 · Card · Fuel</div></div><div class="amt">−$58.40</div><span class="pill pill-amber">Confirm category</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">QuickBooks sync</div><div class="card-sub">Hands-off books — Chuck pushes categorized entries</div></div></div>
+          <div class="card-body">
+            <div class="config-row"><div class="label">Two-way sync</div><div></div><div class="toggle on"></div></div>
+            <div class="config-row"><div class="label">Auto-post income</div><div></div><div class="toggle on"></div></div>
+            <div class="config-row"><div class="label">Auto-post expenses (≤ $250)</div><div></div><div class="toggle on"></div></div>
+            <div class="config-row"><div class="label">Hold expenses ≥ $250 for review</div><div></div><div class="toggle on"></div></div>
+            <div style="margin-top:14px; font-size:13px; color:var(--text-2);">Last successful sync: <b style="color:var(--text);">3 minutes ago</b> · 18 entries today.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="subview" data-subview="payroll" hidden>
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Payroll — week of May 18</div><div class="card-sub">Hours pulled from job costing. Run when you're ready.</div></div>
+          <button class="btn btn-primary">Run payroll · $1,420</button>
+        </div>
+        <div class="card-body">
+          <div class="budget-row head"><div>Employee</div><div style="text-align:right;">Hours</div><div style="text-align:right;">Rate</div><div style="text-align:right;">Pay</div></div>
+          <div class="budget-row"><div class="nm">Mike Kowalski (owner draw)</div><div class="v">38</div><div class="v">$85</div><div class="v">$3,230</div></div>
+          <div class="budget-row"><div class="nm">Tony Reyes — apprentice</div><div class="v">26</div><div class="v">$55</div><div class="v">$1,430</div></div>
+          <div class="budget-row"><div class="nm">Devon Hill — helper</div><div class="v">12</div><div class="v">$35</div><div class="v">$420</div></div>
+        </div>
+      </div>
       </div>
     </section>
-    <section class="view" data-view="customers" hidden>
-      <div class="placeholder">
-        <h3>Customers</h3>
-        <p>Your full customer book, automatically built from calls, texts, and jobs. Tagged by source, lifetime value, and last contact.</p>
+
+    <!-- ====================================================
+         MARKETING (sub-tabs: reviews, content)
+         ==================================================== -->
+    <section class="view" data-view="marketing" hidden>
+      <div class="subtabs">
+        <button class="subtab active" data-subview="reviews">Reviews</button>
+        <button class="subtab" data-subview="content">Content</button>
+      </div>
+      <div class="subview" data-subview="reviews">
+      <div class="grid-3" style="margin-bottom:20px;">
+        <div class="cost-tile"><div class="cost-label">Google rating</div><div class="cost-value">4.9 ★</div><div style="font-size:12px;color:var(--text-2);margin-top:4px;">From 142 reviews</div></div>
+        <div class="cost-tile"><div class="cost-label">Requests sent (30 days)</div><div class="cost-value">28</div><div style="font-size:12px;color:var(--text-2);margin-top:4px;">Sent automatically after each job</div></div>
+        <div class="cost-tile"><div class="cost-label">Conversion to review</div><div class="cost-value">61%</div><div style="font-size:12px;color:var(--success);margin-top:4px;">▲ 12 pts vs industry average</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Recent reviews</div><div class="card-sub">Pulled from Google · auto-posted to your site</div></div>
+          </div>
+          <div class="card-body">
+            <div class="review-card">
+              <div class="avatar" style="background:#16a34a">RK</div>
+              <div>
+                <div class="stars">★★★★★</div>
+                <div class="body">"Mike was great. On time, fair price, cleaned up after. Will definitely call again."</div>
+                <div class="who">Robert Kim · Birch Way · today</div>
+              </div>
+              <div class="src">Google</div>
+            </div>
+            <div class="review-card">
+              <div class="avatar" style="background:#9333ea">PP</div>
+              <div>
+                <div class="stars">★★★★★</div>
+                <div class="body">"Stained our deck and it looks brand new. Quote was exact — no surprises at the end."</div>
+                <div class="who">Patel family · Cedar Ln · yesterday</div>
+              </div>
+              <div class="src">Google</div>
+            </div>
+            <div class="review-card">
+              <div class="avatar" style="background:#0d9488">SL</div>
+              <div>
+                <div class="stars">★★★★★</div>
+                <div class="body">"Handled a tricky drywall patch like it was nothing. Texted me when he was on the way which I really appreciated."</div>
+                <div class="who">Sarah Liu · River Rd · Monday</div>
+              </div>
+              <div class="src">Google</div>
+            </div>
+            <div class="review-card">
+              <div class="avatar" style="background:#b45309">TH</div>
+              <div>
+                <div class="stars">★★★★★</div>
+                <div class="body">"Replaced a toilet flange and didn't try to upsell anything. Trustworthy."</div>
+                <div class="who">Tracy Hendricks · Oak Dr · last week</div>
+              </div>
+              <div class="src">Google</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Automated requests</div><div class="card-sub">How and when Chuck asks for reviews</div></div>
+          </div>
+          <div class="card-body">
+            <div class="config-row"><div class="label">SMS 1 hour after job is marked complete</div><div></div><div class="toggle on"></div></div>
+            <div class="config-row"><div class="label">Email follow-up after 3 days if no review</div><div></div><div class="toggle on"></div></div>
+            <div class="config-row"><div class="label">Ask for testimonial separately (long form)</div><div></div><div class="toggle on"></div></div>
+            <div class="config-row"><div class="label">Referral ask at 14 days post-job</div><div></div><div class="toggle on"></div></div>
+            <div class="config-row"><div class="label">Skip request if customer rated &lt; 4 internally</div><div></div><div class="toggle on"></div></div>
+            <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border); font-size:12px; color:var(--text-2);">
+              <b style="color:var(--text);">Chuck's draft for Robert Kim:</b><br>
+              "Hi Robert — Mike just wrapped up the ceiling fan install. If we earned 5 stars, would you take 30 seconds to leave a Google review? <a style="color:var(--orange-2);">link</a>. Thanks for trusting us!"
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="subview" data-subview="content" hidden>
+      <div class="toolbar">
+        <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Generate post from a job</button>
+        <div class="spacer"></div>
+        <div style="font-size:13px;color:var(--text-2);">3 drafts ready · published 12 this month</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="post-card">
+          <div class="post-img">Before / after — Patel deck</div>
+          <div class="post-body">
+            <span class="pill pill-orange" style="margin-bottom:8px;">Drafted by Chuck</span>
+            <div class="post-text">Brought this deck back to life this week 🪵
+
+The Patel family wanted to host their summer cookouts on it again — and now they can. Fresh sand, two coats of Behr Premium semi-transparent stain in Cedar Naturaltone, and a clean seal. 6 years of weather, gone.
+
+Got a deck that's seen better days? We're booking June now — DM or call (415) 555-0117.</div>
+            <div class="post-meta">
+              <span class="src"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg> Facebook</span>
+              <span class="src"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg> Google Business Profile</span>
+              <div class="spacer"></div>
+              <button class="btn btn-sm">Edit</button>
+              <button class="btn btn-sm btn-primary">Publish</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-card">
+          <div class="post-img" style="background:linear-gradient(135deg, #5a6478, #2e3548);">Before / after — Kim ceiling fan</div>
+          <div class="post-body">
+            <span class="pill pill-orange" style="margin-bottom:8px;">Drafted by Chuck</span>
+            <div class="post-text">No more wobble.
+
+Robert had a ceiling fan that was making him nervous every time it came on. We swapped in a new brace, mounted a Hunter 52" Builder Plus, and balanced the blades. Solid, quiet, and 100% wobble-free.
+
+If something in your house has been on the "I'll deal with it later" list — let's deal with it. (415) 555-0117</div>
+            <div class="post-meta">
+              <span class="src"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg> Facebook</span>
+              <div class="spacer"></div>
+              <button class="btn btn-sm">Edit</button>
+              <button class="btn btn-sm btn-primary">Publish</button>
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
     </section>
-    <section class="view" data-view="money" hidden>
-      <div class="placeholder">
-        <h3>Money</h3>
-        <p>Invoices, payments, expenses, and a real-time P&amp;L — categorized by Roundhouse, ready for your accountant.</p>
+
+    <!-- ====================================================
+         INTEGRATIONS
+         ==================================================== -->
+    <section class="view" data-view="integrations" hidden>
+      <div class="toolbar">
+        <div style="font-weight:600;font-size:15px;">Connected tools</div>
+        <div class="spacer"></div>
+        <div style="font-size:13px;color:var(--text-2);">6 connected · 2 available</div>
       </div>
-    </section>
-    <section class="view" data-view="agents" hidden>
-      <div class="placeholder">
-        <h3>AI agents</h3>
-        <p>Dispatcher, Concierge, and Bookkeeper. Each one runs a part of your business. Tune their voice, hours, and what they can decide on their own.</p>
-      </div>
-    </section>
-    <section class="view" data-view="rules" hidden>
-      <div class="placeholder">
-        <h3>Rules</h3>
-        <p>Set the guardrails: "Never quote over $2,000 without me," "Always offer Saturday slots," "Auto-book if customer is repeat &amp; job is &lt; 2 hours." Roundhouse follows your rules.</p>
+
+      <div class="int-grid">
+        <div class="int-card">
+          <div class="int-row"><div class="int-logo">@</div><div class="int-name">Email</div><span class="int-status connected" style="margin-left:auto;">Connected</span></div>
+          <div class="int-desc">mike@kowalskihandyman.com via Google Workspace. Chuck reads, drafts, and sends.</div>
+        </div>
+        <div class="int-card">
+          <div class="int-row"><div class="int-logo">31</div><div class="int-name">Calendar</div><span class="int-status connected" style="margin-left:auto;">Connected</span></div>
+          <div class="int-desc">Google Calendar — Chuck books estimates and jobs, blocks travel time automatically.</div>
+        </div>
+        <div class="int-card">
+          <div class="int-row"><div class="int-logo">SMS</div><div class="int-name">SMS</div><span class="int-status connected" style="margin-left:auto;">Connected</span></div>
+          <div class="int-desc">Business number via Twilio. All texts go through Chuck and live in the customer timeline.</div>
+        </div>
+        <div class="int-card">
+          <div class="int-row"><div class="int-logo">f</div><div class="int-name">Facebook</div><span class="int-status connected" style="margin-left:auto;">Connected</span></div>
+          <div class="int-desc">Kowalski Handyman page — Chuck drafts posts, you publish with one tap.</div>
+        </div>
+        <div class="int-card">
+          <div class="int-row"><div class="int-logo">G</div><div class="int-name">Google Business Profile</div><span class="int-status connected" style="margin-left:auto;">Connected</span></div>
+          <div class="int-desc">Reviews flow in, posts go out, calls forward to your business line.</div>
+        </div>
+        <div class="int-card">
+          <div class="int-row"><div class="int-logo">$</div><div class="int-name">Bank account</div><span class="int-status connected" style="margin-left:auto;">Connected</span></div>
+          <div class="int-desc">Chase Business Complete Banking. Read-only feed — Chuck never moves money.</div>
+        </div>
+        <div class="int-card">
+          <div class="int-row"><div class="int-logo">QB</div><div class="int-name">QuickBooks</div><span class="int-status not" style="margin-left:auto;">Not connected</span></div>
+          <div class="int-desc">Auto-categorized entries pushed nightly — your accountant will thank you.</div>
+          <button class="btn btn-sm btn-primary" style="align-self:flex-start;margin-top:4px;">Connect</button>
+        </div>
+        <div class="int-card">
+          <div class="int-row"><div class="int-logo">PR</div><div class="int-name">Payroll</div><span class="int-status not" style="margin-left:auto;">Not connected</span></div>
+          <div class="int-desc">Gusto integration. Hours flow from job costing into payroll automatically.</div>
+          <button class="btn btn-sm btn-primary" style="align-self:flex-start;margin-top:4px;">Connect</button>
+        </div>
       </div>
     </section>
   </main>
 </div>
 
 <script>
-  // Sidebar nav switching
+  // ===== Top-level nav routing =====
   const titles = {
-    today:     { title: "Today",     sub: "Thursday, May 21 · Clear, 68°F · 4 jobs on the books" },
-    inbox:     { title: "Inbox",     sub: "8 conversations · 3 drafts waiting on you" },
-    jobs:      { title: "Jobs",      sub: "This week: 11 booked · 2 estimates" },
-    quotes:    { title: "Quotes",    sub: "12 open · win rate 64% (last 30 days)" },
-    customers: { title: "Customers", sub: "247 active customers · 18 added this month" },
-    money:     { title: "Money",     sub: "$4,820 collected this week · $2,160 outstanding" },
-    agents:    { title: "AI agents", sub: "3 agents on the clock" },
-    rules:     { title: "Rules",     sub: "Decide what Roundhouse can do on its own" },
+    chuck:        "Ask Chuck",
+    sales:        "Sales",
+    jobs:         "Jobs",
+    finances:     "Finances",
+    marketing:    "Marketing",
+    integrations: "Integrations",
   };
 
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const view = item.dataset.view;
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      item.classList.add('active');
-      document.querySelectorAll('.view').forEach(v => v.hidden = v.dataset.view !== view);
-      if (titles[view]) {
-        document.getElementById('pageTitle').textContent = titles[view].title;
-        document.getElementById('pageSub').textContent   = titles[view].sub;
+  function showView(name) {
+    document.querySelectorAll('section.view').forEach(v => v.hidden = v.dataset.view !== name);
+    document.getElementById('crumb').textContent     = 'Workspace';
+    document.getElementById('pageTitle').textContent = titles[name] || name;
+    document.querySelectorAll('.nav-single').forEach(n => n.classList.toggle('active', n.dataset.view === name));
+
+    // Reset to first sub-tab when entering a section
+    const view = document.querySelector(`section.view[data-view="${name}"]`);
+    if (view) {
+      const subviews = view.querySelectorAll(':scope > .subview');
+      const subtabs  = view.querySelectorAll(':scope > .subtabs > .subtab');
+      if (subviews.length > 0) {
+        subviews.forEach((s, i) => s.hidden = i !== 0);
+        subtabs.forEach((t, i)  => t.classList.toggle('active', i === 0));
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('.nav-single').forEach(n => {
+    n.addEventListener('click', () => showView(n.dataset.view));
+  });
+
+  // ===== In-page sub-tab switching =====
+  document.querySelectorAll('.subtab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const view = tab.closest('section.view');
+      const sub  = tab.dataset.subview;
+      view.querySelectorAll(':scope > .subtabs > .subtab').forEach(x => x.classList.toggle('active', x.dataset.subview === sub));
+      view.querySelectorAll(':scope > .subview').forEach(x => x.hidden = x.dataset.subview !== sub);
     });
   });
 
-  // Approval dismiss
-  function dismissApproval(btn) {
-    const card = btn.closest('.approval');
-    card.classList.add('fade-out');
-    setTimeout(() => {
-      card.remove();
-      const remaining = document.querySelectorAll('#approvalsBody .approval').length;
-      if (remaining === 0) {
-        document.getElementById('approvalsBody').innerHTML =
-          '<div style="text-align:center;padding:40px 20px;color:var(--text-2);">' +
-          '<div style="font-size:32px;margin-bottom:8px;">✓</div>' +
-          '<div style="font-weight:600;color:var(--text);">All clear.</div>' +
-          '<div style="font-size:13px;margin-top:4px;">Roundhouse will keep working in the background.</div>' +
-          '</div>';
+  // ===== Chuck suggestion clicks → simulate sending to composer =====
+  document.querySelectorAll('.chuck-suggest').forEach(s => {
+    s.addEventListener('click', () => {
+      const input = document.querySelector('.chuck-composer input');
+      if (input) {
+        input.value = s.textContent.trim();
+        input.focus();
       }
-    }, 220);
-  }
-
-  // Inbox conversation switching (visual only — same thread shown)
-  document.querySelectorAll('.conv').forEach(c => {
-    c.addEventListener('click', () => {
-      document.querySelectorAll('.conv').forEach(x => x.classList.remove('active'));
-      c.classList.add('active');
     });
   });
 </script>
