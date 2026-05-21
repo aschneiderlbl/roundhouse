@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Roundhouse — Mobile prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #16223e;
+    --navy-2: #1f2d4d;
+    --cream: #ece4d2;
+    --cream-2: #f5efe3;
+    --orange: #e85e2d;
+    --orange-2: #c84a1d;
+    --orange-soft: #fde6dc;
+    --bg: #f6f7f9;
+    --surface: #ffffff;
+    --border: #e8ebf0;
+    --border-strong: #d9dde5;
+    --text: #16223e;
+    --text-2: #5a6478;
+    --text-3: #98a0b0;
+    --success: #16a34a;
+    --success-soft: #dcfce7;
+    --shadow-sm: 0 1px 2px rgba(16,24,40,.05);
+    --shadow-md: 0 4px 14px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.04);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    background: #2a2f3a;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(232,94,45,0.08), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(74,108,180,0.10), transparent 50%),
+      linear-gradient(180deg, #1c1f27 0%, #2a2f3a 100%);
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px 12px;
+  }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* =========== iPhone frame (desktop) =========== */
+  .device {
+    width: 393px;
+    height: 852px;
+    background: #0a0c10;
+    border-radius: 56px;
+    padding: 12px;
+    box-shadow:
+      0 0 0 2px #1f2128,
+      0 30px 80px rgba(0,0,0,0.5),
+      0 10px 30px rgba(0,0,0,0.3),
+      inset 0 0 0 1px rgba(255,255,255,0.05);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .device-screen {
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    border-radius: 44px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Dynamic island */
+  .island {
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 124px;
+    height: 36px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 1000;
+    pointer-events: none;
+  }
+
+  /* iOS status bar */
+  .status-bar {
+    height: 54px;
+    padding: 14px 30px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+  .status-icons svg { display: block; }
+
+  /* App header */
+  .app-header {
+    background: var(--surface);
+    padding: 8px 16px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .app-header .brand-mark { width: 32px; height: 32px; flex-shrink: 0; }
+  .app-header .title { flex: 1; min-width: 0; }
+  .app-header .greet { font-size: 11px; color: var(--text-2); letter-spacing: 0.02em; }
+  .app-header .name { font-size: 17px; font-weight: 600; color: var(--text); margin-top: 1px; line-height: 1.1; }
+  .icon-btn {
+    width: 36px; height: 36px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    border: 0;
+    background: var(--bg);
+    color: var(--text);
+    position: relative;
+  }
+  .icon-btn .dot {
+    position: absolute; top: 7px; right: 8px;
+    width: 8px; height: 8px;
+    background: var(--orange);
+    border-radius: 50%;
+    border: 2px solid var(--surface);
+  }
+  .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: #fff;
+    display: grid; place-items: center;
+    font-weight: 600;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  /* Scrollable content area */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 96px; /* room for bottom tab */
+  }
+  .content::-webkit-scrollbar { width: 0; }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* =========== Hero (Today) =========== */
+  .hero {
+    margin: 14px 14px 18px;
+    background: var(--navy);
+    color: var(--cream);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    right: -60px; bottom: -80px;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(232,94,45,0.22) 0%, rgba(232,94,45,0) 65%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-family: 'Inter', sans-serif;
+    margin: 0 0 6px;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--cream);
+  }
+  .hero p { margin: 0; font-size: 13.5px; color: rgba(236,228,210,0.78); }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .hero-stat {
+    background: rgba(236,228,210,0.07);
+    border: 1px solid rgba(236,228,210,0.10);
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+  .hero-stat .n {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    color: var(--cream);
+    line-height: 1;
+    font-weight: 700;
+  }
+  .hero-stat .l { font-size: 11px; color: rgba(236,228,210,0.65); margin-top: 5px; }
+
+  /* Section */
+  .section {
+    padding: 0 14px;
+    margin-bottom: 18px;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0 4px;
+    margin-bottom: 10px;
+  }
+  .section-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .section-sub { font-size: 12px; color: var(--text-2); }
+  .section-link { font-size: 13px; color: var(--orange-2); background: none; border: 0; padding: 0; font-weight: 500; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* =========== Approval (swipeable card) =========== */
+  .approval-stack { position: relative; }
+  .approval-progress {
+    display: flex; gap: 4px; margin-bottom: 10px; padding: 0 4px;
+  }
+  .approval-progress span {
+    flex: 1; height: 3px; border-radius: 2px; background: var(--border);
+  }
+  .approval-progress span.done { background: var(--orange); }
+  .approval-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow-md);
+  }
+  .approval-row { display: flex; align-items: center; gap: 10px; }
+  .approval-name { font-weight: 600; font-size: 15px; color: var(--text); }
+  .approval-meta { font-size: 12px; color: var(--text-3); margin-top: 1px; }
+  .approval-summary { font-size: 13.5px; color: var(--text-2); margin-top: 12px; line-height: 1.5; }
+  .ai-draft {
+    margin-top: 12px;
+    background: var(--cream-2);
+    border-left: 3px solid var(--orange);
+    border-radius: 8px;
+    padding: 11px 12px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .ai-draft-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--orange-2);
+    margin-bottom: 5px;
+  }
+  .ai-draft-label svg { width: 11px; height: 11px; }
+  .approval-actions {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .btn {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;
+  }
+  .btn-primary {
+    background: var(--orange);
+    color: #fff;
+    border-color: var(--orange);
+    grid-column: span 2;
+  }
+  .btn-primary:active { background: var(--orange-2); }
+  .btn-row-2 { grid-column: span 1; }
+  .btn svg { width: 14px; height: 14px; }
+
+  /* =========== Schedule job row =========== */
+  .job {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+    align-items: center;
+  }
+  .job:first-child { border-top: 0; padding-top: 4px; }
+  .job-time { font-weight: 600; font-size: 13px; color: var(--text); }
+  .job-time-sub { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+  .job-title { font-weight: 500; font-size: 14px; color: var(--text); }
+  .job-sub { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+  .job-status {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--text-2);
+    white-space: nowrap;
+  }
+  .job-status.upnext { background: var(--orange-soft); color: var(--orange-2); }
+  .job-status.confirmed { background: var(--success-soft); color: var(--success); }
+  .job-status.live { background: #e0e7ff; color: #4338ca; }
+
+  /* =========== Money chips =========== */
+  .money-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .money-tile {
+    padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .money-label { font-size: 11px; color: var(--text-2); }
+  .money-value {
+    font-size: 19px; font-weight: 700; color: var(--text);
+    margin-top: 2px; font-family: 'Oswald', sans-serif; letter-spacing: 0.02em;
+  }
+  .money-trend { font-size: 11px; margin-top: 2px; color: var(--text-3); }
+  .money-trend.up { color: var(--success); }
+
+  /* =========== Activity feed =========== */
+  .feed-item {
+    display: flex;
+    gap: 10px;
+    padding: 11px 0;
+    border-top: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .feed-item:first-child { border-top: 0; padding-top: 4px; }
+  .feed-icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--cream-2);
+    color: var(--orange-2);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .feed-icon svg { width: 13px; height: 13px; }
+  .feed-icon.blue  { background: #e0e7ff; color: #4338ca; }
+  .feed-icon.green { background: var(--success-soft); color: var(--success); }
+  .feed-icon.navy  { background: rgba(22,34,62,0.08); color: var(--navy); }
+  .feed-text { font-size: 13px; color: var(--text); flex: 1; min-width: 0; line-height: 1.4; }
+  .feed-text b { font-weight: 600; }
+  .feed-time { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+
+  /* =========== Bottom tab bar =========== */
+  .tabbar {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    padding: 8px 8px 28px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+  }
+  .tab {
+    background: none;
+    border: 0;
+    padding: 6px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: var(--text-3);
+    font-size: 10px;
+    font-weight: 500;
+    border-radius: 8px;
+    position: relative;
+  }
+  .tab svg { width: 22px; height: 22px; }
+  .tab.active { color: var(--orange); }
+  .tab .tab-badge {
+    position: absolute;
+    top: 0; right: 18%;
+    background: var(--orange);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    display: grid; place-items: center;
+    border: 2px solid rgba(255,255,255,0.94);
+  }
+
+  /* =========== Inbox =========== */
+  .inbox-header {
+    background: var(--surface);
+    padding: 8px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .inbox-title-row {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 12px;
+  }
+  .inbox-title { font-size: 22px; font-weight: 700; color: var(--text); flex: 1; }
+  .filter-chips {
+    display: flex; gap: 8px;
+    overflow-x: auto;
+    margin: 0 -4px;
+    padding: 0 4px 2px;
+  }
+  .filter-chips::-webkit-scrollbar { height: 0; }
+  .chip {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text-2);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .chip.active { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+  .chip .ct {
+    margin-left: 5px;
+    background: var(--orange);
+    color: #fff;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 8px;
+  }
+  .chip.active .ct { background: var(--orange); color: #fff; }
+
+  .conv {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 12px;
+    background: var(--surface);
+    cursor: pointer;
+  }
+  .conv:active { background: var(--bg); }
+  .conv-body { flex: 1; min-width: 0; }
+  .conv-row { display: flex; align-items: baseline; gap: 8px; }
+  .conv-name { font-weight: 600; font-size: 15px; color: var(--text); }
+  .conv-time { font-size: 11px; color: var(--text-3); margin-left: auto; flex-shrink: 0; }
+  .conv-preview {
+    font-size: 13px; color: var(--text-2);
+    overflow: hidden; text-overflow: ellipsis;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    margin-top: 3px;
+  }
+  .conv-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-top: 6px;
+  }
+  .tag-draft  { background: var(--orange-soft); color: var(--orange-2); }
+  .tag-waiting { background: var(--bg); color: var(--text-2); }
+  .tag-resolved { background: var(--success-soft); color: var(--success); }
+  .tag-new { background: #e0e7ff; color: #4338ca; }
+
+  /* =========== Conversation detail =========== */
+  .conv-detail-screen { display: flex; flex-direction: column; height: 100%; }
+  .conv-bar {
+    background: var(--surface);
+    padding: 8px 12px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+    flex-shrink: 0;
+  }
+  .back-btn {
+    width: 36px; height: 36px;
+    display: grid; place-items: center;
+    border: 0; background: transparent;
+    color: var(--orange-2);
+  }
+  .conv-bar .name { font-weight: 600; font-size: 15px; line-height: 1.1; }
+  .conv-bar .meta { font-size: 11px; color: var(--text-2); margin-top: 2px; }
+  .thread {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--bg);
+    padding: 16px 14px 14px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .msg {
+    max-width: 78%;
+    padding: 9px 13px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.42;
+  }
+  .msg.them { background: var(--surface); border: 1px solid var(--border); align-self: flex-start; border-bottom-left-radius: 5px; }
+  .msg.you  { background: var(--navy); color: var(--cream); align-self: flex-end; border-bottom-right-radius: 5px; }
+  .msg-meta {
+    font-size: 10px; color: var(--text-3);
+    margin-top: -4px; padding: 0 4px;
+  }
+  .msg.them + .msg-meta { align-self: flex-start; }
+  .msg.you + .msg-meta { align-self: flex-end; }
+
+  .ai-sheet {
+    background: var(--cream-2);
+    border-top: 1px solid var(--border);
+    padding: 14px;
+    flex-shrink: 0;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    box-shadow: 0 -4px 14px rgba(16,24,40,0.05);
+  }
+  .ai-sheet-head {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 8px;
+  }
+  .ai-sheet-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--orange-2);
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .ai-sheet-label svg { width: 11px; height: 11px; }
+  .ai-sheet-toggle {
+    margin-left: auto;
+    background: transparent;
+    border: 0;
+    color: var(--text-2);
+    font-size: 12px;
+    padding: 4px;
+  }
+  .draft-text {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--text);
+    white-space: pre-wrap;
+  }
+  .ai-sheet-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .ai-followups {
+    margin-top: 10px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--text-2);
+  }
+  .ai-followups b { color: var(--text); font-weight: 600; }
+  .ai-followups ul { margin: 6px 0 0; padding-left: 16px; }
+  .ai-followups li { margin: 3px 0; }
+
+  /* =========== Placeholder screens =========== */
+  .placeholder {
+    margin: 24px 14px;
+    padding: 60px 24px;
+    background: var(--surface);
+    border: 1px dashed var(--border-strong);
+    border-radius: 16px;
+    text-align: center;
+  }
+  .placeholder h3 { margin: 0 0 6px; color: var(--text); font-size: 17px; font-weight: 600; }
+  .placeholder p { margin: 0; color: var(--text-2); font-size: 13.5px; }
+
+  /* =========== Device caption (desktop only) =========== */
+  .caption {
+    color: rgba(255,255,255,0.55);
+    text-align: center;
+    font-size: 12px;
+    margin-top: 20px;
+    max-width: 393px;
+    line-height: 1.5;
+  }
+  .caption .accent { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+  /* =========== Fade animations =========== */
+  .fade-out { opacity: 0; transform: scale(0.96); transition: all .22s ease; }
+
+  /* =========== Mobile: fill screen, hide frame =========== */
+  @media (max-width: 480px) {
+    body { padding: 0; background: var(--bg); display: block; }
+    .device {
+      width: 100vw;
+      height: 100vh;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+    .device-screen { border-radius: 0; }
+    .island { display: none; }
+    .caption { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div>
+  <div class="device" role="application" aria-label="Roundhouse mobile app">
+    <div class="island"></div>
+    <div class="device-screen">
+
+      <!-- iOS status bar -->
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="status-icons">
+          <!-- signal -->
+          <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0"  y="7" width="3" height="4" rx="0.5"/><rect x="4.5" y="5" width="3" height="6" rx="0.5"/><rect x="9"  y="3" width="3" height="8" rx="0.5"/><rect x="13.5" y="0" width="3" height="11" rx="0.5"/></svg>
+          <!-- wifi -->
+          <svg width="15" height="11" viewBox="0 0 15 11" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 4 a10 10 0 0 1 13 0"/><path d="M3.5 6.5 a6.5 6.5 0 0 1 8 0"/><circle cx="7.5" cy="9.5" r="1" fill="currentColor" stroke="none"/></svg>
+          <!-- battery -->
+          <svg width="25" height="11" viewBox="0 0 25 11" fill="none"><rect x="0.5" y="0.5" width="21" height="10" rx="2.5" stroke="currentColor" opacity="0.4"/><rect x="22" y="3.5" width="2" height="4" rx="1" fill="currentColor" opacity="0.4"/><rect x="2" y="2" width="18" height="7" rx="1.5" fill="currentColor"/></svg>
+        </div>
+      </div>
+
+      <!-- ====================== TODAY SCREEN ====================== -->
+      <div class="screen active" data-screen="today">
+        <!-- Header -->
+        <div class="app-header">
+          <svg class="brand-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="40" height="40" rx="8" fill="#16223e"/>
+            <path d="M6 26 V20 a3 3 0 0 1 6 0 V26 Z" fill="#ece4d2"/>
+            <path d="M14 26 V18 a3 3 0 0 1 6 0 V26 Z" fill="#ece4d2"/>
+            <path d="M22 26 V18 a3 3 0 0 1 6 0 V26 Z" fill="#e85e2d"/>
+            <path d="M30 26 V20 a3 3 0 0 1 6 0 V26 Z" fill="#ece4d2"/>
+            <rect x="5" y="26" width="32" height="2" fill="#ece4d2"/>
+            <rect x="5" y="30" width="32" height="1.4" fill="#ece4d2" opacity="0.55"/>
+          </svg>
+          <div class="title">
+            <div class="greet">Thursday, May 21</div>
+            <div class="name">Hi Mike</div>
+          </div>
+          <button class="icon-btn" aria-label="Notifications">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="dot"></span>
+          </button>
+          <div class="avatar">MK</div>
+        </div>
+
+        <!-- Scrollable content -->
+        <div class="content">
+          <!-- Hero -->
+          <div class="hero">
+            <h1>Good morning, Mike.</h1>
+            <p>Your AI team handled 23 things this morning. 3 need a 30-second look.</p>
+            <div class="hero-stats">
+              <div class="hero-stat"><div class="n">7</div><div class="l">Calls answered</div></div>
+              <div class="hero-stat"><div class="n">4</div><div class="l">Quotes drafted</div></div>
+              <div class="hero-stat"><div class="n">9</div><div class="l">Texts sent</div></div>
+              <div class="hero-stat"><div class="n">3</div><div class="l">Invoices paid</div></div>
+            </div>
+          </div>
+
+          <!-- Approvals -->
+          <div class="section">
+            <div class="section-head">
+              <div>
+                <div class="section-title">Needs your eyes</div>
+                <div class="section-sub" id="approvalCounter">1 of 3 · drafted by Roundhouse</div>
+              </div>
+              <button class="section-link">View all</button>
+            </div>
+            <div class="approval-stack">
+              <div class="approval-progress" id="approvalProgress">
+                <span class="done"></span><span></span><span></span>
+              </div>
+              <div class="approval-card" id="approvalCard">
+                <!-- populated by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Today's route -->
+          <div class="section">
+            <div class="section-head">
+              <div>
+                <div class="section-title">Today's route</div>
+                <div class="section-sub">4 stops · 20 mi · optimized</div>
+              </div>
+              <button class="section-link">Map</button>
+            </div>
+            <div class="card">
+              <div class="job">
+                <div>
+                  <div class="job-time">8:00</div>
+                  <div class="job-time-sub">1h 30m</div>
+                </div>
+                <div>
+                  <div class="job-title">Sanderson — fence repair</div>
+                  <div class="job-sub">412 Maple Ave</div>
+                </div>
+                <div><span class="job-status live">Live</span></div>
+              </div>
+              <div class="job">
+                <div>
+                  <div class="job-time">11:30</div>
+                  <div class="job-time-sub">45m</div>
+                </div>
+                <div>
+                  <div class="job-title">Nguyen — ceiling fan</div>
+                  <div class="job-sub">88 Pine St · 4 mi</div>
+                </div>
+                <div><span class="job-status upnext">Up next</span></div>
+              </div>
+              <div class="job">
+                <div>
+                  <div class="job-time">2:00</div>
+                  <div class="job-time-sub">2h 15m</div>
+                </div>
+                <div>
+                  <div class="job-title">Hendricks — bath tile</div>
+                  <div class="job-sub">217 Oak Dr · 3 mi</div>
+                </div>
+                <div><span class="job-status confirmed">Confirmed</span></div>
+              </div>
+              <div class="job">
+                <div>
+                  <div class="job-time">4:30</div>
+                  <div class="job-time-sub">Estimate</div>
+                </div>
+                <div>
+                  <div class="job-title">Ruiz — deck refinish walk</div>
+                  <div class="job-sub">1004 Elm · 7 mi</div>
+                </div>
+                <div><span class="job-status">Visit</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Money strip -->
+          <div class="section">
+            <div class="section-head">
+              <div>
+                <div class="section-title">This week</div>
+                <div class="section-sub">Money in, money pending</div>
+              </div>
+            </div>
+            <div class="money-strip">
+              <div class="money-tile">
+                <div class="money-label">Collected</div>
+                <div class="money-value">$4,820</div>
+                <div class="money-trend up">▲ 18% wk/wk</div>
+              </div>
+              <div class="money-tile">
+                <div class="money-label">Outstanding</div>
+                <div class="money-value">$2,160</div>
+                <div class="money-trend">3 invoices · chasing</div>
+              </div>
+              <div class="money-tile">
+                <div class="money-label">Days to paid</div>
+                <div class="money-value">4.2</div>
+                <div class="money-trend up">▼ from 11.4</div>
+              </div>
+              <div class="money-tile">
+                <div class="money-label">Booked next 7d</div>
+                <div class="money-value">$8,950</div>
+                <div class="money-trend">11 jobs</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity -->
+          <div class="section">
+            <div class="section-head">
+              <div>
+                <div class="section-title">Live activity</div>
+                <div class="section-sub">What your AI team did recently</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="feed-item">
+                <div class="feed-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                <div class="feed-text"><b>Answered missed call</b> from Maria Chen. Drafted faucet quote.<div class="feed-time">2 min ago</div></div>
+              </div>
+              <div class="feed-item">
+                <div class="feed-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                <div class="feed-text"><b>Sent ETA</b> to David Park — running 15 min late.<div class="feed-time">11 min ago</div></div>
+              </div>
+              <div class="feed-item">
+                <div class="feed-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <div class="feed-text"><b>Got a 5-star review</b> from Robert Kim. Posted to Google.<div class="feed-time">22 min ago</div></div>
+              </div>
+              <div class="feed-item">
+                <div class="feed-icon navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="22" height="5" rx="1"/><line x1="10" y1="12" x2="14" y2="12"/><path d="M20 8v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8"/></svg></div>
+                <div class="feed-text"><b>Categorized</b> $47.82 receipt to Hendricks job.<div class="feed-time">34 min ago</div></div>
+              </div>
+              <div class="feed-item">
+                <div class="feed-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                <div class="feed-text"><b>Invoice paid</b> — $620 from the Patels.<div class="feed-time">1h ago</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================== INBOX SCREEN ====================== -->
+      <div class="screen" data-screen="inbox">
+        <div class="inbox-header">
+          <div class="inbox-title-row">
+            <div class="inbox-title">Inbox</div>
+            <button class="icon-btn" aria-label="Search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </button>
+            <button class="icon-btn" aria-label="Compose">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18z"/><line x1="2" y1="2" x2="9" y2="9"/></svg>
+            </button>
+          </div>
+          <div class="filter-chips">
+            <button class="chip active">All <span class="ct">8</span></button>
+            <button class="chip">Drafts ready <span class="ct">3</span></button>
+            <button class="chip">Awaiting reply</button>
+            <button class="chip">New customers</button>
+          </div>
+        </div>
+        <div class="content">
+          <div class="conv" data-open="0">
+            <div class="avatar" style="background:#7c3aed">MC</div>
+            <div class="conv-body">
+              <div class="conv-row">
+                <div class="conv-name">Maria Chen</div>
+                <div class="conv-time">2m</div>
+              </div>
+              <div class="conv-preview">"Friday 11 works great. Do I need to do anything to prep?"</div>
+              <span class="conv-tag tag-draft">Draft ready</span>
+            </div>
+          </div>
+          <div class="conv">
+            <div class="avatar" style="background:#0891b2">DP</div>
+            <div class="conv-body">
+              <div class="conv-row">
+                <div class="conv-name">David Park</div>
+                <div class="conv-time">11m</div>
+              </div>
+              <div class="conv-preview">"Sounds good, see you soon."</div>
+              <span class="conv-tag tag-resolved">Resolved by AI</span>
+            </div>
+          </div>
+          <div class="conv">
+            <div class="avatar" style="background:#16a34a">RK</div>
+            <div class="conv-body">
+              <div class="conv-row">
+                <div class="conv-name">Robert Kim</div>
+                <div class="conv-time">22m</div>
+              </div>
+              <div class="conv-preview">"Mike was great. Left a 5-star review on Google."</div>
+              <span class="conv-tag tag-resolved">Resolved by AI</span>
+            </div>
+          </div>
+          <div class="conv">
+            <div class="avatar" style="background:var(--orange)">LT</div>
+            <div class="conv-body">
+              <div class="conv-row">
+                <div class="conv-name">Linda Torres</div>
+                <div class="conv-time">1h</div>
+              </div>
+              <div class="conv-preview">"One question — can you match the existing colonial baseboards?"</div>
+              <span class="conv-tag tag-draft">Draft ready</span>
+            </div>
+          </div>
+          <div class="conv">
+            <div class="avatar" style="background:#dc2626">MR</div>
+            <div class="conv-body">
+              <div class="conv-row">
+                <div class="conv-name">Mark Reilly</div>
+                <div class="conv-time">1h</div>
+              </div>
+              <div class="conv-preview">"My dishwasher started leaking. Lisa Chen referred me — can you come Saturday?"</div>
+              <span class="conv-tag tag-new">New customer</span>
+            </div>
+          </div>
+          <div class="conv">
+            <div class="avatar" style="background:#0d9488">SL</div>
+            <div class="conv-body">
+              <div class="conv-row">
+                <div class="conv-name">Sarah Liu</div>
+                <div class="conv-time">3h</div>
+              </div>
+              <div class="conv-preview">"Reminder sent for tomorrow 10am follow-up walk."</div>
+              <span class="conv-tag tag-waiting">Awaiting reply</span>
+            </div>
+          </div>
+          <div class="conv">
+            <div class="avatar" style="background:#b45309">TH</div>
+            <div class="conv-body">
+              <div class="conv-row">
+                <div class="conv-name">Tracy Hendricks</div>
+                <div class="conv-time">4h</div>
+              </div>
+              <div class="conv-preview">"Just confirming our 2pm. Door code is 4421."</div>
+              <span class="conv-tag tag-resolved">Resolved by AI</span>
+            </div>
+          </div>
+          <div class="conv">
+            <div class="avatar" style="background:#9333ea">JW</div>
+            <div class="conv-body">
+              <div class="conv-row">
+                <div class="conv-name">Jennifer Wu</div>
+                <div class="conv-time">6h</div>
+              </div>
+              <div class="conv-preview">"The shelves came out about a half inch lower than we discussed."</div>
+              <span class="conv-tag tag-draft">Draft ready</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================== CONVERSATION DETAIL ====================== -->
+      <div class="screen" data-screen="conv">
+        <div class="conv-detail-screen">
+          <div class="conv-bar">
+            <button class="back-btn" id="backBtn">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="avatar" style="background:#7c3aed">MC</div>
+            <div style="flex:1; min-width:0;">
+              <div class="name">Maria Chen</div>
+              <div class="meta">First time · Referred by Lisa Patel</div>
+            </div>
+            <button class="icon-btn" aria-label="Call">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </button>
+          </div>
+
+          <div class="thread">
+            <div class="msg them">Hi! Got your number from Lisa down the street. My kitchen faucet has been dripping for weeks and now it won't shut off all the way.</div>
+            <div class="msg-meta">Maria · 9:42 AM</div>
+
+            <div class="msg you">Hi Maria — sorry to hear that. Could you snap a quick photo from under the sink so I can see the connections?</div>
+            <div class="msg-meta">Roundhouse (AI) · 9:43 AM</div>
+
+            <div class="msg them">Here you go. 📷</div>
+            <div class="msg-meta">Maria · 9:51 AM</div>
+
+            <div class="msg you">Thanks! Looks like a Moen single-handle. Cartridge is a common wear item — usually a 30-min fix. $185 out-the-door. Friday 11 AM or Monday 8 AM?</div>
+            <div class="msg-meta">Roundhouse (AI) · 9:52 AM</div>
+
+            <div class="msg them">Friday 11 works great. Do I need to do anything to prep?</div>
+            <div class="msg-meta">Maria · 9:58 AM</div>
+          </div>
+
+          <div class="ai-sheet">
+            <div class="ai-sheet-head">
+              <div class="ai-sheet-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+                Drafted by Roundhouse
+              </div>
+              <button class="ai-sheet-toggle">Expand ↑</button>
+            </div>
+            <div class="draft-text">Nope, you're all set — just clear out the area under the sink so I have room to work. I'll bring the cartridge and tools, and I'll text when I'm 15 min out. See you Friday at 11!
+
+— Mike</div>
+            <div class="ai-sheet-actions">
+              <button class="btn btn-primary" style="grid-column: span 2;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Send
+              </button>
+              <button class="btn btn-row-2">Edit</button>
+              <button class="btn btn-row-2">Regenerate</button>
+            </div>
+            <div class="ai-followups">
+              <b>Next, Roundhouse will:</b>
+              <ul>
+                <li>Add Maria as a customer (tagged "referred by Lisa")</li>
+                <li>Book Friday 11 AM · add Moen cartridge to van</li>
+                <li>Send "on the way" text Friday at 10:40 AM</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================== PLACEHOLDER SCREENS ====================== -->
+      <div class="screen" data-screen="jobs">
+        <div class="app-header">
+          <div class="title"><div class="name" style="font-size:22px">Jobs</div></div>
+          <button class="icon-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+        </div>
+        <div class="content">
+          <div class="placeholder">
+            <h3>Your jobs board</h3>
+            <p>Today, this week, and beyond. Drag to reschedule — affected customers get a text automatically.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="money">
+        <div class="app-header">
+          <div class="title"><div class="name" style="font-size:22px">Money</div></div>
+        </div>
+        <div class="content">
+          <div class="placeholder">
+            <h3>Invoices, payments, P&amp;L</h3>
+            <p>Categorized by Roundhouse, ready for your accountant. Real-time bank feed.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="more">
+        <div class="app-header">
+          <div class="title"><div class="name" style="font-size:22px">More</div></div>
+        </div>
+        <div class="content">
+          <div class="placeholder">
+            <h3>Customers · AI agents · Rules · Settings</h3>
+            <p>Tune what Roundhouse can do on its own and what needs your sign-off.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================== BOTTOM TAB BAR ====================== -->
+      <nav class="tabbar">
+        <button class="tab active" data-tab="today">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/></svg>
+          Today
+        </button>
+        <button class="tab" data-tab="inbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+          Inbox
+          <span class="tab-badge">4</span>
+        </button>
+        <button class="tab" data-tab="jobs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Jobs
+        </button>
+        <button class="tab" data-tab="money">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Money
+        </button>
+        <button class="tab" data-tab="more">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+          More
+        </button>
+      </nav>
+
+    </div>
+  </div>
+  <div class="caption">
+    <span class="accent">Roundhouse — mobile prototype.</span> Tap the tabs, swipe through approvals, open a conversation to see the AI draft sheet.
+  </div>
+</div>
+
+<script>
+  // ===== Approvals carousel =====
+  const approvals = [
+    {
+      initials: "LT", avatarColor: "var(--navy)",
+      name: "Linda Torres",
+      meta: "Quote reply · 217 Maple Ave",
+      summary: "Asking about timeline & whether you can match her colonial baseboards.",
+      draftLabel: "Drafted reply",
+      draft: "Hi Linda — yes, I can start the week of June 2. I'll pick up matching 1×4 colonial baseboard and stain to match. Quote stands at $1,240. Want me to lock you in?",
+      primary: "Approve & send",
+      secondary: "Edit"
+    },
+    {
+      initials: "MR", avatarColor: "#dc2626",
+      name: "Mark Reilly",
+      meta: "New customer · wants Saturday",
+      summary: "Leaking dishwasher. Calendar is half-booked Saturday.",
+      draftLabel: "Proposed booking",
+      draft: "Saturday 10:30 AM · $145 trip + diagnostic. Roundhouse already ID'd the model from his photo — likely a worn door gasket ($28 part at Ferguson).",
+      primary: "Book it",
+      secondary: "Suggest a different time"
+    },
+    {
+      initials: "JW", avatarColor: "#9333ea",
+      name: "Jennifer Wu",
+      meta: "Refund request · $85",
+      summary: "Says shelves came out 1/2\" lower than agreed. You signed off on the spec.",
+      draftLabel: "Suggested",
+      draft: "Offer to come back and re-mount free — saves the relationship and the 5-star review. ~45 min, $0 in parts. Cheaper than the refund risk.",
+      primary: "Offer re-mount",
+      secondary: "Refund $85"
+    }
+  ];
+
+  let approvalIdx = 0;
+  const card = document.getElementById('approvalCard');
+  const counter = document.getElementById('approvalCounter');
+  const progress = document.getElementById('approvalProgress');
+
+  function renderApproval() {
+    if (approvalIdx >= approvals.length) {
+      card.innerHTML = `
+        <div style="text-align:center; padding: 24px 8px;">
+          <div style="width:48px;height:48px;border-radius:50%;background:var(--success-soft);color:var(--success);display:grid;place-items:center;margin:0 auto 10px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div style="font-weight:600;color:var(--text);font-size:15px;">All clear.</div>
+          <div style="font-size:13px;color:var(--text-2);margin-top:4px;">Roundhouse will keep working in the background.</div>
+        </div>`;
+      counter.textContent = "0 of 3 · all caught up";
+      progress.innerHTML = '<span class="done"></span><span class="done"></span><span class="done"></span>';
+      return;
+    }
+    const a = approvals[approvalIdx];
+    card.classList.remove('fade-out');
+    card.innerHTML = `
+      <div class="approval-row">
+        <div class="avatar" style="background:${a.avatarColor};width:42px;height:42px;font-size:14px;">${a.initials}</div>
+        <div>
+          <div class="approval-name">${a.name}</div>
+          <div class="approval-meta">${a.meta}</div>
+        </div>
+      </div>
+      <div class="approval-summary">${a.summary}</div>
+      <div class="ai-draft">
+        <div class="ai-draft-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+          ${a.draftLabel}
+        </div>
+        ${a.draft}
+      </div>
+      <div class="approval-actions">
+        <button class="btn btn-primary" id="approveBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          ${a.primary}
+        </button>
+        <button class="btn btn-row-2" id="editBtn">${a.secondary}</button>
+        <button class="btn btn-row-2" id="skipBtn">Skip</button>
+      </div>
+    `;
+    counter.textContent = `${approvalIdx + 1} of ${approvals.length} · drafted by Roundhouse`;
+    progress.innerHTML = approvals.map((_, i) => i <= approvalIdx ? '<span class="done"></span>' : '<span></span>').join('');
+
+    document.getElementById('approveBtn').addEventListener('click', advance);
+    document.getElementById('skipBtn').addEventListener('click', advance);
+  }
+  function advance() {
+    card.classList.add('fade-out');
+    setTimeout(() => {
+      approvalIdx++;
+      renderApproval();
+    }, 220);
+  }
+  renderApproval();
+
+  // ===== Bottom tab switching =====
+  const tabToScreen = { today:'today', inbox:'inbox', jobs:'jobs', money:'money', more:'more' };
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const t = tab.dataset.tab;
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      tab.classList.add('active');
+      showScreen(tabToScreen[t]);
+    });
+  });
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.dataset.screen === name));
+  }
+
+  // ===== Inbox → Conversation detail =====
+  document.querySelectorAll('.conv').forEach(c => {
+    c.addEventListener('click', () => showScreen('conv'));
+  });
+  document.getElementById('backBtn').addEventListener('click', () => showScreen('inbox'));
+
+  // ===== Filter chips =====
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
