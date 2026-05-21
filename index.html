@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -754,7 +754,225 @@
   .timeline-time { font-size: 11px; color: var(--text-3); margin-top: 2px; }
 
   /* ===================================================
-     INTAKE
+     INTAKE — expanded agent configuration
+     =================================================== */
+  .intake-intro { margin-bottom: 28px; }
+  .intake-intro h2 { margin: 0 0 6px; font-size: 22px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+  .intake-intro p  { margin: 0; color: var(--text-2); font-size: 14px; max-width: 640px; line-height: 1.55; }
+
+  .intake-section { margin-bottom: 36px; scroll-margin-top: 80px; }
+  .intake-section-h {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 12px; padding: 0 2px;
+  }
+  .intake-section-h h3 { margin: 0; font-size: 16px; font-weight: 600; color: var(--text); }
+  .intake-section-h .sub { font-size: 13px; color: var(--text-2); flex: 1; }
+  .intake-section-h .add-btn { margin-left: auto; }
+
+  /* Intake table-of-contents rail */
+  .intake-toc {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 28px;
+  }
+  .intake-toc a {
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--text-2);
+    font-size: 12.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all .15s ease;
+  }
+  .intake-toc a:hover { background: var(--cream-2); color: var(--orange-2); }
+
+  /* Scenario card */
+  .scenario-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .scenario-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .scenario-name { font-weight: 600; font-size: 15px; color: var(--text); }
+  .scenario-trigger {
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-radius: 8px;
+    font-size: 12.5px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+  .scenario-trigger b { color: var(--text); font-weight: 600; margin-right: 4px; }
+  .kbd {
+    background: var(--surface);
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 11.5px;
+    color: var(--orange-2);
+    border: 1px solid var(--border);
+    margin: 0 2px;
+    display: inline-block;
+    font-weight: 500;
+  }
+  .scenario-block-label {
+    font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-2); margin: 6px 0 6px;
+  }
+  .scenario-q {
+    display: flex;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--text);
+    align-items: center;
+  }
+  .scenario-q .qn {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--cream-2); color: var(--orange-2);
+    font-size: 10px; font-weight: 700;
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .scenario-after {
+    margin-top: 8px;
+    padding: 10px 12px;
+    background: var(--cream-2);
+    border-left: 3px solid var(--orange);
+    border-radius: 6px;
+    font-size: 12.5px;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .scenario-after b { font-weight: 600; }
+  .scenario-foot { display: flex; gap: 8px; padding-top: 12px; margin-top: 12px; border-top: 1px solid var(--border); }
+
+  /* FAQ */
+  .faq-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px 14px 14px;
+    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: 26px 1fr auto;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .faq-q-icon {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: var(--cream-2); color: var(--orange-2);
+    display: grid; place-items: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .faq-q { font-weight: 600; color: var(--text); font-size: 14px; }
+  .faq-a { font-size: 13.5px; color: var(--text-2); line-height: 1.55; margin-top: 4px; }
+  .faq-edit { color: var(--text-3); padding: 4px 8px; border: 0; background: transparent; cursor: pointer; border-radius: 6px; font-size: 12px; }
+  .faq-edit:hover { color: var(--text); background: var(--bg); }
+
+  .faq-tester {
+    background: var(--navy);
+    color: var(--cream);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-top: 14px;
+  }
+  .faq-tester-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: rgba(236,228,210,0.7);
+    margin-bottom: 8px;
+  }
+  .faq-tester-input {
+    display: flex; gap: 8px;
+  }
+  .faq-tester input {
+    flex: 1;
+    background: rgba(236,228,210,0.06);
+    border: 1px solid rgba(236,228,210,0.14);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--cream);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+  }
+  .faq-tester input::placeholder { color: rgba(236,228,210,0.45); }
+  .faq-tester input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(232,94,45,0.2); }
+  .faq-tester button {
+    background: var(--orange); color: #fff; border: 0;
+    padding: 10px 16px; border-radius: 8px;
+    font-weight: 600; font-size: 13px; cursor: pointer;
+  }
+  .faq-tester button:hover { background: var(--orange-2); }
+
+  /* Blocked number row */
+  .blocked-num {
+    display: grid;
+    grid-template-columns: 24px 130px 1fr auto;
+    gap: 12px; align-items: center;
+    padding: 9px 12px;
+    border-radius: 8px;
+    background: var(--bg);
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .blocked-num .ph { color: var(--text); font-weight: 500; font-family: 'Oswald', sans-serif; letter-spacing: 0.02em; }
+  .blocked-num .why { color: var(--text-2); font-size: 12px; }
+  .blocked-num .x { color: var(--text-3); background: transparent; border: 0; padding: 4px; cursor: pointer; border-radius: 4px; }
+  .blocked-num .x:hover { color: var(--orange-2); background: var(--orange-soft); }
+
+  /* Transfer rule row */
+  .transfer-rule {
+    padding: 14px 16px;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 14px;
+    align-items: center;
+  }
+  .transfer-rule:first-of-type { border-top: 0; padding-top: 4px; }
+  .transfer-rule .ic {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--cream-2);
+    color: var(--orange-2);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .transfer-rule .ic svg { width: 15px; height: 15px; }
+  .transfer-rule .nm { font-weight: 500; font-size: 14px; color: var(--text); }
+  .transfer-rule .ds { font-size: 12px; color: var(--text-2); margin-top: 1px; }
+
+  /* Voice settings micro-controls */
+  .voice-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 12px;
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+    align-items: center;
+    font-size: 13.5px;
+  }
+  .voice-row:first-of-type { border-top: 0; padding-top: 2px; }
+  .voice-row .vl { color: var(--text-2); }
+  .voice-row .vv { display: flex; gap: 6px; flex-wrap: wrap; }
+  .voice-opt {
+    padding: 5px 11px; border: 1px solid var(--border);
+    border-radius: 999px; background: var(--surface);
+    font-size: 12px; color: var(--text-2); cursor: pointer;
+  }
+  .voice-opt:hover { color: var(--text); }
+  .voice-opt.selected { background: var(--cream-2); border-color: var(--orange); color: var(--orange-2); font-weight: 600; }
+
+  /* ===================================================
+     INTAKE (legacy classes — kept for fallback)
      =================================================== */
   .config-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .config-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--border); font-size: 13.5px; }
@@ -1809,78 +2027,478 @@
       </div>
 
       <div class="subview" data-subview="intake" hidden>
-      <div class="grid-2">
-        <!-- Service hours -->
-        <div class="card">
-          <div class="card-head">
+        <!-- Intro -->
+        <div class="intake-intro">
+          <h2>How Chuck handles calls</h2>
+          <p>Configure what Chuck says when he picks up, what he asks each kind of caller, what he can answer on his own, and when he should escalate to you.</p>
+        </div>
+
+        <!-- TOC pill row -->
+        <div class="intake-toc">
+          <a href="#sec-greeting">Greeting & voice</a>
+          <a href="#sec-hours">Service hours</a>
+          <a href="#sec-phone">Phone setup</a>
+          <a href="#sec-scenarios">Scenarios</a>
+          <a href="#sec-faqs">FAQs</a>
+          <a href="#sec-spam">Spam filters</a>
+          <a href="#sec-transfer">Transfer to me</a>
+          <a href="#sec-qual">Qualification rules</a>
+        </div>
+
+        <!-- ===== 1. Greeting & voice ===== -->
+        <div class="intake-section" id="sec-greeting">
+          <div class="intake-section-h">
+            <h3>Greeting & voice</h3>
+            <div class="sub">What Chuck sounds like and what he says when he picks up.</div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-head">
+                <div><div class="card-title">Voice</div><div class="card-sub">How Chuck sounds on the line</div></div>
+                <button class="card-action">Hear sample</button>
+              </div>
+              <div class="card-body">
+                <div class="voice-row">
+                  <div class="vl">Voice</div>
+                  <div class="vv">
+                    <button class="voice-opt selected">Chuck (warm, Texas)</button>
+                    <button class="voice-opt">Chuck (neutral)</button>
+                    <button class="voice-opt">Custom upload</button>
+                  </div>
+                </div>
+                <div class="voice-row">
+                  <div class="vl">Talking speed</div>
+                  <div class="vv">
+                    <button class="voice-opt">Slow</button>
+                    <button class="voice-opt selected">Average</button>
+                    <button class="voice-opt">Fast</button>
+                  </div>
+                </div>
+                <div class="voice-row">
+                  <div class="vl">Background</div>
+                  <div class="vv">
+                    <button class="voice-opt">Silent</button>
+                    <button class="voice-opt selected">Light shop noise</button>
+                    <button class="voice-opt">Truck cab</button>
+                  </div>
+                </div>
+                <div class="voice-row">
+                  <div class="vl">Caller ID name</div>
+                  <div class="vv" style="font-weight:500;color:var(--text);">Kowalski Handyman</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-head">
+                <div><div class="card-title">Phone greeting</div><div class="card-sub">First line Chuck says when he picks up</div></div>
+                <button class="card-action">Edit</button>
+              </div>
+              <div class="card-body">
+                <div style="background:var(--bg); border-radius:8px; padding:12px 14px; font-size:13.5px; color:var(--text); line-height:1.55; font-style:italic;">
+                  "Hey, thanks for calling Kowalski Handyman — this is Chuck, Mike's assistant. Mike's out on a job right now but I can help you get on the books, get a quote started, or take a detailed message. Who am I speaking with?"
+                </div>
+                <div style="margin-top:10px; font-size:12px; color:var(--text-3);">Legal disclaimer included · "this call may be recorded"</div>
+
+                <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+                  <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                    <div style="font-weight:600; font-size:13.5px; color:var(--text);">Alternate greeting</div>
+                    <span class="pill pill-orange dot">Off</span>
+                    <div class="toggle" style="margin-left:auto;"></div>
+                  </div>
+                  <div style="font-size:12.5px; color:var(--text-2);">Use a different greeting for after-hours, holidays, or when you're on vacation. Flip this on Friday before you leave and Chuck handles the rest.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 2. Service hours ===== -->
+        <div class="intake-section" id="sec-hours">
+          <div class="intake-section-h">
+            <h3>Service hours</h3>
+            <div class="sub">When you're working — and when Chuck takes over the line.</div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="config-row"><div class="label">Monday — Friday</div><div class="value">7:00 AM — 5:00 PM</div><div class="toggle on"></div></div>
+              <div class="config-row"><div class="label">Saturday</div><div class="value">8:00 AM — 12:00 PM</div><div class="toggle on"></div></div>
+              <div class="config-row"><div class="label">Sunday</div><div class="value">Closed</div><div class="toggle"></div></div>
+              <div class="config-row"><div class="label">Emergency after-hours</div><div class="value">2× rate, transferred to me</div><div class="toggle on"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 3. Phone setup ===== -->
+        <div class="intake-section" id="sec-phone">
+          <div class="intake-section-h">
+            <h3>Phone setup</h3>
+            <div class="sub">When Chuck answers vs. when your phone rings.</div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="radio-list">
+                <div class="radio-row"><div class="radio-dot"></div> Chuck always answers first</div>
+                <div class="radio-row selected"><div class="radio-dot"></div> Chuck answers missed calls only (recommended for solo shops)</div>
+                <div class="radio-row"><div class="radio-dot"></div> Chuck answers after hours only</div>
+                <div class="radio-row"><div class="radio-dot"></div> Forward to me — Chuck takes voicemail</div>
+              </div>
+              <div class="config-row" style="margin-top: 10px;"><div class="label">Forward emergencies straight to me (overrides above)</div><div></div><div class="toggle on"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 4. Scenarios ===== -->
+        <div class="intake-section" id="sec-scenarios">
+          <div class="intake-section-h">
+            <h3>Scenarios</h3>
+            <div class="sub">Chuck matches each caller to a scenario and asks the right questions.</div>
+            <button class="btn btn-sm add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add scenario</button>
+          </div>
+
+          <!-- Scenario 1: Estimate request -->
+          <div class="scenario-card">
+            <div class="scenario-head">
+              <span class="pill pill-orange">Default</span>
+              <div class="scenario-name">Estimate request</div>
+              <div class="toggle on" style="margin-left:auto;"></div>
+            </div>
+            <div class="scenario-trigger">
+              <b>Triggers when caller mentions</b>
+              <span class="kbd">estimate</span><span class="kbd">quote</span><span class="kbd">price</span><span class="kbd">how much</span><span class="kbd">can you do</span><span class="kbd">do you do</span>
+            </div>
+            <div class="scenario-block-label">Questions Chuck asks (in order)</div>
             <div>
-              <div class="card-title">Service hours</div>
-              <div class="card-sub">When you're working — and when Chuck takes over</div>
+              <div class="scenario-q"><div class="qn">1</div> What type of project do you need help with?</div>
+              <div class="scenario-q"><div class="qn">2</div> What's the service address?</div>
+              <div class="scenario-q"><div class="qn">3</div> Timing — sooner the better, or a specific date?</div>
+              <div class="scenario-q"><div class="qn">4</div> Residential or commercial?</div>
+              <div class="scenario-q"><div class="qn">5</div> Best way to reach you — call or text?</div>
+              <div class="scenario-q"><div class="qn">6</div> How did you hear about us?</div>
+            </div>
+            <div class="scenario-after">
+              <b>Then Chuck:</b> texts a link to upload photos, drafts a quote against the price book, books a walk-through if needed, and queues the draft for your approval before sending.
+            </div>
+            <div class="scenario-foot">
+              <button class="btn btn-sm">Edit</button>
+              <button class="btn btn-sm">Duplicate</button>
+              <button class="btn btn-sm btn-ghost">View test calls</button>
             </div>
           </div>
-          <div class="card-body">
-            <div class="config-row"><div class="label">Monday — Friday</div><div class="value">7:00 AM — 5:00 PM</div><div class="toggle on"></div></div>
-            <div class="config-row"><div class="label">Saturday</div><div class="value">8:00 AM — 12:00 PM</div><div class="toggle on"></div></div>
-            <div class="config-row"><div class="label">Sunday</div><div class="value">Closed</div><div class="toggle"></div></div>
-            <div class="config-row"><div class="label">Emergency after-hours</div><div class="value">2x rate</div><div class="toggle on"></div></div>
-          </div>
-        </div>
 
-        <!-- Phone setup -->
-        <div class="card">
-          <div class="card-head">
+          <!-- Scenario 2: Emergency -->
+          <div class="scenario-card">
+            <div class="scenario-head">
+              <span class="pill pill-orange dot">High priority</span>
+              <div class="scenario-name">Emergency / urgent</div>
+              <div class="toggle on" style="margin-left:auto;"></div>
+            </div>
+            <div class="scenario-trigger">
+              <b>Triggers when caller mentions</b>
+              <span class="kbd">leak</span><span class="kbd">flooding</span><span class="kbd">no heat</span><span class="kbd">no power</span><span class="kbd">broken pipe</span><span class="kbd">ASAP</span><span class="kbd">today</span><span class="kbd">emergency</span>
+            </div>
+            <div class="scenario-block-label">Questions Chuck asks (kept short)</div>
             <div>
-              <div class="card-title">Phone setup</div>
-              <div class="card-sub">How Chuck handles inbound calls</div>
+              <div class="scenario-q"><div class="qn">1</div> What's happening right now — water, gas, electrical?</div>
+              <div class="scenario-q"><div class="qn">2</div> Service address?</div>
+              <div class="scenario-q"><div class="qn">3</div> Is it safe to wait, or do you need someone right now?</div>
+            </div>
+            <div class="scenario-after">
+              <b>Then Chuck:</b> tries to transfer to your cell on the 2nd ring. If you don't pick up, he schedules a same-day slot at the after-hours rate and texts you the details.
+            </div>
+            <div class="scenario-foot">
+              <button class="btn btn-sm">Edit</button>
+              <button class="btn btn-sm">Duplicate</button>
             </div>
           </div>
-          <div class="card-body">
-            <div class="radio-list">
-              <div class="radio-row"><div class="radio-dot"></div> Chuck always answers first</div>
-              <div class="radio-row selected"><div class="radio-dot"></div> Chuck answers missed calls only</div>
-              <div class="radio-row"><div class="radio-dot"></div> Chuck answers after hours only</div>
-              <div class="radio-row"><div class="radio-dot"></div> Forward to me, Chuck takes voicemail</div>
+
+          <!-- Scenario 3: Existing job question -->
+          <div class="scenario-card">
+            <div class="scenario-head">
+              <span class="pill pill-indigo">Smart match</span>
+              <div class="scenario-name">Existing job question</div>
+              <div class="toggle on" style="margin-left:auto;"></div>
             </div>
-            <div class="config-row" style="margin-top: 8px;"><div class="label">Forward emergencies straight to me</div><div></div><div class="toggle on"></div></div>
+            <div class="scenario-trigger">
+              <b>Triggers when</b> caller's number matches a customer with an active or recently completed job
+            </div>
+            <div class="scenario-block-label">Questions Chuck asks</div>
+            <div>
+              <div class="scenario-q"><div class="qn">1</div> Which job is this about? (Chuck reads the address aloud to confirm.)</div>
+              <div class="scenario-q"><div class="qn">2</div> What's the question?</div>
+            </div>
+            <div class="scenario-after">
+              <b>Then Chuck:</b> pulls the job record and answers if he can (parking, door codes, ETA, what's in the van today). If not, he texts the question to you with full job context.
+            </div>
+            <div class="scenario-foot">
+              <button class="btn btn-sm">Edit</button>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Intake questions -->
-      <div class="card" style="margin-top: 20px;">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Intake questions</div>
-            <div class="card-sub">What Chuck asks every new customer. Drag to reorder.</div>
+          <!-- Scenario 4: Repeat customer -->
+          <div class="scenario-card">
+            <div class="scenario-head">
+              <span class="pill pill-green">VIP path</span>
+              <div class="scenario-name">Repeat customer, new work</div>
+              <div class="toggle on" style="margin-left:auto;"></div>
+            </div>
+            <div class="scenario-trigger">
+              <b>Triggers when</b> caller is a known customer (LTV &gt; $0) inquiring about new work
+            </div>
+            <div class="scenario-block-label">Questions Chuck asks (shortened — skips intro)</div>
+            <div>
+              <div class="scenario-q"><div class="qn">1</div> What can we help you with this time?</div>
+              <div class="scenario-q"><div class="qn">2</div> Same address as last time, or somewhere new?</div>
+              <div class="scenario-q"><div class="qn">3</div> Timing?</div>
+            </div>
+            <div class="scenario-after">
+              <b>Then Chuck:</b> drafts a quote with a 10% loyalty discount auto-applied, prioritizes them on your calendar, and skips the photo-upload step if he already has reference photos from prior jobs.
+            </div>
+            <div class="scenario-foot">
+              <button class="btn btn-sm">Edit</button>
+              <button class="btn btn-sm">Change loyalty rule</button>
+            </div>
           </div>
-          <button class="btn btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add question</button>
-        </div>
-        <div class="card-body">
-          <div class="intake-q"><div class="num">1</div><div class="q">What type of project do you need help with?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
-          <div class="intake-q"><div class="num">2</div><div class="q">Service address?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
-          <div class="intake-q"><div class="num">3</div><div class="q">What's your timeline?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
-          <div class="intake-q"><div class="num">4</div><div class="q">Residential or commercial?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
-          <div class="intake-q"><div class="num">5</div><div class="q">What's your budget range?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
-          <div class="intake-q"><div class="num">6</div><div class="q">How did you hear about us?</div><svg class="grip" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div>
-        </div>
-      </div>
 
-      <!-- Qualification rules -->
-      <div class="card" style="margin-top: 20px;">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Qualification rules</div>
-            <div class="card-sub">Chuck will politely decline jobs that don't fit</div>
+          <!-- Scenario 5: Commercial -->
+          <div class="scenario-card">
+            <div class="scenario-head">
+              <span class="pill pill-navy">B2B</span>
+              <div class="scenario-name">Commercial inquiry</div>
+              <div class="toggle on" style="margin-left:auto;"></div>
+            </div>
+            <div class="scenario-trigger">
+              <b>Triggers when caller mentions</b>
+              <span class="kbd">LLC</span><span class="kbd">property management</span><span class="kbd">multi-unit</span><span class="kbd">building</span><span class="kbd">commercial</span><span class="kbd">office</span><span class="kbd">tenant</span>
+            </div>
+            <div class="scenario-block-label">Questions Chuck asks</div>
+            <div>
+              <div class="scenario-q"><div class="qn">1</div> Company name and your role?</div>
+              <div class="scenario-q"><div class="qn">2</div> What's the scope — single job or recurring punch list?</div>
+              <div class="scenario-q"><div class="qn">3</div> Property address (and unit count if multi-unit)?</div>
+              <div class="scenario-q"><div class="qn">4</div> Who handles billing — same person or AP?</div>
+              <div class="scenario-q"><div class="qn">5</div> Do you need a current COI on file?</div>
+            </div>
+            <div class="scenario-after">
+              <b>Then Chuck:</b> texts your COI and W-9 immediately, transfers to you within business hours, and books a walk-through with the property manager.
+            </div>
+            <div class="scenario-foot">
+              <button class="btn btn-sm">Edit</button>
+            </div>
+          </div>
+
+          <!-- Default fallback -->
+          <div class="scenario-card" style="border-style: dashed; background: var(--bg);">
+            <div class="scenario-head">
+              <span class="pill">Fallback</span>
+              <div class="scenario-name">No scenario matched</div>
+            </div>
+            <div class="scenario-after" style="background:var(--surface); border-left-color:var(--text-3);">
+              <b>Chuck takes a basic message</b> — caller name, number, and reason for calling — then texts it to you. Used when no other scenario fits.
+            </div>
           </div>
         </div>
-        <div class="card-body">
-          <div class="config-row"><div class="label">Minimum project size</div><div class="value">$150</div><div class="toggle on"></div></div>
-          <div class="config-row"><div class="label">Service area — within 15 miles of 94110</div><div></div><div class="toggle on"></div></div>
-          <div class="config-row"><div class="label">Residential only</div><div></div><div class="toggle"></div></div>
-          <div class="config-row"><div class="label">Skip emergency electrical (refer out)</div><div></div><div class="toggle on"></div></div>
-          <div class="config-row"><div class="label">Repeat customers get priority booking</div><div></div><div class="toggle on"></div></div>
+
+        <!-- ===== 5. FAQs ===== -->
+        <div class="intake-section" id="sec-faqs">
+          <div class="intake-section-h">
+            <h3>FAQs</h3>
+            <div class="sub">Questions Chuck can answer without taking a message. 6 of 20 used.</div>
+            <button class="btn btn-sm add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add FAQ</button>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q-icon">Q</div>
+            <div>
+              <div class="faq-q">Are you licensed and insured?</div>
+              <div class="faq-a">Yes — we carry $2M general liability and workers' comp. California contractor's license #948213. Happy to text the COI if your property manager needs it.</div>
+            </div>
+            <button class="faq-edit">Edit</button>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q-icon">Q</div>
+            <div>
+              <div class="faq-q">What's your service area?</div>
+              <div class="faq-a">We work within 15 miles of San Francisco — 94110, 94114, 94117, 94131, plus most of Daly City and San Mateo. If you're outside that radius we can refer a great handyman closer to you.</div>
+            </div>
+            <button class="faq-edit">Edit</button>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q-icon">Q</div>
+            <div>
+              <div class="faq-q">Do you do electrical work?</div>
+              <div class="faq-a">Light electrical only — outlets, switches, fixtures, ceiling fans, basic troubleshooting. For panel upgrades or rewiring we'll refer you to a licensed electrician we trust.</div>
+            </div>
+            <button class="faq-edit">Edit</button>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q-icon">Q</div>
+            <div>
+              <div class="faq-q">Do you offer free estimates?</div>
+              <div class="faq-a">For jobs we expect to be over $400, yes — free on-site walk-through. For smaller repairs we can quote right over text once you send us a photo.</div>
+            </div>
+            <button class="faq-edit">Edit</button>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q-icon">Q</div>
+            <div>
+              <div class="faq-q">How do you take payment?</div>
+              <div class="faq-a">Card, Zelle, or check. We send an invoice with a "pay now" link as soon as the job is wrapped up. No deposit required under $1,000.</div>
+            </div>
+            <button class="faq-edit">Edit</button>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q-icon">Q</div>
+            <div>
+              <div class="faq-q">Do you do emergency calls?</div>
+              <div class="faq-a">After-hours emergencies — flooding, no heat in winter, no power — yes, at 2× our normal rate. Mike answers his cell directly for those, day or night.</div>
+            </div>
+            <button class="faq-edit">Edit</button>
+          </div>
+
+          <!-- FAQ tester -->
+          <div class="faq-tester">
+            <div class="faq-tester-label">Test Chuck's knowledge</div>
+            <div class="faq-tester-input">
+              <input id="faqTestInput" placeholder="Ask Chuck something a customer might ask…">
+              <button id="faqTestBtn">Ask</button>
+            </div>
+            <div id="faqTestAnswer" style="display:none; margin-top:12px; padding:12px 14px; background:rgba(236,228,210,0.08); border-radius:8px; font-size:13.5px; line-height:1.5;"></div>
+          </div>
         </div>
-      </div>
+
+        <!-- ===== 6. Spam filters ===== -->
+        <div class="intake-section" id="sec-spam">
+          <div class="intake-section-h">
+            <h3>Spam filters</h3>
+            <div class="sub">Calls Chuck blocks before they ever reach your phone.</div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-head">
+                <div><div class="card-title">Auto-detection</div><div class="card-sub">Roundhouse blocked 47 spam calls this month</div></div>
+              </div>
+              <div class="card-body">
+                <div class="config-row"><div class="label">Block 1-800 / toll-free numbers</div><div></div><div class="toggle on"></div></div>
+                <div class="config-row"><div class="label">Detect sales pitches and hang up</div><div></div><div class="toggle on"></div></div>
+                <div class="config-row"><div class="label">Block calls from outside the U.S.</div><div></div><div class="toggle on"></div></div>
+                <div class="config-row"><div class="label">Auto-warranty / robocall fingerprints</div><div></div><div class="toggle on"></div></div>
+                <div class="config-row"><div class="label">Silent calls (no audio in first 5 sec)</div><div></div><div class="toggle on"></div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-head">
+                <div><div class="card-title">Manually blocked</div><div class="card-sub">Numbers you've blocked yourself</div></div>
+                <button class="btn btn-sm">Add number</button>
+              </div>
+              <div class="card-body">
+                <div class="blocked-num">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                  <div class="ph">+1 (800) 555-0142</div>
+                  <div class="why">Auto-warranty robocall · 3 attempts</div>
+                  <button class="x" aria-label="Unblock">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </div>
+                <div class="blocked-num">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                  <div class="ph">+1 (415) 555-0099</div>
+                  <div class="why">"Marketing services" sales call</div>
+                  <button class="x" aria-label="Unblock">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </div>
+                <div class="blocked-num">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                  <div class="ph">+1 (212) 555-7401</div>
+                  <div class="why">SEO/Google ranking sales</div>
+                  <button class="x" aria-label="Unblock">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 7. Transfer rules ===== -->
+        <div class="intake-section" id="sec-transfer">
+          <div class="intake-section-h">
+            <h3>Transfer to me</h3>
+            <div class="sub">When Chuck should ring your cell instead of taking a message.</div>
+            <button class="btn btn-sm add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add rule</button>
+          </div>
+          <div class="card">
+            <div class="card-body" style="padding-bottom:8px;">
+              <div class="transfer-rule">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                <div>
+                  <div class="nm">Emergency keywords detected</div>
+                  <div class="ds">"flooding," "no heat," "no power," "leak," "broken pipe," "ASAP" — Chuck rings you on the 2nd ring</div>
+                </div>
+                <div class="toggle on"></div>
+              </div>
+              <div class="transfer-rule">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <div>
+                  <div class="nm">VIP-tagged customers</div>
+                  <div class="ds">Anyone with a "VIP" tag on their customer record — currently 12 customers</div>
+                </div>
+                <div class="toggle on"></div>
+              </div>
+              <div class="transfer-rule">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                <div>
+                  <div class="nm">Lifetime value over $5,000</div>
+                  <div class="ds">Repeat customers worth more than $5,000 in lifetime revenue — 18 customers</div>
+                </div>
+                <div class="toggle on"></div>
+              </div>
+              <div class="transfer-rule">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18"/></svg></div>
+                <div>
+                  <div class="nm">Commercial accounts</div>
+                  <div class="ds">Any caller tagged "Commercial" or whose number matches a known property mgmt company</div>
+                </div>
+                <div class="toggle on"></div>
+              </div>
+              <div class="transfer-rule">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                <div>
+                  <div class="nm">Caller explicitly asks for Mike</div>
+                  <div class="ds">If a caller says "I need to talk to Mike directly," Chuck politely steps aside and rings you</div>
+                </div>
+                <div class="toggle on"></div>
+              </div>
+              <div class="transfer-rule">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                <div>
+                  <div class="nm">Calls between 7 AM and 8 AM</div>
+                  <div class="ds">Morning calls often catch you between jobs — Chuck rings you first, then takes over if you don't answer</div>
+                </div>
+                <div class="toggle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 8. Qualification rules ===== -->
+        <div class="intake-section" id="sec-qual">
+          <div class="intake-section-h">
+            <h3>Qualification rules</h3>
+            <div class="sub">Jobs Chuck will politely decline before they hit your calendar.</div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="config-row"><div class="label">Minimum project size</div><div class="value">$150</div><div class="toggle on"></div></div>
+              <div class="config-row"><div class="label">Service area — within 15 miles of 94110</div><div></div><div class="toggle on"></div></div>
+              <div class="config-row"><div class="label">Residential only</div><div></div><div class="toggle"></div></div>
+              <div class="config-row"><div class="label">Skip jobs requiring permits we don't pull</div><div></div><div class="toggle on"></div></div>
+              <div class="config-row"><div class="label">Skip emergency electrical (refer out)</div><div></div><div class="toggle on"></div></div>
+              <div class="config-row"><div class="label">Repeat customers get priority booking</div><div></div><div class="toggle on"></div></div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="subview" data-subview="quotes" hidden>
@@ -2735,6 +3353,82 @@ If something in your house has been on the "I'll deal with it later" list — le
         input.value = s.textContent.trim();
         input.focus();
       }
+    });
+  });
+
+  // ===== Intake: voice option pickers =====
+  document.querySelectorAll('.voice-row').forEach(row => {
+    row.addEventListener('click', e => {
+      const opt = e.target.closest('.voice-opt');
+      if (!opt) return;
+      row.querySelectorAll('.voice-opt').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+
+  // ===== Intake: toggle clicks (visual flip) =====
+  document.querySelectorAll('.toggle').forEach(t => {
+    t.addEventListener('click', e => {
+      e.stopPropagation();
+      t.classList.toggle('on');
+    });
+  });
+
+  // ===== Intake: FAQ tester (canned matching) =====
+  const faqAnswers = [
+    { match: /(licens|insur|insured|coi|w-?9|liability|workers)/i,
+      a: '"Yes — we carry $2M general liability and workers\' comp. California contractor\'s license #948213. Happy to text the COI if your property manager needs it."',
+      src: 'Pulled from FAQ #1' },
+    { match: /(service area|where do you|how far|do you (cover|come to)|zip|area)/i,
+      a: '"We work within 15 miles of San Francisco — 94110, 94114, 94117, 94131, plus most of Daly City and San Mateo. If you\'re outside that radius we can refer a great handyman closer to you."',
+      src: 'Pulled from FAQ #2' },
+    { match: /(electric|outlet|switch|fixture|panel|rewir|fan|light)/i,
+      a: '"Light electrical only — outlets, switches, fixtures, ceiling fans, basic troubleshooting. For panel upgrades or rewiring we\'ll refer you to a licensed electrician we trust."',
+      src: 'Pulled from FAQ #3' },
+    { match: /(free|estimate|quote|how much|cost|price)/i,
+      a: '"For jobs we expect to be over $400, yes — free on-site walk-through. For smaller repairs we can quote right over text once you send us a photo."',
+      src: 'Pulled from FAQ #4' },
+    { match: /(pay|payment|card|zelle|check|deposit|invoice|venmo)/i,
+      a: '"Card, Zelle, or check. We send an invoice with a \'pay now\' link as soon as the job is wrapped up. No deposit required under $1,000."',
+      src: 'Pulled from FAQ #5' },
+    { match: /(emergenc|urgent|leak|no heat|no power|flooding|today|right now|asap|after hours|weekend)/i,
+      a: '"After-hours emergencies — flooding, no heat in winter, no power — yes, at 2× our normal rate. Mike answers his cell directly for those, day or night."',
+      src: 'Pulled from FAQ #6 · also triggers Emergency scenario' },
+  ];
+
+  const faqInput  = document.getElementById('faqTestInput');
+  const faqBtn    = document.getElementById('faqTestBtn');
+  const faqOut    = document.getElementById('faqTestAnswer');
+
+  function answerFAQ() {
+    const q = (faqInput.value || '').trim();
+    if (!q) return;
+    const hit = faqAnswers.find(x => x.match.test(q));
+    if (hit) {
+      faqOut.innerHTML =
+        `<div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+           <span style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--orange);">Chuck would say</span>
+           <span style="font-size:10.5px; color:rgba(236,228,210,0.55);">· ${hit.src}</span>
+         </div>
+         <div style="color:var(--cream); font-style:italic;">${hit.a}</div>`;
+    } else {
+      faqOut.innerHTML =
+        `<div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+           <span style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--orange);">No FAQ match</span>
+         </div>
+         <div style="color:rgba(236,228,210,0.85);">Chuck would fall back to taking a message and texting it to you. Consider adding an FAQ for this so he can answer it next time.</div>`;
+    }
+    faqOut.style.display = 'block';
+  }
+  if (faqBtn)   faqBtn.addEventListener('click', answerFAQ);
+  if (faqInput) faqInput.addEventListener('keydown', e => { if (e.key === 'Enter') answerFAQ(); });
+
+  // ===== Intake: TOC anchor smooth scroll =====
+  document.querySelectorAll('.intake-toc a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
