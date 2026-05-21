@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -259,6 +259,93 @@
   .subview { animation: fadeIn .18s ease-out; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
+  /* ============ Modal ============ */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(22, 34, 62, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: 100;
+    display: grid; place-items: center;
+    padding: 24px;
+    animation: fadeIn .15s ease-out;
+  }
+  .modal {
+    background: var(--surface);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(16,24,40,0.25), 0 4px 12px rgba(16,24,40,0.1);
+    width: 100%;
+    max-width: 540px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalIn .2s ease-out;
+  }
+  @keyframes modalIn { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+  .modal-head {
+    padding: 20px 24px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .modal-title { font-size: 17px; font-weight: 600; color: var(--text); }
+  .modal-sub   { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+  .modal-close {
+    margin-left: auto;
+    width: 32px; height: 32px;
+    border: 0; background: transparent;
+    border-radius: 8px;
+    color: var(--text-2);
+    display: grid; place-items: center; cursor: pointer;
+  }
+  .modal-close:hover { background: var(--bg); color: var(--text); }
+  .modal-body { padding: 20px 24px; }
+  .modal-foot { padding: 14px 24px 20px; display: flex; gap: 8px; justify-content: flex-end; border-top: 1px solid var(--border); }
+
+  .field { display: block; margin-bottom: 14px; }
+  .field-label { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; letter-spacing: 0.01em; }
+  .field-label .opt { font-weight: 400; color: var(--text-3); margin-left: 4px; }
+  .field-input, .field-textarea, .field-select {
+    width: 100%;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--surface);
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .field-input:focus, .field-textarea:focus, .field-select:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px var(--orange-soft);
+  }
+  .field-textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .tag-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag-chip {
+    padding: 5px 11px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text-2);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .tag-chip:hover { background: var(--bg); color: var(--text); }
+  .tag-chip.selected {
+    background: var(--orange-soft);
+    border-color: var(--orange);
+    color: var(--orange-2);
+  }
+
+  @keyframes slideInRow {
+    from { opacity: 0; background: var(--cream-2); transform: translateY(-6px); }
+    to   { opacity: 1; background: transparent; transform: none; }
+  }
+  .new-row { animation: slideInRow .35s ease-out; }
+
   /* ============ Buttons ============ */
   .btn {
     display: inline-flex; align-items: center; gap: 6px;
@@ -439,6 +526,150 @@
   .mic-btn:hover { background: var(--border); color: var(--text); }
   .send-btn { background: var(--orange); color: #fff; }
   .send-btn:hover { background: var(--orange-2); }
+
+  /* ===================================================
+     CALLS (Sales > Calls — missed-call UX)
+     =================================================== */
+  .calls-layout { display: grid; grid-template-columns: 360px 1fr; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; min-height: 640px; }
+  .calls-list { border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+  .calls-list-head { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; }
+  .calls-chips { display: flex; gap: 6px; overflow-x: auto; }
+  .calls-chips::-webkit-scrollbar { height: 0; }
+  .call-chip { padding: 5px 11px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--text-2); font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  .call-chip.active { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+  .call-chip .ct { background: var(--orange); color: #fff; font-size: 10px; padding: 1px 6px; border-radius: 8px; margin-left: 4px; font-weight: 700; }
+  .call-chip.active .ct { background: var(--orange); color: #fff; }
+
+  .call-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    align-items: flex-start;
+  }
+  .call-row:hover { background: var(--bg); }
+  .call-row.active { background: var(--cream-2); }
+  .call-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .call-icon.missed     { background: rgba(232,94,45,0.12); color: var(--orange-2); }
+  .call-icon.answered   { background: var(--success-soft); color: var(--success); }
+  .call-icon.spam       { background: var(--bg); color: var(--text-3); }
+  .call-icon.transferred{ background: var(--indigo-soft); color: var(--indigo); }
+  .call-icon svg { width: 16px; height: 16px; }
+  .call-body { min-width: 0; }
+  .call-top { display: flex; align-items: baseline; gap: 6px; }
+  .call-name { font-weight: 600; font-size: 14px; color: var(--text); }
+  .call-time { font-size: 11px; color: var(--text-3); margin-left: auto; flex-shrink: 0; }
+  .call-summary { font-size: 12.5px; color: var(--text-2); margin-top: 3px; line-height: 1.45; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .call-tags { display: flex; gap: 4px; margin-top: 6px; }
+
+  /* Call detail panel */
+  .call-detail { display: flex; flex-direction: column; min-width: 0; }
+  .call-detail-head {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .call-detail-head .who { font-weight: 600; font-size: 16px; }
+  .call-detail-head .sub { font-size: 12.5px; color: var(--text-2); margin-top: 2px; }
+  .call-detail-body {
+    padding: 20px 24px 32px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  /* Recording player */
+  .recorder {
+    background: var(--cream-2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 24px;
+  }
+  .play-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 0;
+    background: var(--orange);
+    color: #fff;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .play-btn:hover { background: var(--orange-2); }
+  .waveform {
+    flex: 1;
+    display: flex; align-items: center; gap: 2px;
+    height: 30px;
+  }
+  .waveform span {
+    flex: 1;
+    background: var(--orange);
+    opacity: 0.45;
+    border-radius: 1px;
+    min-width: 2px;
+  }
+  .waveform span.played { opacity: 1; }
+  .recorder-time { font-family: 'Oswald', sans-serif; font-size: 13px; color: var(--text-2); letter-spacing: 0.04em; min-width: 80px; text-align: right; }
+
+  /* Captured info grid */
+  .captured {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+  .captured-head { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .captured-head .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--orange-2); font-weight: 700; }
+  .captured-head svg { width: 13px; height: 13px; color: var(--orange-2); }
+  .captured dl { display: grid; grid-template-columns: 130px 1fr; gap: 10px 14px; font-size: 13.5px; margin: 0; }
+  .captured dt { color: var(--text-2); }
+  .captured dd { margin: 0; color: var(--text); font-weight: 500; }
+
+  /* Transcript */
+  .transcript-h { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-2); font-weight: 700; margin: 0 0 12px; }
+  .transcript { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  .ts-line { display: grid; grid-template-columns: 60px 1fr; gap: 14px; align-items: flex-start; }
+  .ts-time { font-size: 11px; color: var(--text-3); font-family: 'Oswald', sans-serif; padding-top: 3px; }
+  .ts-speaker { font-weight: 600; font-size: 12px; margin-bottom: 2px; }
+  .ts-speaker.chuck   { color: var(--orange-2); }
+  .ts-speaker.caller  { color: var(--navy); }
+  .ts-text { font-size: 13.5px; color: var(--text); line-height: 1.5; }
+
+  /* Next actions checklist */
+  .next-actions { border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+  .next-actions h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-2); font-weight: 700; margin: 0 0 12px; }
+  .action-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13.5px; }
+  .action-row:first-of-type { border-top: 0; padding-top: 2px; }
+  .action-check {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    background: var(--success);
+    color: #fff;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .action-check.pending { background: var(--surface); border: 1.5px solid var(--border-strong); color: var(--text-3); }
+  .action-check svg { width: 12px; height: 12px; }
+  .action-text { color: var(--text); }
+  .action-text b { font-weight: 600; }
+  .action-meta { font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+
+  /* Stat row at top of calls view */
+  .calls-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+  .call-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .call-stat-label { font-size: 11.5px; color: var(--text-2); }
+  .call-stat-value { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); margin-top: 2px; letter-spacing: 0.02em; }
+  .call-stat-trend { font-size: 11px; margin-top: 2px; color: var(--text-3); }
+  .call-stat-trend.up { color: var(--success); }
+  .call-stat.orange .call-stat-value { color: var(--orange-2); }
 
   /* ===================================================
      CUSTOMERS (Sales > CRM)
@@ -971,7 +1202,22 @@
 
     <!-- Ask Chuck -->
     <div class="nav-single active" data-view="chuck">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <!-- Chuck Norris silhouette: thick mustache+beard, swept hair -->
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <!-- hair (swept back) -->
+        <path d="M5.6 8.2 C5.8 5 8.2 3 12 3 c3.8 0 6.2 2 6.4 5.2 c-.4-.6-1.2-1-2.2-1.1 c-.3-.6-1.1-1-2.2-1.1 c-.3-.5-1.1-.9-2-.9 c-1 0-1.7.4-2 .9 c-1.1.1-1.9.5-2.2 1.1 c-1 .1-1.8.5-2.2 1.1 z"/>
+        <!-- head -->
+        <path d="M6.5 11.5 c0-3 2-5 5.5-5 s5.5 2 5.5 5 c0 1.4-.3 2.7-.9 3.7 c-.1-.6-.4-1.1-.8-1.5 c-.7-.6-1.7-.9-2.5-.7 c-.4-.4-.9-.6-1.3-.6 c-.4 0-.9.2-1.3.6 c-.8-.2-1.8.1-2.5.7 c-.4.4-.7.9-.8 1.5 c-.6-1-.9-2.3-.9-3.7 z"/>
+        <!-- mustache -->
+        <path d="M9 12.6 c.6-.3 1.4-.4 2-.2 c.4-.3.7-.4 1-.4 c.3 0 .6.1 1 .4 c.6-.2 1.4-.1 2 .2 c-.3.6-.8.9-1.5.9 c-.5 0-1-.2-1.5-.5 c-.5.3-1 .5-1.5.5 c-.7 0-1.2-.3-1.5-.9 z"/>
+        <!-- beard -->
+        <path d="M7.2 13.2 c.3-.4.8-.7 1.4-.8 c.3.6.9.9 1.6.9 c.6 0 1.1-.2 1.6-.5 c.4-.2.6-.2.8 0 c.5.3 1 .5 1.6.5 c.7 0 1.3-.3 1.6-.9 c.6.1 1.1.4 1.4.8 c-.3 1.5-1 2.8-2 3.9 c-.9 1-2 1.5-3 1.5 c-1 0-2.1-.5-3-1.5 c-1-1.1-1.7-2.4-2-3.9 z"/>
+        <!-- eyes -->
+        <circle cx="10" cy="11.4" r="0.5"/>
+        <circle cx="14" cy="11.4" r="0.5"/>
+        <!-- neck / collar hint -->
+        <path d="M9.5 18.5 c.8.6 1.6.9 2.5.9 c.9 0 1.7-.3 2.5-.9 c.2.2.3.5.3.9 v1.1 H9.2 v-1.1 c0-.4.1-.7.3-.9 z"/>
+      </svg>
       <span>Ask Chuck</span>
     </div>
 
@@ -1057,7 +1303,15 @@
 
           <div class="chuck-msg-chuck">
             <div class="chuck-mark">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+              <!-- Chuck Norris silhouette -->
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M5.6 8.2 C5.8 5 8.2 3 12 3 c3.8 0 6.2 2 6.4 5.2 c-.4-.6-1.2-1-2.2-1.1 c-.3-.6-1.1-1-2.2-1.1 c-.3-.5-1.1-.9-2-.9 c-1 0-1.7.4-2 .9 c-1.1.1-1.9.5-2.2 1.1 c-1 .1-1.8.5-2.2 1.1 z"/>
+                <path d="M6.5 11.5 c0-3 2-5 5.5-5 s5.5 2 5.5 5 c0 1.4-.3 2.7-.9 3.7 c-.1-.6-.4-1.1-.8-1.5 c-.7-.6-1.7-.9-2.5-.7 c-.4-.4-.9-.6-1.3-.6 c-.4 0-.9.2-1.3.6 c-.8-.2-1.8.1-2.5.7 c-.4.4-.7.9-.8 1.5 c-.6-1-.9-2.3-.9-3.7 z"/>
+                <path d="M9 12.6 c.6-.3 1.4-.4 2-.2 c.4-.3.7-.4 1-.4 c.3 0 .6.1 1 .4 c.6-.2 1.4-.1 2 .2 c-.3.6-.8.9-1.5.9 c-.5 0-1-.2-1.5-.5 c-.5.3-1 .5-1.5.5 c-.7 0-1.2-.3-1.5-.9 z"/>
+                <path d="M7.2 13.2 c.3-.4.8-.7 1.4-.8 c.3.6.9.9 1.6.9 c.6 0 1.1-.2 1.6-.5 c.4-.2.6-.2.8 0 c.5.3 1 .5 1.6.5 c.7 0 1.3-.3 1.6-.9 c.6.1 1.1.4 1.4.8 c-.3 1.5-1 2.8-2 3.9 c-.9 1-2 1.5-3 1.5 c-1 0-2.1-.5-3-1.5 c-1-1.1-1.7-2.4-2-3.9 z"/>
+                <circle cx="10" cy="11.4" r="0.5"/>
+                <circle cx="14" cy="11.4" r="0.5"/>
+              </svg>
             </div>
             <div class="chuck-bubble">
               <div class="chuck-name">Chuck</div>
@@ -1127,13 +1381,300 @@
          ==================================================== -->
     <section class="view" data-view="sales" hidden>
       <div class="subtabs">
-        <button class="subtab active" data-subview="customers">Customers</button>
+        <button class="subtab active" data-subview="calls">Calls</button>
+        <button class="subtab" data-subview="customers">Customers</button>
         <button class="subtab" data-subview="intake">Intake</button>
         <button class="subtab" data-subview="quotes">Quotes</button>
       </div>
-      <div class="subview" data-subview="customers">
+
+      <!-- ============ CALLS ============ -->
+      <div class="subview" data-subview="calls">
+        <div class="calls-stats">
+          <div class="call-stat">
+            <div class="call-stat-label">Calls today</div>
+            <div class="call-stat-value">14</div>
+            <div class="call-stat-trend up">▲ 3 vs avg Thursday</div>
+          </div>
+          <div class="call-stat orange">
+            <div class="call-stat-label">Chuck answered (missed)</div>
+            <div class="call-stat-value">9</div>
+            <div class="call-stat-trend">while you were on jobs</div>
+          </div>
+          <div class="call-stat">
+            <div class="call-stat-label">Leads captured</div>
+            <div class="call-stat-value">6</div>
+            <div class="call-stat-trend up">3 booked an estimate</div>
+          </div>
+          <div class="call-stat">
+            <div class="call-stat-label">Spam blocked</div>
+            <div class="call-stat-value">3</div>
+            <div class="call-stat-trend">never rang your phone</div>
+          </div>
+        </div>
+
+        <div class="calls-layout">
+          <!-- list -->
+          <div class="calls-list">
+            <div class="calls-list-head">
+              <div style="font-weight:600; font-size:15px;">All calls</div>
+              <div class="calls-chips">
+                <button class="call-chip active" data-callfilter="all">All <span class="ct">14</span></button>
+                <button class="call-chip" data-callfilter="missed">Missed <span class="ct">9</span></button>
+                <button class="call-chip" data-callfilter="leads">New leads <span class="ct">4</span></button>
+                <button class="call-chip" data-callfilter="spam">Spam</button>
+                <button class="call-chip" data-callfilter="transferred">Transferred</button>
+              </div>
+            </div>
+
+            <div class="call-row active" data-call="0">
+              <div class="call-icon missed" title="Chuck answered a missed call">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><line x1="23" y1="1" x2="17" y2="7"/><line x1="17" y1="1" x2="23" y2="7"/></svg>
+              </div>
+              <div class="call-body">
+                <div class="call-top"><div class="call-name">Maria Chen</div><div class="call-time">9:42 AM</div></div>
+                <div class="call-summary">Kitchen faucet won't shut off. Referred by Lisa Patel. Chuck booked Fri 11 AM.</div>
+                <div class="call-tags"><span class="pill pill-orange">Estimate request</span><span class="pill pill-green">Booked</span></div>
+              </div>
+            </div>
+
+            <div class="call-row" data-call="1">
+              <div class="call-icon missed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><line x1="23" y1="1" x2="17" y2="7"/><line x1="17" y1="1" x2="23" y2="7"/></svg></div>
+              <div class="call-body">
+                <div class="call-top"><div class="call-name">Mark Reilly</div><div class="call-time">10:18 AM</div></div>
+                <div class="call-summary">Leaking dishwasher, sounds urgent. Wants Saturday. Chuck proposed 10:30 AM — awaiting your OK.</div>
+                <div class="call-tags"><span class="pill pill-orange">Estimate request</span><span class="pill pill-indigo">New customer</span></div>
+              </div>
+            </div>
+
+            <div class="call-row" data-call="2">
+              <div class="call-icon spam" title="Blocked spam">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              </div>
+              <div class="call-body">
+                <div class="call-top"><div class="call-name">+1 (800) 555-0142</div><div class="call-time">10:51 AM</div></div>
+                <div class="call-summary">Auto-warranty robocall. Hung up after 6 seconds.</div>
+                <div class="call-tags"><span class="pill">Spam · blocked</span></div>
+              </div>
+            </div>
+
+            <div class="call-row" data-call="3">
+              <div class="call-icon answered"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+              <div class="call-body">
+                <div class="call-top"><div class="call-name">David Park</div><div class="call-time">11:04 AM</div></div>
+                <div class="call-summary">Wanted to confirm pantry start time Monday. Chuck confirmed 8:00 AM and sent calendar invite.</div>
+                <div class="call-tags"><span class="pill pill-green">Question · resolved</span></div>
+              </div>
+            </div>
+
+            <div class="call-row" data-call="4">
+              <div class="call-icon transferred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+              <div class="call-body">
+                <div class="call-top"><div class="call-name">Sarah Liu</div><div class="call-time">11:33 AM</div></div>
+                <div class="call-summary">Active leak — Chuck flagged emergency and transferred to you on the second ring.</div>
+                <div class="call-tags"><span class="pill pill-indigo">Transferred</span><span class="pill pill-orange">Emergency</span></div>
+              </div>
+            </div>
+
+            <div class="call-row" data-call="5">
+              <div class="call-icon missed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><line x1="23" y1="1" x2="17" y2="7"/><line x1="17" y1="1" x2="23" y2="7"/></svg></div>
+              <div class="call-body">
+                <div class="call-top"><div class="call-name">Brian Owens</div><div class="call-time">12:15 PM</div></div>
+                <div class="call-summary">Door handle keeps sticking. Chuck texted him a scheduling link — outside service area, no slots offered.</div>
+                <div class="call-tags"><span class="pill">Out of area</span></div>
+              </div>
+            </div>
+
+            <div class="call-row" data-call="6">
+              <div class="call-icon missed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><line x1="23" y1="1" x2="17" y2="7"/><line x1="17" y1="1" x2="23" y2="7"/></svg></div>
+              <div class="call-body">
+                <div class="call-top"><div class="call-name">Greenline Property Mgmt</div><div class="call-time">1:02 PM</div></div>
+                <div class="call-summary">Commercial bathroom punch list across 3 units. Chuck captured details, scheduled walk for Tuesday.</div>
+                <div class="call-tags"><span class="pill pill-navy">Commercial</span><span class="pill pill-green">Walk booked</span></div>
+              </div>
+            </div>
+
+            <div class="call-row" data-call="7">
+              <div class="call-icon answered"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+              <div class="call-body">
+                <div class="call-top"><div class="call-name">Tracy Hendricks</div><div class="call-time">1:48 PM</div></div>
+                <div class="call-summary">Confirmed door code 4421 and coffee for 2 PM tile install. Chuck added note to the job.</div>
+                <div class="call-tags"><span class="pill pill-green">Note added</span></div>
+              </div>
+            </div>
+
+            <div class="call-row" data-call="8">
+              <div class="call-icon spam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div>
+              <div class="call-body">
+                <div class="call-top"><div class="call-name">+1 (415) 555-0099</div><div class="call-time">2:31 PM</div></div>
+                <div class="call-summary">Sales call — "exclusive marketing opportunity." Hung up.</div>
+                <div class="call-tags"><span class="pill">Spam · blocked</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- detail -->
+          <div class="call-detail">
+            <div class="call-detail-head">
+              <div class="avatar" style="background:#7c3aed; width:44px; height:44px; font-size:15px;">MC</div>
+              <div style="flex:1; min-width:0;">
+                <div class="who">Maria Chen <span style="font-weight:400; color:var(--text-2); font-size:13px;">· (415) 555-2188</span></div>
+                <div class="sub">9:42 AM · 1 min 47 sec · Chuck answered (you were at the Sanderson job)</div>
+              </div>
+              <button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call back</button>
+              <button class="btn btn-navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Text</button>
+            </div>
+
+            <div class="call-detail-body">
+              <!-- recording -->
+              <div class="recorder">
+                <button class="play-btn" aria-label="Play recording">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20"/></svg>
+                </button>
+                <div class="waveform">
+                  <span class="played" style="height: 40%"></span><span class="played" style="height: 65%"></span><span class="played" style="height: 30%"></span><span class="played" style="height: 80%"></span><span class="played" style="height: 50%"></span><span class="played" style="height: 70%"></span><span class="played" style="height: 90%"></span><span class="played" style="height: 45%"></span><span class="played" style="height: 60%"></span><span class="played" style="height: 35%"></span><span class="played" style="height: 75%"></span><span class="played" style="height: 55%"></span><span class="played" style="height: 85%"></span><span class="played" style="height: 40%"></span><span class="played" style="height: 65%"></span><span style="height: 55%"></span><span style="height: 70%"></span><span style="height: 45%"></span><span style="height: 80%"></span><span style="height: 35%"></span><span style="height: 60%"></span><span style="height: 50%"></span><span style="height: 75%"></span><span style="height: 40%"></span><span style="height: 65%"></span><span style="height: 30%"></span><span style="height: 55%"></span><span style="height: 70%"></span><span style="height: 45%"></span><span style="height: 80%"></span><span style="height: 50%"></span><span style="height: 65%"></span><span style="height: 35%"></span><span style="height: 60%"></span><span style="height: 75%"></span><span style="height: 40%"></span><span style="height: 55%"></span><span style="height: 70%"></span>
+                </div>
+                <div class="recorder-time">0:53 / 1:47</div>
+              </div>
+
+              <!-- captured -->
+              <div class="captured">
+                <div class="captured-head">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+                  <span class="label">Captured by Chuck · Estimate Request</span>
+                </div>
+                <dl>
+                  <dt>Service needed</dt><dd>Kitchen faucet replacement (won't shut off)</dd>
+                  <dt>Property address</dt><dd>1422 Oak St, #2A · within service area</dd>
+                  <dt>Timing</dt><dd>Sooner the better — leaking now</dd>
+                  <dt>Property type</dt><dd>Residential · second-floor unit</dd>
+                  <dt>Best callback</dt><dd>Texts preferred, any time after 4 PM</dd>
+                  <dt>Lead source</dt><dd>Referred by Lisa Patel (existing customer)</dd>
+                  <dt>Photo of faucet</dt><dd>Chuck requested via SMS — received 9:51 AM</dd>
+                </dl>
+              </div>
+
+              <!-- transcript -->
+              <h4 class="transcript-h">Transcript</h4>
+              <div class="transcript">
+                <div class="ts-line">
+                  <div class="ts-time">0:00</div>
+                  <div>
+                    <div class="ts-speaker chuck">Chuck</div>
+                    <div class="ts-text">Hi, thanks for calling Kowalski Handyman, this is Chuck. Mike's on a job right now — I can help you get on the books or take a detailed message. Who am I speaking with?</div>
+                  </div>
+                </div>
+                <div class="ts-line">
+                  <div class="ts-time">0:12</div>
+                  <div>
+                    <div class="ts-speaker caller">Maria</div>
+                    <div class="ts-text">Hi, this is Maria Chen. Lisa Patel down the street gave me Mike's number. My kitchen faucet has been dripping for weeks and now it won't shut off all the way.</div>
+                  </div>
+                </div>
+                <div class="ts-line">
+                  <div class="ts-time">0:28</div>
+                  <div>
+                    <div class="ts-speaker chuck">Chuck</div>
+                    <div class="ts-text">Oh no — sorry to hear it. Lisa's a great customer of ours. Let me get a few details so Mike can quote it accurately. What's the address for the work?</div>
+                  </div>
+                </div>
+                <div class="ts-line">
+                  <div class="ts-time">0:42</div>
+                  <div>
+                    <div class="ts-speaker caller">Maria</div>
+                    <div class="ts-text">1422 Oak Street, unit 2A.</div>
+                  </div>
+                </div>
+                <div class="ts-line">
+                  <div class="ts-time">0:48</div>
+                  <div>
+                    <div class="ts-speaker chuck">Chuck</div>
+                    <div class="ts-text">Great, you're well within our service area. To save time when Mike arrives, can you text me a photo of the faucet from underneath the sink so we can see the connections? I'll send you a link right after we hang up.</div>
+                  </div>
+                </div>
+                <div class="ts-line">
+                  <div class="ts-time">1:08</div>
+                  <div>
+                    <div class="ts-speaker caller">Maria</div>
+                    <div class="ts-text">Sure, I can do that.</div>
+                  </div>
+                </div>
+                <div class="ts-line">
+                  <div class="ts-time">1:12</div>
+                  <div>
+                    <div class="ts-speaker chuck">Chuck</div>
+                    <div class="ts-text">Perfect. Mike has Friday 11 AM or Monday 8 AM open. Faucet swaps are typically $185 out the door including the cartridge — Mike will confirm once he sees the photo. Which time works better?</div>
+                  </div>
+                </div>
+                <div class="ts-line">
+                  <div class="ts-time">1:30</div>
+                  <div>
+                    <div class="ts-speaker caller">Maria</div>
+                    <div class="ts-text">Friday 11 would be great.</div>
+                  </div>
+                </div>
+                <div class="ts-line">
+                  <div class="ts-time">1:34</div>
+                  <div>
+                    <div class="ts-speaker chuck">Chuck</div>
+                    <div class="ts-text">You're booked. I'll text you a confirmation and Mike will message when he's about 15 minutes out. Thanks for calling Kowalski Handyman, Maria.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- next actions -->
+              <div class="next-actions">
+                <h4>What Chuck did next</h4>
+                <div class="action-row">
+                  <div class="action-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                  <div>
+                    <div class="action-text"><b>Added Maria as a customer</b> — tagged "Hot lead" and "Referred by Lisa Patel"</div>
+                    <div class="action-meta">9:43 AM</div>
+                  </div>
+                </div>
+                <div class="action-row">
+                  <div class="action-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                  <div>
+                    <div class="action-text"><b>Texted photo request</b> — "Hi Maria, can you send a quick photo from under the sink?" Photo received at 9:51 AM.</div>
+                    <div class="action-meta">9:43 AM</div>
+                  </div>
+                </div>
+                <div class="action-row">
+                  <div class="action-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                  <div>
+                    <div class="action-text"><b>Drafted quote</b> — $185 out the door (Moen cartridge included). Sent at 9:52 AM.</div>
+                    <div class="action-meta">9:52 AM</div>
+                  </div>
+                </div>
+                <div class="action-row">
+                  <div class="action-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                  <div>
+                    <div class="action-text"><b>Booked Friday 11:00 AM</b> on your calendar — added Moen 1225 cartridge to van checklist</div>
+                    <div class="action-meta">9:53 AM</div>
+                  </div>
+                </div>
+                <div class="action-row">
+                  <div class="action-check pending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                  <div>
+                    <div class="action-text"><b>Will send 15-min "on the way" text</b> Friday at 10:40 AM</div>
+                    <div class="action-meta">Scheduled</div>
+                  </div>
+                </div>
+                <div class="action-row">
+                  <div class="action-check pending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                  <div>
+                    <div class="action-text"><b>Will request a Google review</b> 1 hour after job is marked complete</div>
+                    <div class="action-meta">Scheduled</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subview" data-subview="customers" hidden>
       <div class="toolbar">
-        <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add customer</button>
+        <button class="btn btn-primary" id="addCustomerBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add customer</button>
         <button class="filter-pill">Lead source: All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <button class="filter-pill">Tag: All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <button class="filter-pill">Last contact: 90 days <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -1142,7 +1683,7 @@
       </div>
 
       <div class="split">
-        <div class="data-table">
+        <div class="data-table" id="customersTable">
           <div class="table-row table-head">
             <div>Name</div><div>Phone</div><div>Tags</div><div>Lead source</div><div>Last contact</div><div style="text-align:right;">LTV</div>
           </div>
@@ -2075,6 +2616,73 @@ If something in your house has been on the "I'll deal with it later" list — le
   </main>
 </div>
 
+<!-- ============ Add customer modal ============ -->
+<div class="modal-backdrop" id="addCustomerModal" hidden>
+  <div class="modal" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modalTitle">Add customer</div>
+        <div class="modal-sub">Chuck will use this to pull up history and follow up automatically.</div>
+      </div>
+      <button class="modal-close" id="modalCloseBtn" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <form class="modal-body" id="addCustomerForm">
+      <div class="field">
+        <label class="field-label" for="cName">Name</label>
+        <input class="field-input" id="cName" name="name" required placeholder="Maria Chen">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label" for="cPhone">Phone</label>
+          <input class="field-input" id="cPhone" name="phone" required placeholder="(415) 555-0117" inputmode="tel">
+        </div>
+        <div class="field">
+          <label class="field-label" for="cEmail">Email <span class="opt">optional</span></label>
+          <input class="field-input" id="cEmail" name="email" type="email" placeholder="maria@email.com">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="cAddress">Address</label>
+        <input class="field-input" id="cAddress" name="address" placeholder="1422 Oak St, #2A">
+      </div>
+      <div class="field">
+        <label class="field-label" for="cSource">Lead source</label>
+        <select class="field-select" id="cSource" name="source">
+          <option>Referral</option>
+          <option>Google</option>
+          <option>Yelp</option>
+          <option>Facebook</option>
+          <option>Direct</option>
+          <option>Cold call</option>
+          <option>Repeat customer</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Tags <span class="opt">tap to toggle</span></label>
+        <div class="tag-chips" id="tagChips">
+          <button type="button" class="tag-chip" data-tag="Hot lead">Hot lead</button>
+          <button type="button" class="tag-chip" data-tag="VIP">VIP</button>
+          <button type="button" class="tag-chip" data-tag="Repeat">Repeat</button>
+          <button type="button" class="tag-chip" data-tag="Commercial">Commercial</button>
+          <button type="button" class="tag-chip" data-tag="Residential">Residential</button>
+          <button type="button" class="tag-chip" data-tag="Net 30">Net 30</button>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="cNotes">Notes <span class="opt">optional</span></label>
+        <textarea class="field-textarea" id="cNotes" name="notes" placeholder="Anything Chuck should know — preferred contact times, dogs on property, gate codes, past job details…"></textarea>
+      </div>
+    </form>
+    <div class="modal-foot">
+      <button class="btn" id="modalCancelBtn" type="button">Cancel</button>
+      <button class="btn btn-primary" id="modalSaveBtn" type="button">Add customer</button>
+    </div>
+  </div>
+</div>
+
 <script>
   // ===== Top-level nav routing =====
   const titles = {
@@ -2129,6 +2737,115 @@ If something in your house has been on the "I'll deal with it later" list — le
       }
     });
   });
+
+  // ===== Calls: row selection + filter chips =====
+  document.querySelectorAll('.call-row').forEach(row => {
+    row.addEventListener('click', () => {
+      document.querySelectorAll('.call-row').forEach(r => r.classList.remove('active'));
+      row.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.call-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.call-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  // ===== Recording play/pause toggle (visual only) =====
+  document.querySelectorAll('.play-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const playing = btn.dataset.playing === 'true';
+      btn.dataset.playing = playing ? 'false' : 'true';
+      btn.innerHTML = playing
+        ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20"/></svg>'
+        : '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+    });
+  });
+
+  // ===== Add customer modal =====
+  const modal       = document.getElementById('addCustomerModal');
+  const openBtn     = document.getElementById('addCustomerBtn');
+  const closeBtn    = document.getElementById('modalCloseBtn');
+  const cancelBtn   = document.getElementById('modalCancelBtn');
+  const saveBtn     = document.getElementById('modalSaveBtn');
+  const form        = document.getElementById('addCustomerForm');
+  const tagChips    = document.getElementById('tagChips');
+  const customersTbl = document.getElementById('customersTable');
+
+  const avatarColors = ['#7c3aed','#0891b2','#16a34a','#dc2626','#0d9488','#b45309','#9333ea','#2563eb','#db2777'];
+  const tagPillClass = { 'Hot lead':'pill-orange', 'VIP':'pill-green', 'Repeat':'pill-indigo', 'Commercial':'pill-navy', 'Residential':'pill-navy', 'Net 30':'' };
+
+  function openModal()  { modal.hidden = false; document.body.style.overflow = 'hidden'; setTimeout(() => document.getElementById('cName').focus(), 50); }
+  function closeModal() {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    form.reset();
+    tagChips.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('selected'));
+  }
+
+  if (openBtn)   openBtn.addEventListener('click', openModal);
+  if (closeBtn)  closeBtn.addEventListener('click', closeModal);
+  if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+  if (modal) modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+
+  if (tagChips) {
+    tagChips.addEventListener('click', e => {
+      const chip = e.target.closest('.tag-chip');
+      if (chip) chip.classList.toggle('selected');
+    });
+  }
+
+  function initials(name) {
+    return name.trim().split(/\s+/).slice(0, 2).map(s => s[0]).join('').toUpperCase() || '?';
+  }
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', () => {
+      const name    = document.getElementById('cName').value.trim();
+      const phone   = document.getElementById('cPhone').value.trim();
+      const email   = document.getElementById('cEmail').value.trim();
+      const address = document.getElementById('cAddress').value.trim();
+      const source  = document.getElementById('cSource').value;
+      const notes   = document.getElementById('cNotes').value.trim();
+      const tags    = Array.from(tagChips.querySelectorAll('.tag-chip.selected')).map(c => c.dataset.tag);
+
+      if (!name || !phone) {
+        if (!name)  document.getElementById('cName').focus();
+        else        document.getElementById('cPhone').focus();
+        return;
+      }
+
+      const color = avatarColors[Math.floor(Math.random() * avatarColors.length)];
+      const tagsHTML = tags.map(t => `<span class="pill ${tagPillClass[t] || ''}">${t}</span>`).join(' ');
+
+      const row = document.createElement('div');
+      row.className = 'table-row new-row';
+      row.innerHTML = `
+        <div class="cust-name">
+          <div class="avatar" style="background:${color}">${initials(name)}</div>
+          <div>
+            <div>${name}</div>
+            <div class="cust-sub">${address || (email || 'No address on file')}</div>
+          </div>
+        </div>
+        <div>${phone}</div>
+        <div>${tagsHTML}</div>
+        <div>${source}</div>
+        <div>Just now</div>
+        <div style="text-align:right; font-family:'Oswald'; color:var(--text);">$0</div>
+      `;
+
+      // Insert right after the header row
+      const head = customersTbl.querySelector('.table-head');
+      head.after(row);
+
+      closeModal();
+      // Briefly highlight the new row
+      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
 </script>
 </body>
 </html>
