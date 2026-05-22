@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Roundhouse — The operating system for home services businesses</title>
+<meta name="description" content="Roundhouse is the AI-powered operating system for home services businesses. Chuck answers every call, books every job, sends every invoice — so you can stay on the tools." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy: #16223e;
+    --navy-2: #1e2d52;
+    --cream: #ece4d2;
+    --cream-2: #f6f0e2;
+    --orange: #e85e2d;
+    --orange-2: #c84d23;
+    --ink: #16223e;
+    --ink-2: #4a5168;
+    --ink-3: #7a8094;
+    --line: rgba(22, 34, 62, 0.12);
+    --line-soft: rgba(22, 34, 62, 0.06);
+    --shadow: 0 12px 40px -16px rgba(22, 34, 62, 0.25);
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  a { color: inherit; text-decoration: none; }
+  img, svg { display: block; max-width: 100%; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(236, 228, 210, 0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: var(--navy);
+  }
+  .brand svg { height: 30px; width: auto; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--ink-2);
+  }
+  .nav-links a:hover { color: var(--navy); }
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--navy);
+    color: var(--cream);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--navy-2); }
+  @media (max-width: 760px) {
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 80px 0 90px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(232, 94, 45, 0.12);
+    color: var(--orange-2);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .eyebrow .dot { width: 8px; height: 8px; background: var(--orange); border-radius: 50%; }
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(44px, 6vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -0.005em;
+    margin: 22px 0 20px;
+    color: var(--navy);
+  }
+  h1 .accent { color: var(--orange); }
+  .lede {
+    font-size: 20px;
+    color: var(--ink-2);
+    max-width: 540px;
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+  .cta-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary {
+    background: var(--orange);
+    color: white;
+    box-shadow: 0 8px 28px -10px rgba(232, 94, 45, 0.55);
+  }
+  .btn-primary:hover { background: var(--orange-2); transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--navy);
+    border: 1.5px solid var(--navy);
+  }
+  .btn-ghost:hover { background: var(--navy); color: var(--cream); }
+  .micro {
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-top: 18px;
+  }
+  .hero-art {
+    position: relative;
+  }
+  .phone-mock {
+    background: var(--navy);
+    border-radius: 28px;
+    padding: 22px 20px;
+    color: var(--cream);
+    box-shadow: var(--shadow);
+    max-width: 380px;
+    margin-left: auto;
+  }
+  .phone-mock .chuck-greet {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    margin-bottom: 18px;
+  }
+  .chuck-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--cream);
+    display: grid; place-items: center;
+  }
+  .phone-mock .chat-bubble {
+    background: rgba(236, 228, 210, 0.08);
+    border: 1px solid rgba(236, 228, 210, 0.15);
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 14px;
+    margin-bottom: 12px;
+    line-height: 1.45;
+  }
+  .phone-mock .chat-bubble.user {
+    background: var(--orange);
+    color: white;
+    border-color: transparent;
+    margin-left: 30px;
+  }
+  .phone-mock .chat-bubble strong { color: white; }
+  .phone-mock .stat-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(236, 228, 210, 0.12);
+  }
+  .stat-strip .s-cell .num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    color: white;
+    font-weight: 600;
+  }
+  .stat-strip .s-cell .lbl {
+    font-size: 11px;
+    color: rgba(236, 228, 210, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero { padding: 50px 0 60px; }
+    .phone-mock { margin: 0 auto; }
+  }
+
+  /* ---------- Logo strip / proof ---------- */
+  .strip {
+    background: var(--cream-2);
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 28px 0;
+  }
+  .strip-inner {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    flex-wrap: wrap;
+    justify-content: center;
+    color: var(--ink-3);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .strip-inner .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-2);
+  }
+  .strip-inner .pill svg { width: 14px; height: 14px; color: var(--orange); }
+
+  /* ---------- Sections ---------- */
+  section.block { padding: 100px 0; }
+  .sec-head {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px;
+  }
+  .sec-eyebrow {
+    color: var(--orange);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.1;
+    color: var(--navy);
+    margin: 0 0 16px;
+    letter-spacing: -0.005em;
+  }
+  .sec-lede {
+    font-size: 18px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  /* Problem block */
+  .problem { background: var(--navy); color: var(--cream); }
+  .problem h2 { color: white; }
+  .problem .sec-lede { color: rgba(236, 228, 210, 0.75); }
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 50px;
+  }
+  .pain {
+    background: rgba(236, 228, 210, 0.05);
+    border: 1px solid rgba(236, 228, 210, 0.1);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+  .pain .num {
+    font-family: 'Oswald', sans-serif;
+    color: var(--orange);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .pain .label {
+    color: rgba(236, 228, 210, 0.85);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  @media (max-width: 800px) {
+    .pain-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Features */
+  .feat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .feat {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .feat:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  .feat .ico {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: rgba(232, 94, 45, 0.12);
+    color: var(--orange);
+    display: grid; place-items: center;
+    margin-bottom: 18px;
+  }
+  .feat h3 {
+    margin: 0 0 10px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.02em;
+    color: var(--navy);
+  }
+  .feat p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  @media (max-width: 880px) {
+    .feat-grid { grid-template-columns: 1fr; }
+  }
+
+  /* How it works */
+  .how { background: var(--cream-2); }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    counter-reset: step;
+  }
+  .step {
+    position: relative;
+    padding-top: 12px;
+  }
+  .step .step-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .step h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    margin: 0 0 8px;
+    color: var(--navy);
+    letter-spacing: 0.02em;
+  }
+  .step p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  @media (max-width: 800px) {
+    .steps { grid-template-columns: 1fr; gap: 36px; }
+  }
+
+  /* Quote */
+  .quote-band {
+    background: var(--orange);
+    color: white;
+    padding: 70px 0;
+  }
+  .quote-band blockquote {
+    margin: 0;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: clamp(26px, 3.4vw, 38px);
+    line-height: 1.25;
+    text-align: center;
+    max-width: 880px;
+    margin: 0 auto;
+    letter-spacing: -0.005em;
+  }
+  .quote-band .cite {
+    text-align: center;
+    margin-top: 22px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.85;
+  }
+
+  /* Pricing tease */
+  .price-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .price-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+  }
+  .price-card.featured {
+    background: var(--navy);
+    color: var(--cream);
+    border-color: var(--navy);
+    position: relative;
+  }
+  .price-card.featured::before {
+    content: 'Most popular';
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--orange);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+  .price-card h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    margin: 0 0 6px;
+    letter-spacing: 0.02em;
+  }
+  .price-card .price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    margin: 14px 0 4px;
+  }
+  .price-card.featured .price { color: white; }
+  .price-card .per { font-size: 13px; color: var(--ink-3); margin-bottom: 22px; }
+  .price-card.featured .per { color: rgba(236, 228, 210, 0.65); }
+  .price-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .price-card.featured ul { color: rgba(236, 228, 210, 0.85); }
+  .price-card ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .price-card.featured ul li { border-color: rgba(236, 228, 210, 0.08); }
+  .price-card ul li::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--orange);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .price-card .btn { width: 100%; justify-content: center; margin-top: auto; }
+  .price-card.featured .btn-ghost {
+    border-color: var(--cream);
+    color: var(--cream);
+  }
+  .price-card.featured .btn-ghost:hover {
+    background: var(--cream);
+    color: var(--navy);
+  }
+  @media (max-width: 900px) {
+    .price-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Demo form */
+  .demo {
+    background: var(--navy);
+    color: var(--cream);
+  }
+  .demo h2 { color: white; }
+  .demo .sec-lede { color: rgba(236, 228, 210, 0.78); }
+  .demo-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 56px;
+    align-items: start;
+    margin-top: 50px;
+  }
+  .demo-perks {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .perk {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .perk .check {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: white;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .perk-text strong {
+    display: block;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+  }
+  .perk-text span {
+    font-size: 14px;
+    color: rgba(236, 228, 210, 0.72);
+    line-height: 1.5;
+  }
+  form.demo-form {
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: 18px;
+    padding: 36px 32px;
+    box-shadow: var(--shadow);
+  }
+  form.demo-form .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  form.demo-form .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  form.demo-form .field.full { grid-column: 1 / -1; }
+  form.demo-form label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-2);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  form.demo-form input,
+  form.demo-form select,
+  form.demo-form textarea {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  form.demo-form input:focus,
+  form.demo-form select:focus,
+  form.demo-form textarea:focus {
+    outline: none;
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(232, 94, 45, 0.15);
+  }
+  form.demo-form textarea { resize: vertical; min-height: 90px; }
+  form.demo-form .submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  form.demo-form .submit-row .fineprint {
+    font-size: 12px;
+    color: var(--ink-3);
+    flex: 1 1 200px;
+  }
+  form.demo-form button {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  form.demo-form button:hover { background: var(--orange-2); transform: translateY(-1px); }
+
+  .demo-thanks {
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: 18px;
+    padding: 50px 32px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    display: none;
+  }
+  .demo-thanks.show { display: block; }
+  .demo-thanks h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    margin: 0 0 12px;
+    color: var(--navy);
+    letter-spacing: 0.02em;
+  }
+  .demo-thanks p { margin: 0; color: var(--ink-2); font-size: 15px; }
+  .demo-thanks .check-big {
+    width: 56px; height: 56px;
+    margin: 0 auto 18px;
+    background: var(--orange);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: white;
+  }
+
+  @media (max-width: 900px) {
+    .demo-grid { grid-template-columns: 1fr; gap: 36px; }
+    form.demo-form .row { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--cream-2);
+    padding: 50px 0 30px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 36px;
+  }
+  .foot-brand {
+    max-width: 320px;
+  }
+  .foot-brand p {
+    color: var(--ink-2);
+    font-size: 14px;
+    margin: 14px 0 0;
+    line-height: 1.55;
+  }
+  .foot-col h4 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    color: var(--navy);
+    margin: 0 0 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .foot-col a {
+    display: block;
+    color: var(--ink-2);
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .foot-col a:hover { color: var(--orange); }
+  .foot-bar {
+    border-top: 1px solid var(--line-soft);
+    padding-top: 22px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--ink-3);
+    font-size: 13px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  @media (max-width: 760px) {
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== NAV ========== -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#">
+      <!-- compact roundhouse mark -->
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <!-- chimneys -->
+        <rect x="14" y="8" width="4" height="10" fill="#16223e"/>
+        <rect x="42" y="8" width="4" height="10" fill="#16223e"/>
+        <!-- curved roof -->
+        <path d="M6 24 Q30 6 54 24 L54 28 Q30 12 6 28 Z" fill="#16223e"/>
+        <!-- arches body -->
+        <rect x="6" y="26" width="48" height="22" fill="#16223e"/>
+        <!-- 5 arches -->
+        <path d="M10 48 L10 36 Q13 32 16 32 Q19 32 22 36 L22 48 Z" fill="#ece4d2"/>
+        <path d="M14 48 L14 38 Q16 35 18 35 Q20 35 22 38 L22 48 Z" fill="#ece4d2"/>
+        <!-- center arch orange -->
+        <path d="M24 48 L24 34 Q30 28 36 34 L36 48 Z" fill="#e85e2d"/>
+        <path d="M38 48 L38 38 Q40 35 42 35 Q44 35 46 38 L46 48 Z" fill="#ece4d2"/>
+        <path d="M38 48 L38 36 Q41 32 44 32 Q47 32 50 36 L50 48 Z" fill="#ece4d2"/>
+        <!-- ground -->
+        <rect x="4" y="48" width="52" height="3" fill="#16223e"/>
+        <rect x="2" y="51" width="56" height="2" fill="#e85e2d"/>
+      </svg>
+      ROUNDHOUSE
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="roundhouse-prototype.html" target="_blank">See the product</a>
+      <a class="nav-cta" href="#demo">Request a demo →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow"><span class="dot"></span> Built for home services businesses</span>
+      <h1>The <span class="accent">back office</span> for home services businesses.</h1>
+      <p class="lede">
+        Roundhouse is the AI-powered operating system for home services businesses.
+        Chuck answers every call, books every job, sends every invoice — so you can stay on the tools and keep moving.
+      </p>
+      <div class="cta-row">
+        <a href="#demo" class="btn btn-primary">
+          Request a demo
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="roundhouse-prototype.html" target="_blank" class="btn btn-ghost">
+          See it in action
+        </a>
+      </div>
+      <p class="micro">No credit card. We'll spin up a sandbox with your business name and walk you through it.</p>
+    </div>
+
+    <div class="hero-art">
+      <div class="phone-mock">
+        <div class="chuck-greet">
+          <div class="chuck-avatar">
+            <!-- Chuck silhouette -->
+            <svg viewBox="0 0 32 32" width="24" height="24">
+              <path d="M16 4 C11 4 7.5 7 7.5 11.5 C7.5 12 7.6 12.5 7.7 13 C6.5 12.8 5.5 13.4 5.3 14.5 C5 16.5 7 17 8 17 C8 19 9 21.5 10.5 23 L10.5 24.5 C9 25 8 26 8 26 L10 26 L11 27.5 C12 27 13 27 13.5 27.5 L13.5 23.5 C14 22 12.5 21 12 19.5 C12.5 19 13 18 13 17 C14 17.3 15 17.5 16 17.5 C17 17.5 18 17.3 19 17 C19 18 19.5 19 20 19.5 C19.5 21 18 22 18.5 23.5 L18.5 27.5 C19 27 20 27 21 27.5 L22 26 L24 26 C24 26 23 25 21.5 24.5 L21.5 23 C23 21.5 24 19 24 17 C25 17 27 16.5 26.7 14.5 C26.5 13.4 25.5 12.8 24.3 13 C24.4 12.5 24.5 12 24.5 11.5 C24.5 7 21 4 16 4 Z" fill="#16223e"/>
+            </svg>
+          </div>
+          CHUCK
+        </div>
+        <div class="chat-bubble">
+          Maria Chen called at 2:14pm — kitchen faucet leak. Booked her for tomorrow 9am. <strong>Approve the quote?</strong>
+        </div>
+        <div class="chat-bubble user">
+          Yes, send it
+        </div>
+        <div class="chat-bubble">
+          Sent. Reminder text to Maria set for 7am. Routed Dave to the Henderson job first.
+        </div>
+        <div class="stat-strip">
+          <div class="s-cell"><div class="num">7</div><div class="lbl">Calls today</div></div>
+          <div class="s-cell"><div class="num">4</div><div class="lbl">Booked</div></div>
+          <div class="s-cell"><div class="num">$2.4k</div><div class="lbl">Quoted</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== STRIP ========== -->
+<div class="strip">
+  <div class="wrap strip-inner">
+    <span>WORKS WITH</span>
+    <span class="pill"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg> QuickBooks</span>
+    <span class="pill"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg> Stripe</span>
+    <span class="pill"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg> Google Calendar</span>
+    <span class="pill"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg> Twilio</span>
+    <span class="pill"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg> Gmail</span>
+  </div>
+</div>
+
+<!-- ========== PROBLEM ========== -->
+<section class="block problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">The reality</div>
+      <h2>You're losing jobs every week — and you don't even know it.</h2>
+      <p class="sec-lede">The phone rings while you're under a sink. The text comes in at 7pm and you forget by morning. Quoting takes a Sunday. Invoicing slips. Somebody else gets the job.</p>
+    </div>
+    <div class="pain-grid">
+      <div class="pain">
+        <div class="num">62%</div>
+        <div class="label">of missed calls to home-service businesses never call back. They hire the next name on Google.</div>
+      </div>
+      <div class="pain">
+        <div class="num">11 hrs</div>
+        <div class="label">a week the average crew owner spends on quotes, scheduling, and invoicing — usually after the kids are in bed.</div>
+      </div>
+      <div class="pain">
+        <div class="num">28 days</div>
+        <div class="label">average days-to-paid when invoices are sent by hand. Roundhouse customers cut that to 7.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEATURES ========== -->
+<section class="block" id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">What Chuck does</div>
+      <h2>One operating system. Every part of the business.</h2>
+      <p class="sec-lede">Roundhouse runs the back office so you can run the trucks. Chuck handles the calls, the schedule, the money, and the marketing — and asks you when it needs a yes.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <h3>Never miss a call</h3>
+        <p>Chuck answers in your voice, captures the scope, qualifies the lead, and books it on your calendar. Spam gets filtered. Emergencies get you on the phone.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+        <h3>Quote in minutes</h3>
+        <p>Chuck drafts the quote from the call, prices it from your rate card, and waits for your one-tap approval. Sent before you're back in the truck.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <h3>Smart scheduling</h3>
+        <p>Routes the day, dodges traffic, accounts for drive time and material runs. Texts the customer a heads-up at the right hour. Reschedules itself when life happens.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+        <h3>Money, handled</h3>
+        <p>Invoices auto-send when the job closes. Card and bank links built in. Chuck nudges late payers on a schedule that works. Books update themselves.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <h3>Reviews on autopilot</h3>
+        <p>The right ask, at the right moment, to the right customer — and Chuck only sends it if the job went well. Watch your Google rating climb.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <h3>Just ask Chuck</h3>
+        <p>"How much did I make last week?" "What's on my calendar Friday?" "Send Maria a thank you." Chuck does it. No screens, no menus, no learning curve.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== HOW ========== -->
+<section class="block how" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">How it works</div>
+      <h2>You're up in a day. Not a quarter.</h2>
+      <p class="sec-lede">No IT project. No new phone. No "implementation specialist." Roundhouse plugs into the tools you already use.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Forward your line</h3>
+        <p>Point your business number at Roundhouse. Chuck answers in a voice you pick, with a greeting we write together.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Connect the tools</h3>
+        <p>QuickBooks, Stripe, Google Calendar, Gmail — all one-click. We pull your rate card and your past jobs to teach Chuck how you work.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Stay on the tools</h3>
+        <p>Chuck runs the office from your pocket. You approve quotes with a tap, watch the schedule fill itself, and get paid faster.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== QUOTE ========== -->
+<section class="quote-band">
+  <div class="wrap">
+    <blockquote>"I used to do four hours of paperwork on Sundays. Chuck does it while I'm driving. I got my weekends back."</blockquote>
+    <div class="cite">— Tony R., Tony's Home Repair · Portland, OR</div>
+  </div>
+</section>
+
+<!-- ========== PRICING ========== -->
+<section class="block" id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Pricing</div>
+      <h2>Priced for the truck, not the boardroom.</h2>
+      <p class="sec-lede">Pick a plan. Cancel any time. Every plan includes Chuck, the missed-call rescue, scheduling, and invoicing.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card">
+        <h3>Solo</h3>
+        <div class="price">$149<span style="font-size:18px;color:var(--ink-3);">/mo</span></div>
+        <div class="per">For one-truck operators</div>
+        <ul>
+          <li>1 phone line</li>
+          <li>Unlimited calls &amp; SMS</li>
+          <li>Quotes, jobs, invoicing</li>
+          <li>QuickBooks &amp; Stripe</li>
+          <li>Reviews on autopilot</li>
+        </ul>
+        <a href="#demo" class="btn btn-ghost">Start free trial</a>
+      </div>
+      <div class="price-card featured">
+        <h3>Crew</h3>
+        <div class="price">$349<span style="font-size:18px;opacity:0.6;">/mo</span></div>
+        <div class="per">Up to 5 trucks</div>
+        <ul>
+          <li>Everything in Solo</li>
+          <li>Multi-tech scheduling &amp; routing</li>
+          <li>Job costing &amp; payroll</li>
+          <li>Branded customer texts</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#demo" class="btn btn-ghost">Request a demo</a>
+      </div>
+      <div class="price-card">
+        <h3>Shop</h3>
+        <div class="price">Custom</div>
+        <div class="per">6+ trucks &amp; commercial</div>
+        <ul>
+          <li>Everything in Crew</li>
+          <li>Commercial scope &amp; bids</li>
+          <li>API access</li>
+          <li>Custom integrations</li>
+          <li>Dedicated success rep</li>
+        </ul>
+        <a href="#demo" class="btn btn-ghost">Talk to us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DEMO FORM ========== -->
+<section class="block demo" id="demo">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-eyebrow" style="color: var(--orange);">Request a demo</div>
+      <h2>See Chuck run your shop.</h2>
+      <p class="sec-lede">15 minutes. We'll show you Chuck answering a real call, drafting a quote, and routing the day. Bring your toughest workflow — we'll show you how it gets handled.</p>
+    </div>
+
+    <div class="demo-grid">
+      <div class="demo-perks">
+        <div class="perk">
+          <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="perk-text">
+            <strong>Live, not canned</strong>
+            <span>We use your business name, your services, your rate card. Not a slide deck.</span>
+          </div>
+        </div>
+        <div class="perk">
+          <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="perk-text">
+            <strong>Under 20 minutes</strong>
+            <span>We respect your schedule. Most demos run 15. You'll know if Roundhouse is a fit by the end.</span>
+          </div>
+        </div>
+        <div class="perk">
+          <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="perk-text">
+            <strong>30-day pilot, no card</strong>
+            <span>Say yes, we set you up the same week. Don't love it after 30 days, we walk away — no card on file.</span>
+          </div>
+        </div>
+        <div class="perk">
+          <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="perk-text">
+            <strong>Built for the truck</strong>
+            <span>Everything works one-handed from your phone. Chuck texts; you tap; the job is booked.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Netlify form -->
+      <form class="demo-form" name="demo-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks/" id="demoForm">
+        <input type="hidden" name="form-name" value="demo-request" />
+        <p style="display:none;">
+          <label>Don't fill this out: <input name="bot-field" /></label>
+        </p>
+
+        <div class="row">
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" required placeholder="Tony Romano" />
+          </div>
+          <div class="field">
+            <label for="company">Business name</label>
+            <input id="company" name="company" type="text" required placeholder="Tony's Home Repair" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required placeholder="tony@example.com" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" required placeholder="(555) 123-4567" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="size">Crew size</label>
+          <select id="size" name="size" required>
+            <option value="">Choose one…</option>
+            <option>Just me (solo)</option>
+            <option>2-5 trucks</option>
+            <option>6-15 trucks</option>
+            <option>15+ trucks</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="message">What's the biggest pain in your business right now?</label>
+          <textarea id="message" name="message" placeholder="Missed calls, quoting, late payments, scheduling chaos…"></textarea>
+        </div>
+
+        <div class="submit-row">
+          <span class="fineprint">We'll get back within one business day. No spam — Chuck filters that too.</span>
+          <button type="submit">
+            Request demo
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:6px;vertical-align:middle;"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </form>
+
+      <div class="demo-thanks" id="demoThanks">
+        <div class="check-big"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <h3>You're on Chuck's calendar.</h3>
+        <p>We'll reach out within one business day to lock in a time. In the meantime, check out the product tour.</p>
+        <p style="margin-top:18px;"><a href="roundhouse-prototype.html" target="_blank" class="btn btn-primary" style="display:inline-flex;">See the product tour →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#">
+          <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="height:30px;">
+            <rect x="14" y="8" width="4" height="10" fill="#16223e"/>
+            <rect x="42" y="8" width="4" height="10" fill="#16223e"/>
+            <path d="M6 24 Q30 6 54 24 L54 28 Q30 12 6 28 Z" fill="#16223e"/>
+            <rect x="6" y="26" width="48" height="22" fill="#16223e"/>
+            <path d="M10 48 L10 36 Q13 32 16 32 Q19 32 22 36 L22 48 Z" fill="#ece4d2"/>
+            <path d="M14 48 L14 38 Q16 35 18 35 Q20 35 22 38 L22 48 Z" fill="#ece4d2"/>
+            <path d="M24 48 L24 34 Q30 28 36 34 L36 48 Z" fill="#e85e2d"/>
+            <path d="M38 48 L38 38 Q40 35 42 35 Q44 35 46 38 L46 48 Z" fill="#ece4d2"/>
+            <path d="M38 48 L38 36 Q41 32 44 32 Q47 32 50 36 L50 48 Z" fill="#ece4d2"/>
+            <rect x="4" y="48" width="52" height="3" fill="#16223e"/>
+            <rect x="2" y="51" width="56" height="2" fill="#e85e2d"/>
+          </svg>
+          ROUNDHOUSE
+        </a>
+        <p>The operating system for home services businesses. Built by people who've held the wrench.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="roundhouse-prototype.html" target="_blank">Live demo</a>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+        <a href="#demo">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Security</a>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span>© 2026 Roundhouse, Inc. All rights reserved.</span>
+      <span>Made in the truck.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Smooth-scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (id.length > 1 && document.querySelector(id)) {
+        e.preventDefault();
+        document.querySelector(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Local-preview form handling: when running outside Netlify (e.g. file://),
+  // intercept the submit and show the thank-you state. On a deployed Netlify
+  // site, the form posts normally and Netlify redirects to /thanks/.
+  const form = document.getElementById('demoForm');
+  const thanks = document.getElementById('demoThanks');
+  form.addEventListener('submit', (e) => {
+    const isFile = location.protocol === 'file:';
+    const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    if (isFile || isLocal) {
+      e.preventDefault();
+      form.style.display = 'none';
+      thanks.classList.add('show');
+      thanks.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    // Otherwise let Netlify handle the POST -> /thanks/
+  });
+</script>
+
+</body>
+</html>
