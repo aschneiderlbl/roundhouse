@@ -1,0 +1,1600 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chuck — AI ops for home services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#2563EB;
+    --primary-hover:#1D4ED8;
+    --primary-light:#DBEAFE;
+    --cta:#22C55E;
+    --cta-hover:#16A34A;
+    --cta-light:#DCFCE7;
+    --bg:#F5F7FA;
+    --surface:#FFFFFF;
+    --border:#E5E7EB;
+    --text:#111827;
+    --text-sec:#6B7280;
+    --text-dis:#9CA3AF;
+    --warning:#F59E0B;
+    --warning-light:#FEF3C7;
+    --error:#EF4444;
+    --error-light:#FEE2E2;
+    --shadow-sm: 0 1px 2px rgba(17,24,39,0.04), 0 1px 3px rgba(17,24,39,0.06);
+    --shadow-md: 0 4px 12px rgba(17,24,39,0.06), 0 2px 4px rgba(17,24,39,0.04);
+    --shadow-lg: 0 12px 32px rgba(17,24,39,0.10), 0 4px 8px rgba(17,24,39,0.04);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Inter','Roboto',system-ui,-apple-system,sans-serif;
+    background:linear-gradient(180deg,#EEF2F7 0%,#E5EAF2 100%);
+    color:var(--text);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  /* ---------- Page chrome ---------- */
+  .stage{
+    min-height:100vh;
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:24px;
+    padding:32px 24px 64px;
+  }
+  @media(min-width:1100px){
+    .stage{
+      grid-template-columns: 320px 1fr;
+      align-items:start;
+      padding:48px 48px 64px;
+      gap:48px;
+    }
+  }
+  .side{
+    position:sticky; top:48px;
+  }
+  .brandline{
+    display:flex; align-items:center; gap:12px; margin-bottom:24px;
+  }
+  .logo{
+    width:40px; height:40px; border-radius:10px;
+    background:var(--primary);
+    display:grid; place-items:center;
+    color:#fff; font-weight:700; font-size:20px;
+    box-shadow:var(--shadow-sm);
+  }
+  .brand-name{font-weight:700; font-size:20px; letter-spacing:-0.01em}
+  .brand-sub{color:var(--text-sec); font-size:13px; margin-top:2px}
+  .side h2{
+    font-size:14px; font-weight:600; color:var(--text-sec);
+    text-transform:uppercase; letter-spacing:0.05em;
+    margin:24px 0 8px;
+  }
+  .side p{color:var(--text-sec); font-size:14px; line-height:1.6; margin:0 0 16px}
+  .screens-list{display:flex; flex-direction:column; gap:4px}
+  .screens-list button{
+    appearance:none; border:none; background:transparent;
+    text-align:left;
+    padding:10px 12px; border-radius:8px;
+    font:inherit; color:var(--text); font-size:14px;
+    cursor:pointer;
+    display:flex; align-items:center; gap:10px;
+    transition:background 150ms ease;
+  }
+  .screens-list button:hover{background:rgba(37,99,235,0.06)}
+  .screens-list button.active{
+    background:var(--primary-light); color:var(--primary); font-weight:600;
+  }
+  .screens-list .dot{width:6px; height:6px; border-radius:50%; background:var(--text-dis)}
+  .screens-list button.active .dot{background:var(--primary)}
+
+  .legend{
+    margin-top:24px; padding:16px;
+    background:#fff; border:1px solid var(--border); border-radius:12px;
+    font-size:13px; color:var(--text-sec); line-height:1.6;
+  }
+  .legend strong{color:var(--text); display:block; margin-bottom:6px; font-size:13px}
+
+  /* ---------- Phone frame ---------- */
+  .phone-wrap{display:grid; place-items:start center}
+  .phone{
+    width:390px; height:844px;
+    background:#000;
+    border-radius:48px;
+    padding:14px;
+    box-shadow:
+      0 30px 80px rgba(17,24,39,0.25),
+      0 12px 24px rgba(17,24,39,0.12),
+      inset 0 0 0 2px #1f2937;
+    position:relative;
+  }
+  .phone::before{
+    /* speaker / island */
+    content:""; position:absolute; left:50%; top:18px;
+    transform:translateX(-50%);
+    width:120px; height:32px; background:#000; border-radius:18px; z-index:5;
+  }
+  .screen{
+    width:100%; height:100%;
+    background:var(--bg);
+    border-radius:36px;
+    overflow:hidden;
+    position:relative;
+    display:flex; flex-direction:column;
+  }
+
+  /* Status bar */
+  .status{
+    height:48px; padding:18px 28px 0;
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:14px; font-weight:600; color:var(--text);
+    position:relative; z-index:2;
+  }
+  .status .right{display:flex; gap:6px; align-items:center}
+  .signal, .wifi, .battery{display:inline-block}
+  .battery{
+    width:24px; height:11px; border:1px solid var(--text); border-radius:3px;
+    position:relative;
+  }
+  .battery::after{
+    content:""; position:absolute; right:-3px; top:3px;
+    width:2px; height:5px; background:var(--text); border-radius:0 1px 1px 0;
+  }
+  .battery::before{
+    content:""; position:absolute; left:1px; top:1px; bottom:1px; width:70%;
+    background:var(--text); border-radius:1px;
+  }
+
+  /* App header */
+  .app-header{
+    padding:8px 20px 12px;
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--bg);
+  }
+  .app-header .title{font-size:24px; font-weight:600; letter-spacing:-0.01em}
+  .app-header .subtitle{font-size:13px; color:var(--text-sec); margin-top:2px}
+  .icon-btn{
+    width:40px; height:40px; border-radius:12px;
+    background:#fff; border:1px solid var(--border);
+    display:grid; place-items:center;
+    cursor:pointer;
+  }
+  .icon-btn:hover{background:var(--primary-light)}
+
+  /* Content area */
+  .content{
+    flex:1; overflow-y:auto; padding:0 16px 96px;
+    scrollbar-width:thin;
+  }
+  .content::-webkit-scrollbar{width:6px}
+  .content::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12); border-radius:3px}
+
+  /* Cards */
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    box-shadow:var(--shadow-sm);
+  }
+  .card + .card{margin-top:12px}
+  .card-title{
+    font-size:13px; font-weight:600; color:var(--text-sec);
+    text-transform:uppercase; letter-spacing:0.04em;
+    margin:0 0 12px;
+  }
+  .section-title{
+    font-size:14px; font-weight:600; color:var(--text-sec);
+    text-transform:uppercase; letter-spacing:0.04em;
+    margin:24px 4px 8px;
+  }
+
+  /* Buttons */
+  .btn{
+    appearance:none; border:none; cursor:pointer;
+    font:inherit; font-weight:500;
+    padding:10px 16px; border-radius:10px;
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    min-height:44px;
+    transition: background 150ms ease, transform 100ms ease;
+  }
+  .btn-primary{background:var(--cta); color:#fff}
+  .btn-primary:hover{background:var(--cta-hover)}
+  .btn-secondary{background:#fff; color:var(--primary); border:1px solid var(--primary)}
+  .btn-secondary:hover{background:var(--primary-light)}
+  .btn-text{background:transparent; color:var(--primary); padding:8px 12px; min-height:auto}
+  .btn-text:hover{background:var(--primary-light)}
+  .btn-block{width:100%}
+  .btn-sm{min-height:36px; padding:8px 12px; font-size:13px}
+
+  /* Pills / chips */
+  .pill{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:4px 10px; border-radius:999px;
+    font-size:12px; font-weight:500;
+    background:#F3F4F6; color:var(--text-sec);
+  }
+  .pill-primary{background:var(--primary-light); color:var(--primary)}
+  .pill-cta{background:var(--cta-light); color:var(--cta-hover)}
+  .pill-warning{background:var(--warning-light); color:#92400E}
+  .pill-error{background:var(--error-light); color:#991B1B}
+  .pill-dot{width:6px; height:6px; border-radius:50%; background:currentColor}
+
+  /* KPI tiles */
+  .kpi-row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .kpi{
+    background:#fff; border:1px solid var(--border); border-radius:12px; padding:14px;
+  }
+  .kpi-label{font-size:12px; color:var(--text-sec); font-weight:500}
+  .kpi-value{font-size:24px; font-weight:600; letter-spacing:-0.02em; margin-top:6px; line-height:1}
+  .kpi-trend{font-size:12px; color:var(--cta-hover); margin-top:6px; font-weight:500}
+  .kpi-trend.down{color:var(--error)}
+
+  /* Greeting / banner */
+  .hello{
+    background:linear-gradient(135deg,#1D4ED8 0%, #2563EB 100%);
+    color:#fff; border-radius:14px; padding:18px;
+    box-shadow:var(--shadow-md);
+    position:relative; overflow:hidden;
+  }
+  .hello::after{
+    content:""; position:absolute; right:-30px; top:-30px;
+    width:140px; height:140px; border-radius:50%;
+    background:rgba(255,255,255,0.08);
+  }
+  .hello .row{display:flex; align-items:center; gap:12px; margin-bottom:8px}
+  .hello .av{
+    width:44px; height:44px; border-radius:50%;
+    background:#fff; color:var(--primary);
+    display:grid; place-items:center; font-weight:700;
+    box-shadow: inset 0 0 0 3px rgba(255,255,255,0.5);
+  }
+  .hello h3{margin:0; font-size:16px; font-weight:600}
+  .hello p{margin:0; font-size:14px; opacity:0.9; line-height:1.5; position:relative; z-index:1}
+  .hello-cta{margin-top:14px; display:flex; gap:8px}
+  .hello-cta button{
+    flex:1; background:rgba(255,255,255,0.15);
+    border:1px solid rgba(255,255,255,0.3); color:#fff;
+    padding:10px; border-radius:10px; font-weight:500; font-size:13px;
+    cursor:pointer; backdrop-filter:blur(8px);
+  }
+  .hello-cta button.solid{background:#fff; color:var(--primary)}
+
+  /* Timeline / activity */
+  .activity-row{
+    display:flex; gap:12px; padding:12px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .activity-row:last-child{border-bottom:none}
+  .activity-icon{
+    width:36px; height:36px; border-radius:10px;
+    display:grid; place-items:center; flex-shrink:0;
+    background:var(--primary-light); color:var(--primary);
+  }
+  .activity-icon.call{background:var(--cta-light); color:var(--cta-hover)}
+  .activity-icon.sms{background:#EDE9FE; color:#6D28D9}
+  .activity-icon.review{background:#FEF3C7; color:#92400E}
+  .activity-icon.job{background:#DBEAFE; color:var(--primary)}
+  .activity-icon.miss{background:var(--error-light); color:var(--error)}
+  .activity-body{flex:1; min-width:0}
+  .activity-title{font-size:14px; font-weight:500; color:var(--text); line-height:1.3}
+  .activity-meta{font-size:12px; color:var(--text-sec); margin-top:4px; line-height:1.4}
+  .activity-time{font-size:12px; color:var(--text-sec); flex-shrink:0; padding-top:2px}
+
+  /* List rows */
+  .list{background:#fff; border:1px solid var(--border); border-radius:12px; overflow:hidden}
+  .row-item{
+    display:flex; align-items:center; gap:12px;
+    padding:14px 16px;
+    border-bottom:1px solid var(--border);
+    cursor:pointer;
+    transition:background 120ms ease;
+  }
+  .row-item:last-child{border-bottom:none}
+  .row-item:hover{background:#FAFBFC}
+  .avatar{
+    width:40px; height:40px; border-radius:50%;
+    background:var(--primary-light); color:var(--primary);
+    display:grid; place-items:center; font-weight:600; font-size:14px;
+    flex-shrink:0;
+  }
+  .avatar.gray{background:#F3F4F6; color:var(--text-sec)}
+  .avatar.green{background:var(--cta-light); color:var(--cta-hover)}
+  .avatar.amber{background:var(--warning-light); color:#92400E}
+  .row-body{flex:1; min-width:0}
+  .row-name{font-size:15px; font-weight:500; line-height:1.3}
+  .row-sub{font-size:13px; color:var(--text-sec); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .row-right{text-align:right; flex-shrink:0; display:flex; flex-direction:column; align-items:flex-end; gap:4px}
+  .row-time{font-size:12px; color:var(--text-sec)}
+
+  /* Tab bar (bottom nav) */
+  .tabbar{
+    position:absolute; bottom:0; left:0; right:0;
+    background:#fff;
+    border-top:1px solid var(--border);
+    padding:8px 8px 28px;
+    display:grid; grid-template-columns: repeat(5, 1fr); gap:4px;
+    z-index:10;
+  }
+  .tab-btn{
+    appearance:none; border:none; background:transparent; cursor:pointer;
+    padding:8px 4px; border-radius:10px;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    color:var(--text-sec);
+    font:inherit; font-size:11px; font-weight:500;
+    transition:color 120ms ease;
+  }
+  .tab-btn svg{width:22px; height:22px}
+  .tab-btn.active{color:var(--primary)}
+  .tab-btn:hover{color:var(--primary)}
+
+  /* Onboarding overlay */
+  .overlay{
+    position:absolute; inset:0; background:var(--bg);
+    z-index:20;
+    display:flex; flex-direction:column;
+    border-radius:36px;
+  }
+  .overlay-hidden{display:none}
+  .ob-top{padding:20px 20px 12px; display:flex; align-items:center; justify-content:space-between}
+  .ob-skip{font-size:14px; color:var(--text-sec); background:none; border:none; cursor:pointer}
+  .ob-steps{display:flex; gap:6px; padding:0 20px 20px}
+  .ob-step{flex:1; height:4px; background:var(--border); border-radius:2px; transition:background 200ms ease}
+  .ob-step.done, .ob-step.active{background:var(--primary)}
+  .ob-content{flex:1; overflow-y:auto; padding:8px 20px 24px}
+  .ob-eyebrow{font-size:12px; font-weight:600; color:var(--primary); text-transform:uppercase; letter-spacing:0.06em}
+  .ob-title{font-size:26px; font-weight:600; letter-spacing:-0.02em; line-height:1.15; margin:8px 0 8px}
+  .ob-desc{font-size:15px; color:var(--text-sec); line-height:1.55; margin:0 0 24px}
+  .ob-cta{padding:16px 20px 24px; border-top:1px solid var(--border); background:#fff}
+
+  /* Inputs */
+  .field{margin-bottom:14px}
+  .field label{display:block; font-size:13px; font-weight:500; margin-bottom:6px; color:var(--text)}
+  .field .hint{font-size:12px; color:var(--text-sec); margin-top:4px}
+  .input, .select, .textarea{
+    width:100%; padding:12px 14px;
+    border:1px solid var(--border); border-radius:8px;
+    background:#fff; font:inherit; font-size:15px; color:var(--text);
+    transition:border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .input:focus, .select:focus, .textarea:focus{
+    outline:none; border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(37,99,235,0.15);
+  }
+  .textarea{min-height:80px; resize:vertical; line-height:1.5}
+
+  /* Toggle */
+  .toggle{
+    width:42px; height:24px; background:var(--border); border-radius:12px;
+    position:relative; cursor:pointer; flex-shrink:0;
+    transition:background 150ms ease;
+  }
+  .toggle::after{
+    content:""; position:absolute; top:2px; left:2px;
+    width:20px; height:20px; background:#fff; border-radius:50%;
+    box-shadow:0 1px 3px rgba(0,0,0,0.15);
+    transition:left 150ms ease;
+  }
+  .toggle.on{background:var(--cta)}
+  .toggle.on::after{left:20px}
+
+  .row-toggle{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .row-toggle:last-child{border-bottom:none}
+  .row-toggle .label{font-size:14px; font-weight:500}
+  .row-toggle .sub{font-size:12px; color:var(--text-sec); margin-top:2px; max-width:240px}
+
+  /* Radio options */
+  .radio-card{
+    display:flex; align-items:flex-start; gap:12px;
+    padding:12px 14px; border:1.5px solid var(--border); border-radius:10px;
+    cursor:pointer; background:#fff;
+    transition:border-color 120ms ease, background 120ms ease;
+  }
+  .radio-card + .radio-card{margin-top:8px}
+  .radio-card:hover{border-color:#cbd5e1}
+  .radio-card.selected{border-color:var(--primary); background:var(--primary-light)}
+  .radio-dot{
+    width:18px; height:18px; border-radius:50%;
+    border:2px solid var(--border); flex-shrink:0; margin-top:2px;
+    background:#fff;
+  }
+  .radio-card.selected .radio-dot{border-color:var(--primary); background:var(--primary); box-shadow:inset 0 0 0 3px #fff}
+  .radio-body .t{font-size:14px; font-weight:500; line-height:1.3}
+  .radio-body .s{font-size:12px; color:var(--text-sec); margin-top:2px; line-height:1.4}
+
+  /* Pipeline pills */
+  .status-Lead{background:#F3F4F6; color:#6B7280}
+  .status-Qualified{background:#DBEAFE; color:#1D4ED8}
+  .status-Quoted{background:#EDE9FE; color:#6D28D9}
+  .status-Approved{background:#CFFAFE; color:#0E7490}
+  .status-Scheduled{background:#FEF3C7; color:#92400E}
+  .status-Progress{background:#FFEDD5; color:#9A3412}
+  .status-Complete{background:#DCFCE7; color:#15803D}
+  .status-Paid{background:#D1FAE5; color:#065F46}
+
+  /* Calendar */
+  .cal-strip{
+    display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin:8px 0 16px;
+  }
+  .cal-day{
+    background:#fff; border:1px solid var(--border); border-radius:10px;
+    padding:8px 4px; text-align:center; cursor:pointer;
+    transition:all 120ms ease;
+  }
+  .cal-day .dn{font-size:11px; color:var(--text-sec); font-weight:500}
+  .cal-day .dd{font-size:16px; font-weight:600; margin-top:2px}
+  .cal-day.today{background:var(--primary); color:#fff; border-color:var(--primary)}
+  .cal-day.today .dn{color:rgba(255,255,255,0.85)}
+  .cal-day .badge{
+    margin-top:4px; height:6px; width:6px; border-radius:50%;
+    background:var(--cta); margin-left:auto; margin-right:auto;
+  }
+  .cal-day.today .badge{background:#fff}
+
+  .event{
+    display:flex; gap:12px; padding:12px;
+    background:#fff; border:1px solid var(--border); border-radius:10px;
+  }
+  .event + .event{margin-top:8px}
+  .event .time{
+    width:54px; flex-shrink:0; text-align:center;
+    padding-right:12px; border-right:1px solid var(--border);
+  }
+  .event .time .t1{font-size:14px; font-weight:600}
+  .event .time .t2{font-size:11px; color:var(--text-sec); margin-top:2px}
+  .event .body{flex:1; min-width:0}
+  .event .body .t{font-size:14px; font-weight:500; line-height:1.3}
+  .event .body .s{font-size:12px; color:var(--text-sec); margin-top:2px}
+
+  /* Timeline (customer detail) */
+  .timeline{padding:8px 0}
+  .tl-item{position:relative; padding-left:32px; padding-bottom:18px}
+  .tl-item:not(:last-child)::before{
+    content:""; position:absolute; left:14px; top:24px; bottom:0;
+    width:2px; background:var(--border);
+  }
+  .tl-dot{
+    position:absolute; left:6px; top:6px;
+    width:18px; height:18px; border-radius:50%;
+    background:#fff; border:2px solid var(--primary);
+    display:grid; place-items:center;
+  }
+  .tl-dot.green{border-color:var(--cta)}
+  .tl-dot.amber{border-color:var(--warning)}
+  .tl-dot.purple{border-color:#7C3AED}
+  .tl-dot.red{border-color:var(--error)}
+  .tl-content{font-size:14px; line-height:1.4}
+  .tl-meta{font-size:12px; color:var(--text-sec); margin-top:2px}
+  .tl-card{
+    margin-top:8px; padding:12px;
+    background:#F9FAFB; border:1px solid var(--border); border-radius:10px;
+    font-size:13px; color:var(--text); line-height:1.5;
+  }
+  .tl-card .quote{
+    font-style:italic; color:var(--text-sec);
+    border-left:3px solid var(--primary); padding-left:10px; margin:8px 0;
+  }
+
+  /* Composer */
+  .composer{
+    display:flex; gap:8px; align-items:center;
+    background:#fff; padding:8px; border-top:1px solid var(--border);
+  }
+  .composer input{
+    flex:1; border:1px solid var(--border); border-radius:10px;
+    padding:10px 12px; font:inherit; font-size:14px;
+  }
+
+  /* Phone setup specific */
+  .ai-bubble{
+    background:var(--primary-light); color:var(--primary);
+    padding:14px; border-radius:14px 14px 14px 4px;
+    font-size:14px; line-height:1.5; max-width:80%; margin-bottom:8px;
+  }
+  .user-bubble{
+    background:#fff; color:var(--text);
+    border:1px solid var(--border);
+    padding:14px; border-radius:14px 14px 4px 14px;
+    font-size:14px; line-height:1.5; max-width:80%; margin-left:auto; margin-bottom:8px;
+  }
+
+  /* Empty state */
+  .empty{
+    text-align:center; padding:40px 24px; color:var(--text-sec);
+  }
+  .empty h4{margin:8px 0 4px; color:var(--text); font-size:16px; font-weight:600}
+  .empty p{margin:0; font-size:13px}
+
+  /* Misc helpers */
+  .flex{display:flex}
+  .between{justify-content:space-between}
+  .ai{align-items:center}
+  .gap8{gap:8px} .gap12{gap:12px} .gap16{gap:16px}
+  .mt8{margin-top:8px} .mt12{margin-top:12px} .mt16{margin-top:16px} .mt24{margin-top:24px}
+  .mb8{margin-bottom:8px} .mb12{margin-bottom:12px} .mb16{margin-bottom:16px}
+  .grow{flex:1}
+  .small{font-size:12px; color:var(--text-sec)}
+  .strong{font-weight:600}
+  .h-row{display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--border)}
+  .h-row:last-child{border-bottom:none}
+  .h-row .label{font-size:14px; color:var(--text)}
+  .h-row .val{font-size:14px; color:var(--text-sec); display:flex; align-items:center; gap:6px}
+
+  /* Test call ringing screen */
+  .ring-screen{
+    position:absolute; inset:0; background:linear-gradient(180deg,#0f172a 0%, #1e293b 100%);
+    color:#fff; border-radius:36px; padding:60px 24px 32px;
+    display:flex; flex-direction:column; align-items:center; z-index:30;
+  }
+  .ring-hidden{display:none}
+  .ring-name{font-size:32px; font-weight:600; margin-top:24px}
+  .ring-sub{color:rgba(255,255,255,0.6); margin-top:4px}
+  .ring-av{
+    width:120px; height:120px; border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    display:grid; place-items:center;
+    font-size:48px; font-weight:600;
+    box-shadow: 0 0 0 8px rgba(37,99,235,0.15), 0 0 0 24px rgba(37,99,235,0.08);
+    animation:pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow: 0 0 0 8px rgba(37,99,235,0.15), 0 0 0 24px rgba(37,99,235,0.08)}
+    50%{box-shadow: 0 0 0 14px rgba(37,99,235,0.22), 0 0 0 36px rgba(37,99,235,0.10)}
+  }
+  .ring-actions{margin-top:auto; display:flex; gap:48px}
+  .ring-btn{
+    width:64px; height:64px; border-radius:50%; border:none; cursor:pointer;
+    display:grid; place-items:center; color:#fff;
+  }
+  .ring-btn.end{background:#dc2626}
+  .ring-btn.acc{background:var(--cta)}
+
+  /* Pipeline horizontal scroller */
+  .pipeline{display:flex; gap:12px; overflow-x:auto; padding-bottom:8px; margin:0 -4px}
+  .pipeline::-webkit-scrollbar{display:none}
+  .col{
+    flex:0 0 240px;
+    background:#fff; border:1px solid var(--border); border-radius:12px;
+    padding:12px;
+  }
+  .col-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
+  .col-head .name{font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-sec)}
+  .col-head .count{background:#F3F4F6; padding:2px 8px; border-radius:999px; font-size:12px; color:var(--text-sec); font-weight:500}
+
+  .jobcard{
+    background:#fff; border:1px solid var(--border); border-radius:10px;
+    padding:10px; cursor:pointer;
+  }
+  .jobcard + .jobcard{margin-top:8px}
+  .jobcard:hover{border-color:var(--primary)}
+  .jobcard .name{font-size:13px; font-weight:500; line-height:1.3}
+  .jobcard .meta{font-size:11px; color:var(--text-sec); margin-top:4px}
+  .jobcard .val{font-size:13px; font-weight:600; color:var(--cta-hover); margin-top:6px}
+
+  /* Footer note */
+  .footer-note{
+    margin-top:32px; padding-top:24px;
+    border-top:1px solid var(--border);
+    color:var(--text-sec); font-size:13px; line-height:1.6;
+  }
+
+  /* Tag chip with x */
+  .tag-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--primary-light); color:var(--primary);
+    padding:4px 8px; border-radius:6px;
+    font-size:12px; font-weight:500;
+  }
+
+  /* Score gauge */
+  .gauge{
+    display:flex; align-items:center; gap:12px;
+    padding:12px; background:var(--cta-light); border:1px solid #BBF7D0; border-radius:10px;
+  }
+  .gauge .num{
+    width:48px; height:48px; border-radius:50%;
+    background:var(--cta); color:#fff;
+    display:grid; place-items:center; font-weight:700; font-size:18px;
+  }
+  .gauge .copy{flex:1}
+  .gauge .copy .t{font-size:13px; font-weight:600; color:var(--cta-hover)}
+  .gauge .copy .s{font-size:12px; color:#166534; margin-top:2px}
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <aside class="side">
+    <div class="brandline">
+      <div class="logo">C</div>
+      <div>
+        <div class="brand-name">Chuck</div>
+        <div class="brand-sub">AI ops for home services</div>
+      </div>
+    </div>
+    <p>Chuck is the AI agent who answers every call, qualifies every lead, books the job, and follows up — so the owner can keep their hands on the tools.</p>
+
+    <h2>Jump to a screen</h2>
+    <div class="screens-list" id="screensList">
+      <button data-screen="today" class="active"><span class="dot"></span>Today</button>
+      <button data-screen="customers"><span class="dot"></span>Customers (CRM)</button>
+      <button data-screen="customer-detail"><span class="dot"></span>Customer detail</button>
+      <button data-screen="jobs"><span class="dot"></span>Jobs — schedule</button>
+      <button data-screen="pipeline"><span class="dot"></span>Jobs — pipeline</button>
+      <button data-screen="intake"><span class="dot"></span>Intake & agent setup</button>
+      <button data-screen="phone-setup"><span class="dot"></span>Phone setup</button>
+      <button data-screen="reviews"><span class="dot"></span>Reviews</button>
+      <button data-screen="onboarding"><span class="dot"></span>Onboarding wizard</button>
+      <button data-screen="testcall"><span class="dot"></span>Live test call</button>
+    </div>
+
+    <div class="legend">
+      <strong>Built from</strong>
+      Roundhouse master plan (Chuck MVP) · Hey Rosie reference flows · Minimal Material design system. Inter, 8px spacing, 12px cards, 44px touch targets.
+    </div>
+
+    <div class="footer-note">
+      Tap around the phone. The bottom tab bar and the screen list both navigate. Toggle the onboarding wizard to see the 4-step setup. Press the green "Test agent" button on Intake to trigger a simulated call.
+    </div>
+  </aside>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="screen" id="screen">
+
+        <!-- ============================= TODAY ============================= -->
+        <section class="view" data-view="today">
+          <div class="status">
+            <div>9:41</div>
+            <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
+          </div>
+
+          <div class="app-header">
+            <div>
+              <div class="title">Good morning, Mike</div>
+              <div class="subtitle">Tuesday · May 26</div>
+            </div>
+            <button class="icon-btn" title="Notifications">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+            </button>
+          </div>
+
+          <div class="content">
+            <!-- Chuck status banner -->
+            <div class="hello">
+              <div class="row">
+                <div class="av">C</div>
+                <div>
+                  <h3>Chuck handled 7 calls overnight</h3>
+                </div>
+              </div>
+              <p>Booked 2 estimates, qualified 3 leads, and forwarded 1 emergency to your cell. All while you slept.</p>
+              <div class="hello-cta">
+                <button class="solid" data-goto="customers">Review leads</button>
+                <button>Listen back</button>
+              </div>
+            </div>
+
+            <!-- KPIs -->
+            <div class="section-title">This week</div>
+            <div class="kpi-row">
+              <div class="kpi">
+                <div class="kpi-label">Calls answered</div>
+                <div class="kpi-value">34</div>
+                <div class="kpi-trend">▲ 12 vs last week</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Leads captured</div>
+                <div class="kpi-value">18</div>
+                <div class="kpi-trend">▲ 6</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Estimates booked</div>
+                <div class="kpi-value">9</div>
+                <div class="kpi-trend">▲ 3</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Revenue at stake</div>
+                <div class="kpi-value">$24.8k</div>
+                <div class="kpi-trend">▲ $7.2k</div>
+              </div>
+            </div>
+
+            <div class="section-title">Activity</div>
+            <div class="card" style="padding:4px 16px">
+              <div class="activity-row">
+                <div class="activity-icon call"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                <div class="activity-body">
+                  <div class="activity-title">Sarah Chen booked an estimate</div>
+                  <div class="activity-meta">Kitchen remodel · Mon 3:00pm · 7 min call</div>
+                </div>
+                <div class="activity-time">8:42a</div>
+              </div>
+              <div class="activity-row">
+                <div class="activity-icon sms"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                <div class="activity-body">
+                  <div class="activity-title">Photos received from Tom Reilly</div>
+                  <div class="activity-meta">3 images · roof leak above garage</div>
+                </div>
+                <div class="activity-time">7:31a</div>
+              </div>
+              <div class="activity-row">
+                <div class="activity-icon miss"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div>
+                <div class="activity-body">
+                  <div class="activity-title">Emergency forwarded to you</div>
+                  <div class="activity-meta">Burst pipe · 4451 Maple Ave · Dana Lee</div>
+                </div>
+                <div class="activity-time">2:14a</div>
+              </div>
+              <div class="activity-row">
+                <div class="activity-icon review"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <div class="activity-body">
+                  <div class="activity-title">New Google review · 5 stars</div>
+                  <div class="activity-meta">"Mike was fast and honest." — Diane K.</div>
+                </div>
+                <div class="activity-time">Yesterday</div>
+              </div>
+              <div class="activity-row">
+                <div class="activity-icon job"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                <div class="activity-body">
+                  <div class="activity-title">Job moved to "Quoted"</div>
+                  <div class="activity-meta">Patel residence · $4,820 water heater</div>
+                </div>
+                <div class="activity-time">Yesterday</div>
+              </div>
+            </div>
+
+            <div class="section-title">Needs you</div>
+            <div class="card">
+              <div class="flex ai gap12">
+                <div class="avatar amber">!</div>
+                <div class="grow">
+                  <div class="row-name">Approve quote for Patel residence</div>
+                  <div class="row-sub">Chuck drafted — $4,820 · 50 gal hybrid</div>
+                </div>
+                <button class="btn btn-primary btn-sm">Review</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="flex ai gap12">
+                <div class="avatar green">+</div>
+                <div class="grow">
+                  <div class="row-name">3 new tags suggested</div>
+                  <div class="row-sub">"Insurance claim", "Recurring", "Premium"</div>
+                </div>
+                <button class="btn btn-secondary btn-sm">View</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================= CUSTOMERS LIST ============================= -->
+        <section class="view" data-view="customers" style="display:none">
+          <div class="status">
+            <div>9:41</div>
+            <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
+          </div>
+
+          <div class="app-header">
+            <div>
+              <div class="title">Customers</div>
+              <div class="subtitle">412 contacts · 18 new this week</div>
+            </div>
+            <button class="icon-btn" title="Add">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+
+          <div class="content">
+            <input class="input" placeholder="Search by name, phone, address…" style="margin-bottom:12px"/>
+
+            <div class="flex gap8 mb12" style="overflow-x:auto; padding-bottom:4px">
+              <span class="pill pill-primary"><span class="pill-dot"></span>All 412</span>
+              <span class="pill">New 18</span>
+              <span class="pill">Open jobs 9</span>
+              <span class="pill">Past due 3</span>
+              <span class="pill">VIP 24</span>
+            </div>
+
+            <div class="section-title">New from Chuck</div>
+            <div class="list">
+              <div class="row-item" data-goto="customer-detail">
+                <div class="avatar">SC</div>
+                <div class="row-body">
+                  <div class="row-name">Sarah Chen</div>
+                  <div class="row-sub">Kitchen remodel · captured today</div>
+                </div>
+                <div class="row-right">
+                  <span class="pill pill-cta status-Qualified">Qualified</span>
+                  <span class="row-time">8:42a</span>
+                </div>
+              </div>
+              <div class="row-item">
+                <div class="avatar green">TR</div>
+                <div class="row-body">
+                  <div class="row-name">Tom Reilly</div>
+                  <div class="row-sub">Roof leak · photos received</div>
+                </div>
+                <div class="row-right">
+                  <span class="pill status-Qualified">Qualified</span>
+                  <span class="row-time">7:31a</span>
+                </div>
+              </div>
+              <div class="row-item">
+                <div class="avatar amber">DL</div>
+                <div class="row-body">
+                  <div class="row-name">Dana Lee</div>
+                  <div class="row-sub">Burst pipe · forwarded to you</div>
+                </div>
+                <div class="row-right">
+                  <span class="pill pill-error">Emergency</span>
+                  <span class="row-time">2:14a</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-title">Recent</div>
+            <div class="list">
+              <div class="row-item">
+                <div class="avatar gray">JP</div>
+                <div class="row-body">
+                  <div class="row-name">Jay Patel</div>
+                  <div class="row-sub">Water heater · quote sent</div>
+                </div>
+                <div class="row-right">
+                  <span class="pill status-Quoted">Quoted</span>
+                  <span class="row-time">Yest</span>
+                </div>
+              </div>
+              <div class="row-item">
+                <div class="avatar gray">DK</div>
+                <div class="row-body">
+                  <div class="row-name">Diane Kowalski</div>
+                  <div class="row-sub">Furnace tune-up · review left</div>
+                </div>
+                <div class="row-right">
+                  <span class="pill status-Paid">Paid</span>
+                  <span class="row-time">Yest</span>
+                </div>
+              </div>
+              <div class="row-item">
+                <div class="avatar gray">MA</div>
+                <div class="row-body">
+                  <div class="row-name">Mark Alvarez</div>
+                  <div class="row-sub">Sump pump install · on calendar</div>
+                </div>
+                <div class="row-right">
+                  <span class="pill status-Scheduled">Scheduled</span>
+                  <span class="row-time">Fri</span>
+                </div>
+              </div>
+              <div class="row-item">
+                <div class="avatar gray">EH</div>
+                <div class="row-body">
+                  <div class="row-name">Eleanor Huang</div>
+                  <div class="row-sub">Annual maintenance · follow-up due</div>
+                </div>
+                <div class="row-right">
+                  <span class="pill">Lead</span>
+                  <span class="row-time">5/19</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================= CUSTOMER DETAIL ============================= -->
+        <section class="view" data-view="customer-detail" style="display:none">
+          <div class="status">
+            <div>9:41</div>
+            <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
+          </div>
+
+          <div class="app-header">
+            <button class="icon-btn" data-goto="customers" title="Back">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="grow" style="text-align:center">
+              <div class="title" style="font-size:16px">Sarah Chen</div>
+              <div class="subtitle">Qualified · $18k–24k est.</div>
+            </div>
+            <button class="icon-btn" title="More">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+            </button>
+          </div>
+
+          <div class="content">
+            <div class="card" style="text-align:center; padding-top:24px">
+              <div class="avatar" style="width:64px; height:64px; font-size:22px; margin:0 auto 12px">SC</div>
+              <div style="font-size:20px; font-weight:600">Sarah Chen</div>
+              <div class="small mt8">4220 Birchwood Ln · Maple Grove</div>
+              <div class="flex ai gap8" style="justify-content:center; margin-top:16px">
+                <span class="tag-chip">Kitchen remodel</span>
+                <span class="tag-chip">Residential</span>
+                <span class="tag-chip">Premium</span>
+              </div>
+              <div class="flex gap8" style="justify-content:center; margin-top:16px">
+                <button class="btn btn-secondary btn-sm" style="flex:1">📞 Call</button>
+                <button class="btn btn-secondary btn-sm" style="flex:1">💬 Text</button>
+                <button class="btn btn-primary btn-sm" style="flex:1">＋ Job</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Contact</div>
+              <div class="h-row"><span class="label">Phone</span><span class="val">(612) 555-0184</span></div>
+              <div class="h-row"><span class="label">Email</span><span class="val">sarah.chen@gmail.com</span></div>
+              <div class="h-row"><span class="label">Lead source</span><span class="val">Google · "kitchen remodel near me"</span></div>
+              <div class="h-row"><span class="label">Last contact</span><span class="val">Today, 8:42a</span></div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Qualification</div>
+              <div class="gauge">
+                <div class="num">92</div>
+                <div class="copy">
+                  <div class="t">Strong fit</div>
+                  <div class="s">Premium tier · in service area · budget aligned</div>
+                </div>
+              </div>
+              <div class="mt12">
+                <div class="h-row"><span class="label">Project type</span><span class="val">Full kitchen remodel</span></div>
+                <div class="h-row"><span class="label">Timeline</span><span class="val">6–8 weeks out</span></div>
+                <div class="h-row"><span class="label">Budget</span><span class="val">$18k–24k</span></div>
+                <div class="h-row"><span class="label">Property</span><span class="val">Residential · owner-occupied</span></div>
+              </div>
+            </div>
+
+            <div class="card-title" style="margin-left:4px; margin-top:24px">Timeline</div>
+            <div class="card">
+              <div class="timeline">
+                <div class="tl-item">
+                  <div class="tl-dot green">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div class="tl-content"><span class="strong">Estimate booked</span> — Mon, June 1 · 3:00pm</div>
+                  <div class="tl-meta">Chuck · just now</div>
+                  <div class="tl-card">
+                    Confirmed appointment. Reminder will go out 24h ahead with photo upload prompt.
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot purple"><div style="width:6px;height:6px;background:#7C3AED;border-radius:50%"></div></div>
+                  <div class="tl-content"><span class="strong">SMS sent</span> — confirmation + photo prompt</div>
+                  <div class="tl-meta">Chuck · 8:44a</div>
+                  <div class="tl-card">
+                    "Hi Sarah! Mike's confirmed for Mon 6/1 at 3pm. Want to send a few pics of the kitchen so we can come prepared? Reply with photos any time."
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <div class="tl-content"><span class="strong">Inbound call</span> — 7 min · qualified</div>
+                  <div class="tl-meta">Chuck answered · 8:42a · <a href="#" style="color:var(--primary)">listen</a> · <a href="#" style="color:var(--primary)">transcript</a></div>
+                  <div class="tl-card">
+                    <div class="quote">"I'd like to redo the whole kitchen — cabinets, counters, the works. We're hoping to start in about six weeks."</div>
+                    <div class="small">Chuck captured: project type, timeline, budget, service address, lead source, photo prompt sent.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================= JOBS SCHEDULE ============================= -->
+        <section class="view" data-view="jobs" style="display:none">
+          <div class="status">
+            <div>9:41</div>
+            <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
+          </div>
+
+          <div class="app-header">
+            <div>
+              <div class="title">Schedule</div>
+              <div class="subtitle">3 jobs · 2 estimates today</div>
+            </div>
+            <button class="icon-btn" title="Add">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+
+          <div class="content">
+            <div class="flex gap8 mb12">
+              <button class="btn btn-secondary btn-sm" style="flex:1; background:var(--primary); color:#fff; border-color:var(--primary)">Day</button>
+              <button class="btn btn-secondary btn-sm" style="flex:1">Week</button>
+              <button class="btn btn-secondary btn-sm" style="flex:1">Month</button>
+              <button class="btn btn-secondary btn-sm" style="flex:1; background:#fff" data-goto="pipeline">Pipeline</button>
+            </div>
+
+            <div class="cal-strip">
+              <div class="cal-day"><div class="dn">Mon</div><div class="dd">25</div></div>
+              <div class="cal-day today"><div class="dn">Tue</div><div class="dd">26</div><div class="badge"></div></div>
+              <div class="cal-day"><div class="dn">Wed</div><div class="dd">27</div><div class="badge"></div></div>
+              <div class="cal-day"><div class="dn">Thu</div><div class="dd">28</div></div>
+              <div class="cal-day"><div class="dn">Fri</div><div class="dd">29</div><div class="badge"></div></div>
+              <div class="cal-day"><div class="dn">Sat</div><div class="dd">30</div></div>
+              <div class="cal-day"><div class="dn">Sun</div><div class="dd">31</div></div>
+            </div>
+
+            <div class="section-title" style="margin-top:8px">Today · Tue May 26</div>
+
+            <div class="event">
+              <div class="time"><div class="t1">8:00</div><div class="t2">AM</div></div>
+              <div class="body">
+                <div class="t">Furnace tune-up · Patel residence <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
+                <div class="s">2210 Oak St · 1.5h · Mike</div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="time"><div class="t1">10:30</div><div class="t2">AM</div></div>
+              <div class="body">
+                <div class="t">Estimate · Reilly roof leak <span class="pill pill-primary" style="margin-left:6px">Estimate</span></div>
+                <div class="s">87 Linden Ct · photos in CRM</div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="time"><div class="t1">1:00</div><div class="t2">PM</div></div>
+              <div class="body">
+                <div class="t">Drain cleaning · Hoffman <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
+                <div class="s">5512 Greenway · 2h · Eric</div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="time"><div class="t1">3:30</div><div class="t2">PM</div></div>
+              <div class="body">
+                <div class="t">Follow-up call · Kowalski <span class="pill pill-warning" style="margin-left:6px">Follow-up</span></div>
+                <div class="s">Review check-in · Chuck will dial</div>
+              </div>
+            </div>
+
+            <div class="section-title">Tomorrow · Wed May 27</div>
+            <div class="event">
+              <div class="time"><div class="t1">9:00</div><div class="t2">AM</div></div>
+              <div class="body">
+                <div class="t">Water heater install · Patel <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
+                <div class="s">$4,820 · 4h · Mike + Eric</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================= PIPELINE ============================= -->
+        <section class="view" data-view="pipeline" style="display:none">
+          <div class="status">
+            <div>9:41</div>
+            <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
+          </div>
+
+          <div class="app-header">
+            <div>
+              <div class="title">Pipeline</div>
+              <div class="subtitle">$78.4k in motion</div>
+            </div>
+            <button class="icon-btn" data-goto="jobs" title="Calendar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </button>
+          </div>
+
+          <div class="content">
+            <div class="pipeline">
+              <div class="col">
+                <div class="col-head"><span class="name">Lead</span><span class="count">5</span></div>
+                <div class="jobcard"><div class="name">Eleanor Huang</div><div class="meta">Annual maintenance</div><div class="val">$320 est.</div></div>
+                <div class="jobcard"><div class="name">Bryce Adams</div><div class="meta">Leaky faucet</div><div class="val">$180 est.</div></div>
+                <div class="jobcard"><div class="name">Olivia Park</div><div class="meta">New thermostat</div><div class="val">$450 est.</div></div>
+              </div>
+              <div class="col">
+                <div class="col-head"><span class="name">Qualified</span><span class="count">3</span></div>
+                <div class="jobcard"><div class="name">Sarah Chen</div><div class="meta">Kitchen remodel</div><div class="val">$18–24k</div></div>
+                <div class="jobcard"><div class="name">Tom Reilly</div><div class="meta">Roof leak</div><div class="val">$2.4k</div></div>
+              </div>
+              <div class="col">
+                <div class="col-head"><span class="name">Quoted</span><span class="count">2</span></div>
+                <div class="jobcard"><div class="name">Jay Patel</div><div class="meta">Water heater · 50gal</div><div class="val">$4,820</div></div>
+                <div class="jobcard"><div class="name">Lin Carter</div><div class="meta">Sewer line repair</div><div class="val">$6,150</div></div>
+              </div>
+              <div class="col">
+                <div class="col-head"><span class="name">Scheduled</span><span class="count">4</span></div>
+                <div class="jobcard"><div class="name">Mark Alvarez</div><div class="meta">Sump pump · Fri</div><div class="val">$1,280</div></div>
+                <div class="jobcard"><div class="name">Hoffman</div><div class="meta">Drain · today 1pm</div><div class="val">$420</div></div>
+              </div>
+              <div class="col">
+                <div class="col-head"><span class="name">Complete</span><span class="count">6</span></div>
+                <div class="jobcard"><div class="name">Diane Kowalski</div><div class="meta">Tune-up · review left</div><div class="val">$220</div></div>
+                <div class="jobcard"><div class="name">McNeal</div><div class="meta">Garbage disposal</div><div class="val">$340</div></div>
+              </div>
+              <div class="col">
+                <div class="col-head"><span class="name">Paid</span><span class="count">11</span></div>
+                <div class="jobcard"><div class="name">Reyes</div><div class="meta">Boiler repair</div><div class="val">$1,650</div></div>
+                <div class="jobcard"><div class="name">Wallace</div><div class="meta">Toilet install</div><div class="val">$540</div></div>
+              </div>
+            </div>
+
+            <div class="card mt16">
+              <div class="card-title">This month</div>
+              <div class="kpi-row">
+                <div class="kpi"><div class="kpi-label">Closed-won</div><div class="kpi-value">$41.2k</div><div class="kpi-trend">▲ 28%</div></div>
+                <div class="kpi"><div class="kpi-label">Avg ticket</div><div class="kpi-value">$1,840</div><div class="kpi-trend">▲ $210</div></div>
+                <div class="kpi"><div class="kpi-label">Win rate</div><div class="kpi-value">62%</div><div class="kpi-trend">▲ 4pp</div></div>
+                <div class="kpi"><div class="kpi-label">Avg response</div><div class="kpi-value">14s</div><div class="kpi-trend">vs 4h</div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================= INTAKE ============================= -->
+        <section class="view" data-view="intake" style="display:none">
+          <div class="status">
+            <div>9:41</div>
+            <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
+          </div>
+
+          <div class="app-header">
+            <div>
+              <div class="title">Chuck</div>
+              <div class="subtitle">Live · answering as your business</div>
+            </div>
+            <button class="icon-btn btn-primary" style="background:var(--cta); color:#fff; border-color:var(--cta)" onclick="showRing()" title="Test agent">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+          </div>
+
+          <div class="content">
+            <div class="card">
+              <div class="flex ai between">
+                <div>
+                  <div class="strong">Chuck is live</div>
+                  <div class="small mt8">Answering missed calls · routing emergencies to your cell</div>
+                </div>
+                <div class="toggle on"></div>
+              </div>
+            </div>
+
+            <div class="section-title">Service hours</div>
+            <div class="card" style="padding:4px 16px">
+              <div class="h-row"><span class="label">Mon–Fri</span><span class="val">7:00a – 5:00p</span></div>
+              <div class="h-row"><span class="label">Saturday</span><span class="val">8:00a – 12:00p</span></div>
+              <div class="h-row"><span class="label">Sunday</span><span class="val">Closed</span></div>
+              <div class="h-row"><span class="label">Emergencies</span><span class="val"><span class="pill pill-cta">24/7</span></span></div>
+            </div>
+
+            <div class="section-title">Phone setup</div>
+            <div class="card">
+              <div class="radio-card selected">
+                <div class="radio-dot"></div>
+                <div class="radio-body">
+                  <div class="t">AI answers missed calls only</div>
+                  <div class="s">Chuck picks up after 4 rings if you don't. Recommended for solo operators.</div>
+                </div>
+              </div>
+              <div class="radio-card">
+                <div class="radio-dot"></div>
+                <div class="radio-body">
+                  <div class="t">AI answers after hours</div>
+                  <div class="s">Chuck takes over outside of service hours.</div>
+                </div>
+              </div>
+              <div class="radio-card">
+                <div class="radio-dot"></div>
+                <div class="radio-body">
+                  <div class="t">AI always answers first</div>
+                  <div class="s">Chuck qualifies every caller before transferring.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-title">Intake questions</div>
+            <div class="card">
+              <div class="h-row"><span class="label">What type of project?</span><span class="val">Required</span></div>
+              <div class="h-row"><span class="label">Timeline?</span><span class="val">Required</span></div>
+              <div class="h-row"><span class="label">Budget?</span><span class="val">Optional</span></div>
+              <div class="h-row"><span class="label">Residential or commercial?</span><span class="val">Required</span></div>
+              <div class="h-row"><span class="label">Service address?</span><span class="val">Required</span></div>
+              <div class="h-row"><span class="label">How did you hear about us?</span><span class="val">Optional</span></div>
+              <button class="btn btn-text mt8">＋ Add a question</button>
+            </div>
+
+            <div class="section-title">Qualification rules</div>
+            <div class="card" style="padding:4px 16px">
+              <div class="row-toggle">
+                <div><div class="label">Minimum project size</div><div class="sub">Skip leads under $250</div></div>
+                <div class="toggle on"></div>
+              </div>
+              <div class="row-toggle">
+                <div><div class="label">Service area boundary</div><div class="sub">Within 25 mi of 55101</div></div>
+                <div class="toggle on"></div>
+              </div>
+              <div class="row-toggle">
+                <div><div class="label">Residential only</div><div class="sub">Decline commercial inquiries politely</div></div>
+                <div class="toggle"></div>
+              </div>
+              <div class="row-toggle">
+                <div><div class="label">Forward emergencies</div><div class="sub">Burst pipes, no heat, gas leaks → your cell</div></div>
+                <div class="toggle on"></div>
+              </div>
+            </div>
+
+            <div class="section-title">Greeting script</div>
+            <div class="card">
+              <textarea class="textarea">Hi, thanks for calling Northland Plumbing! This is Chuck. Mike's out on a job — I can help you get set up. What kind of project are you calling about?</textarea>
+              <div class="small mt8">Used when Chuck answers. Generated from your website on signup; edit any time.</div>
+            </div>
+
+            <button class="btn btn-primary btn-block mt16" onclick="showOnboarding()">Run setup wizard</button>
+          </div>
+        </section>
+
+        <!-- ============================= PHONE SETUP DETAIL ============================= -->
+        <section class="view" data-view="phone-setup" style="display:none">
+          <div class="status">
+            <div>9:41</div>
+            <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
+          </div>
+
+          <div class="app-header">
+            <button class="icon-btn" data-goto="intake" title="Back">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="grow" style="text-align:center"><div class="title" style="font-size:18px">Phone setup</div></div>
+            <div style="width:40px"></div>
+          </div>
+
+          <div class="content">
+            <div class="card">
+              <div class="card-title">Your Chuck number</div>
+              <div class="flex ai between">
+                <div style="font-size:22px; font-weight:600">(651) 555-0420</div>
+                <button class="btn btn-text btn-sm">Copy</button>
+              </div>
+              <div class="small mt8">Forward your business line here to have Chuck answer missed calls.</div>
+              <button class="btn btn-secondary btn-block mt12">Show forwarding instructions</button>
+            </div>
+
+            <div class="section-title">Preview a call</div>
+            <div class="card" style="padding:14px">
+              <div class="ai-bubble">Hi, thanks for calling Northland Plumbing! This is Chuck. What kind of project are you calling about?</div>
+              <div class="user-bubble">My water heater's leaking. I need someone out today.</div>
+              <div class="ai-bubble">Sorry to hear that — leaks are no fun. Where's the leak coming from, and is water still flowing?</div>
+              <div class="user-bubble">It's pooling on the floor. I shut the water off.</div>
+              <div class="ai-bubble">Good move. I can get someone scheduled for today. What's the service address?</div>
+            </div>
+            <button class="btn btn-primary btn-block mt12" onclick="showRing()">📞 Place a test call</button>
+          </div>
+        </section>
+
+        <!-- ============================= REVIEWS ============================= -->
+        <section class="view" data-view="reviews" style="display:none">
+          <div class="status">
+            <div>9:41</div>
+            <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
+          </div>
+
+          <div class="app-header">
+            <div>
+              <div class="title">Reviews</div>
+              <div class="subtitle">4.9 ★ · 142 reviews</div>
+            </div>
+            <button class="icon-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </button>
+          </div>
+
+          <div class="content">
+            <div class="kpi-row">
+              <div class="kpi"><div class="kpi-label">Requests sent</div><div class="kpi-value">28</div><div class="kpi-trend">this month</div></div>
+              <div class="kpi"><div class="kpi-label">Reviews left</div><div class="kpi-value">19</div><div class="kpi-trend">68% conversion</div></div>
+            </div>
+
+            <div class="section-title">Automation</div>
+            <div class="card" style="padding:4px 16px">
+              <div class="row-toggle">
+                <div><div class="label">Google review request</div><div class="sub">SMS 1 hour after job marked Complete</div></div>
+                <div class="toggle on"></div>
+              </div>
+              <div class="row-toggle">
+                <div><div class="label">Written testimonial</div><div class="sub">Email if customer rates 5★</div></div>
+                <div class="toggle on"></div>
+              </div>
+              <div class="row-toggle">
+                <div><div class="label">Referral nudge</div><div class="sub">"Know anyone else who could use us?" · 7 days post-job</div></div>
+                <div class="toggle on"></div>
+              </div>
+            </div>
+
+            <div class="section-title">Recent</div>
+            <div class="card">
+              <div class="flex ai between mb8">
+                <div class="strong">Diane Kowalski</div>
+                <div style="color:#F59E0B">★★★★★</div>
+              </div>
+              <div class="small">Furnace tune-up · Yesterday</div>
+              <div class="tl-card mt8">"Mike was fast, honest, and clean. Booking through their automated system was the smoothest experience I've had with a contractor. Will definitely use again."</div>
+              <button class="btn btn-text btn-sm mt8">Share to Facebook</button>
+            </div>
+            <div class="card">
+              <div class="flex ai between mb8">
+                <div class="strong">Bill McNeal</div>
+                <div style="color:#F59E0B">★★★★★</div>
+              </div>
+              <div class="small">Garbage disposal · 5/22</div>
+              <div class="tl-card mt8">"Same-day fix. Pricing was clear up front. Highly recommend."</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================= ONBOARDING (overlay) ============================= -->
+        <div class="overlay overlay-hidden" id="onboarding">
+          <div class="ob-top">
+            <div class="flex ai gap8">
+              <div class="logo" style="width:32px; height:32px; font-size:16px; border-radius:8px">C</div>
+              <div class="strong">Set up Chuck</div>
+            </div>
+            <button class="ob-skip" onclick="hideOnboarding()">Close</button>
+          </div>
+          <div class="ob-steps">
+            <div class="ob-step done" id="ob-1"></div>
+            <div class="ob-step active" id="ob-2"></div>
+            <div class="ob-step" id="ob-3"></div>
+            <div class="ob-step" id="ob-4"></div>
+          </div>
+
+          <div class="ob-content" id="ob-content">
+            <!-- Step content gets injected -->
+          </div>
+
+          <div class="ob-cta">
+            <button class="btn btn-primary btn-block" id="ob-next">Continue</button>
+          </div>
+        </div>
+
+        <!-- ============================= TEST CALL ============================= -->
+        <div class="ring-screen ring-hidden" id="ring">
+          <div class="small" style="color:rgba(255,255,255,0.6)">Incoming · Chuck simulation</div>
+          <div class="ring-name">Chuck</div>
+          <div class="ring-sub">(651) 555-0420</div>
+          <div style="margin:48px 0"></div>
+          <div class="ring-av">C</div>
+          <div style="margin-top:32px; color:rgba(255,255,255,0.75); text-align:center; max-width:240px; font-size:14px; line-height:1.5">
+            "Try asking — <em>what services do you offer?</em>"<br>
+            <em style="color:rgba(255,255,255,0.55)">or</em> "I need a new water heater installed."
+          </div>
+          <div class="ring-actions">
+            <button class="ring-btn end" onclick="hideRing()">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </button>
+            <button class="ring-btn acc" onclick="hideRing()">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- ============================= TAB BAR ============================= -->
+        <nav class="tabbar">
+          <button class="tab-btn active" data-tab="today" data-goto="today">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Today
+          </button>
+          <button class="tab-btn" data-tab="customers" data-goto="customers">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Customers
+          </button>
+          <button class="tab-btn" data-tab="jobs" data-goto="jobs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Jobs
+          </button>
+          <button class="tab-btn" data-tab="intake" data-goto="intake">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            Chuck
+          </button>
+          <button class="tab-btn" data-tab="reviews" data-goto="reviews">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Reviews
+          </button>
+        </nav>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- Screen routing ----------
+  const tabMap = {
+    today:'today',
+    customers:'customers', 'customer-detail':'customers',
+    jobs:'jobs', pipeline:'jobs',
+    intake:'intake', 'phone-setup':'intake',
+    reviews:'reviews'
+  };
+  function goto(screen){
+    document.querySelectorAll('.view').forEach(v=>{
+      v.style.display = v.dataset.view===screen ? '' : 'none';
+    });
+    document.querySelectorAll('.screens-list button').forEach(b=>{
+      b.classList.toggle('active', b.dataset.screen===screen);
+    });
+    document.querySelectorAll('.tab-btn').forEach(b=>{
+      b.classList.toggle('active', b.dataset.tab===tabMap[screen]);
+    });
+    // Scroll back to top of content
+    document.querySelectorAll('.view').forEach(v=>{
+      const c = v.querySelector('.content'); if(c) c.scrollTop = 0;
+    });
+    if(screen==='onboarding'){ showOnboarding(); return; }
+    if(screen==='testcall'){ showRing(); return; }
+  }
+  document.querySelectorAll('[data-goto]').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.preventDefault();
+      goto(el.dataset.goto);
+    });
+  });
+  document.querySelectorAll('.screens-list button').forEach(el=>{
+    el.addEventListener('click', ()=> goto(el.dataset.screen));
+  });
+
+  // ---------- Onboarding wizard ----------
+  const obSteps = [
+    {
+      eyebrow:'Step 1 of 4 · Train',
+      title:"Let's set Chuck up to sound like you.",
+      desc:"Paste your business website and Chuck will pull your services, hours, and phone — then draft a greeting in your voice.",
+      body:`
+        <div class="field">
+          <label>Business website</label>
+          <input class="input" value="northlandplumbingmn.com"/>
+          <div class="hint">We'll scrape services, hours, address, and phone number.</div>
+        </div>
+        <div class="field">
+          <label>Business name</label>
+          <input class="input" value="Northland Plumbing"/>
+        </div>
+        <div class="field">
+          <label>Service area</label>
+          <input class="input" value="Twin Cities · 25 mi radius of 55101"/>
+        </div>`,
+      cta:'Pull from website'
+    },
+    {
+      eyebrow:'Step 2 of 4 · Customize',
+      title:"Here's what Chuck will ask every caller. Edit anything.",
+      desc:"These are your intake questions and qualification rules. Used on every inbound call.",
+      body:`
+        <div class="card">
+          <div class="card-title">Intake questions</div>
+          <div class="h-row"><span class="label">What type of project?</span><span class="val">Required</span></div>
+          <div class="h-row"><span class="label">Timeline?</span><span class="val">Required</span></div>
+          <div class="h-row"><span class="label">Budget?</span><span class="val">Optional</span></div>
+          <div class="h-row"><span class="label">Residential or commercial?</span><span class="val">Required</span></div>
+          <div class="h-row"><span class="label">Service address?</span><span class="val">Required</span></div>
+          <div class="h-row"><span class="label">How did you hear about us?</span><span class="val">Optional</span></div>
+          <button class="btn btn-text mt8">＋ Add question</button>
+        </div>
+        <div class="card">
+          <div class="card-title">Qualification rules</div>
+          <div class="h-row"><span class="label">Min project</span><span class="val">$250</span></div>
+          <div class="h-row"><span class="label">Service radius</span><span class="val">25 mi</span></div>
+          <div class="h-row"><span class="label">Residential / commercial</span><span class="val">Both</span></div>
+          <div class="h-row"><span class="label">Forward emergencies</span><span class="val">To your cell</span></div>
+        </div>`,
+      cta:'Looks good'
+    },
+    {
+      eyebrow:'Step 3 of 4 · Test',
+      title:"Call Chuck. Hear what your customers will hear.",
+      desc:"Only you can reach Chuck on this number until you go live. Try a few questions — Chuck will reply in your voice.",
+      body:`
+        <div class="card" style="text-align:center; padding:24px">
+          <div class="small">Your Chuck number</div>
+          <div style="font-size:26px; font-weight:600; margin:8px 0">(651) 555-0420</div>
+          <button class="btn btn-primary btn-block" onclick="showRing()">📞 Place test call</button>
+        </div>
+        <div class="card">
+          <div class="card-title">Try asking…</div>
+          <div class="h-row"><span class="label">What services do you offer?</span></div>
+          <div class="h-row"><span class="label">Are you open Saturday?</span></div>
+          <div class="h-row"><span class="label">I need a new water heater installed.</span></div>
+          <div class="h-row"><span class="label">My basement is flooding right now.</span></div>
+        </div>`,
+      cta:'Sounds great'
+    },
+    {
+      eyebrow:'Step 4 of 4 · Go live',
+      title:"Forward your business line. Chuck takes it from here.",
+      desc:"Pick your phone setup, then we'll text you simple call-forwarding instructions for your carrier.",
+      body:`
+        <div class="card">
+          <div class="radio-card selected">
+            <div class="radio-dot"></div>
+            <div class="radio-body"><div class="t">Missed calls only</div><div class="s">Recommended for solo operators</div></div>
+          </div>
+          <div class="radio-card">
+            <div class="radio-dot"></div>
+            <div class="radio-body"><div class="t">After hours only</div><div class="s">Chuck takes over outside service hours</div></div>
+          </div>
+          <div class="radio-card">
+            <div class="radio-dot"></div>
+            <div class="radio-body"><div class="t">Always answer first</div><div class="s">Chuck qualifies, then transfers if needed</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Invite your team</div>
+          <input class="input" placeholder="teammate@example.com"/>
+          <button class="btn btn-text mt8">＋ Send invite</button>
+        </div>`,
+      cta:'Go live →'
+    }
+  ];
+  let obIndex = 0;
+  function renderOb(){
+    const s = obSteps[obIndex];
+    document.getElementById('ob-content').innerHTML = `
+      <div class="ob-eyebrow">${s.eyebrow}</div>
+      <h1 class="ob-title">${s.title}</h1>
+      <p class="ob-desc">${s.desc}</p>
+      ${s.body}
+    `;
+    document.getElementById('ob-next').textContent = s.cta;
+    ['ob-1','ob-2','ob-3','ob-4'].forEach((id,i)=>{
+      const el = document.getElementById(id);
+      el.classList.remove('done','active');
+      if(i < obIndex) el.classList.add('done');
+      else if(i === obIndex) el.classList.add('active');
+    });
+  }
+  function showOnboarding(){
+    obIndex = 0; renderOb();
+    document.getElementById('onboarding').classList.remove('overlay-hidden');
+  }
+  function hideOnboarding(){
+    document.getElementById('onboarding').classList.add('overlay-hidden');
+  }
+  document.getElementById('ob-next').addEventListener('click', ()=>{
+    if(obIndex < obSteps.length - 1){
+      obIndex++; renderOb();
+    } else {
+      hideOnboarding();
+      goto('today');
+    }
+  });
+
+  // ---------- Test call ringing ----------
+  function showRing(){ document.getElementById('ring').classList.remove('ring-hidden'); }
+  function hideRing(){ document.getElementById('ring').classList.add('ring-hidden'); }
+
+  // Radio card single-select inside intake
+  document.querySelectorAll('[data-view="intake"] .card .radio-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      card.parentElement.querySelectorAll('.radio-card').forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+    });
+  });
+
+  // Toggle interaction
+  document.querySelectorAll('.toggle').forEach(t=>{
+    t.addEventListener('click', ()=> t.classList.toggle('on'));
+  });
+
+  // Expose helpers used by inline onclick from injected ob content
+  window.showRing = showRing;
+  window.hideRing = hideRing;
+  window.showOnboarding = showOnboarding;
+  window.hideOnboarding = hideOnboarding;
+
+  // Start on Today
+  goto('today');
+</script>
+
+</body>
+</html>
