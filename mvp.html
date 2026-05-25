@@ -39,7 +39,6 @@
     -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;
   }
-
   /* ---------- Page chrome ---------- */
   .stage{
     min-height:100vh;
@@ -93,14 +92,12 @@
   }
   .screens-list .dot{width:6px; height:6px; border-radius:50%; background:var(--text-dis)}
   .screens-list button.active .dot{background:var(--primary)}
-
   .legend{
     margin-top:24px; padding:16px;
     background:#fff; border:1px solid var(--border); border-radius:12px;
     font-size:13px; color:var(--text-sec); line-height:1.6;
   }
   .legend strong{color:var(--text); display:block; margin-bottom:6px; font-size:13px}
-
   /* ---------- Phone frame ---------- */
   .phone-wrap{display:grid; place-items:start center}
   .phone{
@@ -115,7 +112,6 @@
     position:relative;
   }
   .phone::before{
-    /* speaker / island */
     content:""; position:absolute; left:50%; top:18px;
     transform:translateX(-50%);
     width:120px; height:32px; background:#000; border-radius:18px; z-index:5;
@@ -128,7 +124,6 @@
     position:relative;
     display:flex; flex-direction:column;
   }
-
   /* Status bar */
   .status{
     height:48px; padding:18px 28px 0;
@@ -150,7 +145,6 @@
     content:""; position:absolute; left:1px; top:1px; bottom:1px; width:70%;
     background:var(--text); border-radius:1px;
   }
-
   /* App header */
   .app-header{
     padding:8px 20px 12px;
@@ -166,7 +160,6 @@
     cursor:pointer;
   }
   .icon-btn:hover{background:var(--primary-light)}
-
   /* Content area */
   .content{
     flex:1; overflow-y:auto; padding:0 16px 96px;
@@ -174,7 +167,6 @@
   }
   .content::-webkit-scrollbar{width:6px}
   .content::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12); border-radius:3px}
-
   /* Cards */
   .card{
     background:var(--surface);
@@ -194,7 +186,6 @@
     text-transform:uppercase; letter-spacing:0.04em;
     margin:24px 4px 8px;
   }
-
   /* Buttons */
   .btn{
     appearance:none; border:none; cursor:pointer;
@@ -206,13 +197,13 @@
   }
   .btn-primary{background:var(--cta); color:#fff}
   .btn-primary:hover{background:var(--cta-hover)}
+  .btn-primary:disabled{background:#A7E5BB; cursor:not-allowed}
   .btn-secondary{background:#fff; color:var(--primary); border:1px solid var(--primary)}
   .btn-secondary:hover{background:var(--primary-light)}
   .btn-text{background:transparent; color:var(--primary); padding:8px 12px; min-height:auto}
   .btn-text:hover{background:var(--primary-light)}
   .btn-block{width:100%}
   .btn-sm{min-height:36px; padding:8px 12px; font-size:13px}
-
   /* Pills / chips */
   .pill{
     display:inline-flex; align-items:center; gap:6px;
@@ -225,7 +216,6 @@
   .pill-warning{background:var(--warning-light); color:#92400E}
   .pill-error{background:var(--error-light); color:#991B1B}
   .pill-dot{width:6px; height:6px; border-radius:50%; background:currentColor}
-
   /* KPI tiles */
   .kpi-row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
   .kpi{
@@ -235,7 +225,6 @@
   .kpi-value{font-size:24px; font-weight:600; letter-spacing:-0.02em; margin-top:6px; line-height:1}
   .kpi-trend{font-size:12px; color:var(--cta-hover); margin-top:6px; font-weight:500}
   .kpi-trend.down{color:var(--error)}
-
   /* Greeting / banner */
   .hello{
     background:linear-gradient(135deg,#1D4ED8 0%, #2563EB 100%);
@@ -265,7 +254,6 @@
     cursor:pointer; backdrop-filter:blur(8px);
   }
   .hello-cta button.solid{background:#fff; color:var(--primary)}
-
   /* Timeline / activity */
   .activity-row{
     display:flex; gap:12px; padding:12px 0;
@@ -286,7 +274,6 @@
   .activity-title{font-size:14px; font-weight:500; color:var(--text); line-height:1.3}
   .activity-meta{font-size:12px; color:var(--text-sec); margin-top:4px; line-height:1.4}
   .activity-time{font-size:12px; color:var(--text-sec); flex-shrink:0; padding-top:2px}
-
   /* List rows */
   .list{background:#fff; border:1px solid var(--border); border-radius:12px; overflow:hidden}
   .row-item{
@@ -312,7 +299,6 @@
   .row-sub{font-size:13px; color:var(--text-sec); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
   .row-right{text-align:right; flex-shrink:0; display:flex; flex-direction:column; align-items:flex-end; gap:4px}
   .row-time{font-size:12px; color:var(--text-sec)}
-
   /* Tab bar (bottom nav) */
   .tabbar{
     position:absolute; bottom:0; left:0; right:0;
@@ -334,24 +320,415 @@
   .tab-btn.active{color:var(--primary)}
   .tab-btn:hover{color:var(--primary)}
 
-  /* Onboarding overlay */
+  /* ============================================================ */
+  /* ONBOARDING (expanded, Rosie-inspired)                         */
+  /* ============================================================ */
   .overlay{
     position:absolute; inset:0; background:var(--bg);
     z-index:20;
     display:flex; flex-direction:column;
     border-radius:36px;
+    overflow:hidden;
   }
   .overlay-hidden{display:none}
-  .ob-top{padding:20px 20px 12px; display:flex; align-items:center; justify-content:space-between}
-  .ob-skip{font-size:14px; color:var(--text-sec); background:none; border:none; cursor:pointer}
-  .ob-steps{display:flex; gap:6px; padding:0 20px 20px}
-  .ob-step{flex:1; height:4px; background:var(--border); border-radius:2px; transition:background 200ms ease}
-  .ob-step.done, .ob-step.active{background:var(--primary)}
-  .ob-content{flex:1; overflow-y:auto; padding:8px 20px 24px}
-  .ob-eyebrow{font-size:12px; font-weight:600; color:var(--primary); text-transform:uppercase; letter-spacing:0.06em}
-  .ob-title{font-size:26px; font-weight:600; letter-spacing:-0.02em; line-height:1.15; margin:8px 0 8px}
-  .ob-desc{font-size:15px; color:var(--text-sec); line-height:1.55; margin:0 0 24px}
-  .ob-cta{padding:16px 20px 24px; border-top:1px solid var(--border); background:#fff}
+  .ob-top{
+    padding:18px 18px 12px;
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+  }
+  .ob-top .left{display:flex; align-items:center; gap:10px}
+  .ob-top .ob-back{
+    width:32px; height:32px; border-radius:8px;
+    border:1px solid var(--border); background:#fff;
+    display:grid; place-items:center; cursor:pointer;
+    color:var(--text-sec);
+  }
+  .ob-top .ob-back:hover{background:var(--primary-light); color:var(--primary)}
+  .ob-top .ob-back:disabled{opacity:0.4; cursor:not-allowed}
+  .ob-top .brand{display:flex; align-items:center; gap:8px}
+  .ob-top .brand .logo{width:28px; height:28px; font-size:14px; border-radius:7px}
+  .ob-top .brand .name{font-weight:600; font-size:14px}
+  .ob-skip{
+    font-size:13px; color:var(--text-sec);
+    background:none; border:none; cursor:pointer;
+    padding:6px 8px;
+  }
+  .ob-skip:hover{color:var(--text)}
+  /* Phase stepper (4 labeled phases like Rosie) */
+  .ob-phases{
+    display:flex; align-items:center;
+    padding:14px 20px 12px;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+  }
+  .ob-phase{
+    flex:1;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    font-size:11px; color:var(--text-dis); font-weight:500;
+    position:relative;
+  }
+  .ob-phase .num{
+    width:22px; height:22px; border-radius:50%;
+    background:#F3F4F6; color:var(--text-dis);
+    display:grid; place-items:center;
+    font-size:11px; font-weight:600;
+    border:1.5px solid var(--border);
+    transition:all 200ms ease;
+  }
+  .ob-phase.active{color:var(--primary)}
+  .ob-phase.active .num{background:var(--primary); color:#fff; border-color:var(--primary)}
+  .ob-phase.done{color:var(--cta-hover)}
+  .ob-phase.done .num{background:var(--cta); color:#fff; border-color:var(--cta)}
+  .ob-phase + .ob-phase::before{
+    content:""; position:absolute; left:-50%; right:50%;
+    top:11px; height:1.5px; background:var(--border);
+    z-index:0;
+  }
+  .ob-phase.done + .ob-phase::before,
+  .ob-phase.done + .ob-phase.active::before{background:var(--cta)}
+  .ob-phase .num, .ob-phase .label{position:relative; z-index:1}
+  /* Sub-step progress (only shows on Customize phase) */
+  .ob-substeps{
+    padding:10px 20px 6px;
+    background:#fff;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid var(--border);
+    font-size:12px; color:var(--text-sec);
+  }
+  .ob-substeps .bars{display:flex; gap:4px; flex:1; margin-left:12px}
+  .ob-substeps .bar{
+    flex:1; height:4px; border-radius:2px;
+    background:var(--border);
+  }
+  .ob-substeps .bar.done, .ob-substeps .bar.active{background:var(--primary)}
+  /* Content area */
+  .ob-content{
+    flex:1; overflow-y:auto; padding:20px 20px 24px;
+  }
+  .ob-content::-webkit-scrollbar{width:6px}
+  .ob-content::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12); border-radius:3px}
+  .ob-eyebrow{font-size:11px; font-weight:600; color:var(--primary); text-transform:uppercase; letter-spacing:0.06em}
+  .ob-title{font-size:22px; font-weight:600; letter-spacing:-0.02em; line-height:1.2; margin:8px 0 8px; color:var(--text)}
+  .ob-title.center{text-align:center}
+  .ob-desc{font-size:14px; color:var(--text-sec); line-height:1.55; margin:0 0 20px}
+  .ob-desc.center{text-align:center}
+  /* CTA bar */
+  .ob-cta{
+    padding:14px 20px 22px;
+    border-top:1px solid var(--border);
+    background:#fff;
+    display:flex; gap:10px; align-items:center;
+  }
+  .ob-cta .ob-secondary{
+    background:transparent; color:var(--text-sec);
+    font:inherit; font-size:14px; border:none;
+    cursor:pointer; padding:10px 12px;
+  }
+  .ob-cta .ob-secondary:hover{color:var(--text)}
+  .ob-cta .btn-primary{flex:1; background:var(--primary)}
+  .ob-cta .btn-primary:hover{background:var(--primary-hover)}
+  .ob-cta .btn-primary:disabled{background:#94B4F2}
+  /* "Trained on" persistent summary card */
+  .trained-on{
+    background:#F8FAFC; border:1px solid var(--border); border-radius:10px;
+    padding:12px 14px; margin-bottom:16px;
+  }
+  .trained-on .label{
+    font-size:11px; font-weight:600; color:var(--text-sec);
+    text-transform:uppercase; letter-spacing:0.05em;
+    display:flex; align-items:center; gap:6px;
+  }
+  .trained-on .label svg{width:14px; height:14px; color:var(--primary)}
+  .trained-on .row{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:8px; font-size:13px;
+  }
+  .trained-on .row .k{color:var(--text-sec)}
+  .trained-on .row .v{color:var(--text); font-weight:500; max-width:60%; text-align:right; word-break:break-all}
+  .trained-on .edit{
+    margin-top:10px; text-align:right;
+  }
+  .trained-on .edit button{
+    background:#EFF6FF; color:var(--primary);
+    border:none; padding:6px 12px; border-radius:6px;
+    font-size:12px; font-weight:500; cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  /* Confirm card (info shown then "Make changes") */
+  .confirm-card{
+    background:#fff; border:1px solid var(--border); border-radius:12px;
+    padding:18px; box-shadow:var(--shadow-sm);
+  }
+  .confirm-card .ct{font-size:16px; font-weight:600; text-align:center; margin-bottom:14px; line-height:1.3}
+  .confirm-card .h-row{padding:10px 0; border-bottom:1px solid var(--border)}
+  .confirm-card .h-row:last-of-type{border-bottom:none}
+  .confirm-card .h-row .label{font-size:12px; color:var(--text-sec); font-weight:500}
+  .confirm-card .h-row .val{font-size:14px; color:var(--text); font-weight:500; margin-top:2px}
+  .confirm-card .h-row .val.muted{color:var(--text-sec); font-weight:400}
+  .confirm-card .multi{display:flex; flex-direction:column; gap:6px; margin-top:8px}
+  .confirm-card .multi .row{display:flex; justify-content:space-between; font-size:14px}
+  .confirm-card .multi .row .k{color:var(--text-sec); font-size:12px}
+  .confirm-card .multi .row .v{color:var(--text); font-weight:500}
+  .confirm-card .changes-btn{
+    margin:14px auto 0; display:flex;
+  }
+  .confirm-card .changes-btn button{
+    background:#F3F4F6; color:var(--text);
+    border:1px solid var(--border); padding:8px 16px; border-radius:8px;
+    font:inherit; font-size:13px; font-weight:500; cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px; margin:0 auto;
+  }
+  .confirm-card .changes-btn button:hover{background:#E5E7EB}
+  /* Service chips on services confirm */
+  .service-chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:4px}
+  .service-chip{
+    background:#F8FAFC; color:var(--text);
+    border:1px solid var(--border); border-radius:999px;
+    padding:6px 12px; font-size:13px; line-height:1.3;
+  }
+  /* Suggestion auto-added scenario card */
+  .scenario{
+    background:#fff; border:1px solid var(--border); border-radius:10px;
+    padding:12px; margin-top:10px;
+  }
+  .scenario .head{display:flex; align-items:center; gap:8px; margin-bottom:6px}
+  .scenario .head .t{font-size:14px; font-weight:600}
+  .scenario .auto{
+    display:inline-flex; align-items:center; gap:4px;
+    background:#FEF3C7; color:#92400E;
+    border-radius:999px; padding:2px 8px;
+    font-size:11px; font-weight:500;
+  }
+  .scenario .auto svg{width:10px; height:10px}
+  .scenario .body{font-size:12px; color:var(--text-sec); line-height:1.5}
+  .scenario .add{
+    margin-top:10px; padding:8px;
+    border:1px dashed var(--border); border-radius:8px;
+    text-align:center; font-size:13px; color:var(--text-sec); cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+  }
+  .scenario .add:hover{border-color:var(--primary); color:var(--primary); background:var(--primary-light)}
+  /* Notification row */
+  .notif-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 0; border-bottom:1px solid var(--border);
+  }
+  .notif-row:last-child{border-bottom:none}
+  .notif-row .meta{display:flex; align-items:center; gap:10px}
+  .notif-row .meta svg{color:var(--primary); width:18px; height:18px}
+  .notif-row .meta .t{font-size:14px; font-weight:500}
+  .notif-row .meta .s{font-size:12px; color:var(--text-sec); margin-top:2px}
+  .notif-row .right{display:flex; align-items:center; gap:8px}
+  .notif-row .val{font-size:12px; color:var(--text-sec); max-width:120px; text-align:right}
+  /* Premium feature row */
+  .premium-row{
+    display:flex; align-items:center; gap:12px;
+    padding:14px 0; border-bottom:1px solid var(--border);
+  }
+  .premium-row:last-child{border-bottom:none}
+  .premium-row .ic{
+    width:36px; height:36px; border-radius:10px;
+    background:var(--primary-light); color:var(--primary);
+    display:grid; place-items:center; flex-shrink:0;
+  }
+  .premium-row .ic svg{width:18px; height:18px}
+  .premium-row .body{flex:1; min-width:0}
+  .premium-row .body .t{
+    font-size:14px; font-weight:500;
+    display:flex; align-items:center; gap:6px;
+  }
+  .premium-row .premium-tag{
+    background:#FEF3C7; color:#92400E;
+    font-size:10px; font-weight:600; text-transform:uppercase;
+    letter-spacing:0.04em; padding:1px 6px; border-radius:4px;
+  }
+  .premium-row .body .s{font-size:12px; color:var(--text-sec); margin-top:2px}
+  /* Training progress (Step 1 animated checks) */
+  .train-stage{
+    background:#fff; border:1px solid var(--border); border-radius:14px;
+    padding:24px 18px; margin-top:12px;
+    box-shadow:var(--shadow-sm);
+  }
+  .train-stage .heading{
+    display:flex; align-items:center; gap:8px;
+    font-size:14px; font-weight:600;
+  }
+  .train-stage .heading svg{width:16px; height:16px; color:var(--primary)}
+  .train-illus{
+    margin:18px auto 12px;
+    width:96px; height:96px; border-radius:50%;
+    background:linear-gradient(135deg,#DBEAFE 0%,#BFDBFE 100%);
+    display:grid; place-items:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .train-illus svg{width:56px; height:56px; color:var(--primary); position:relative; z-index:1}
+  .train-illus::before{
+    content:""; position:absolute; inset:-8px;
+    border-radius:50%;
+    border:2px dashed rgba(37,99,235,0.4);
+    animation: spin 8s linear infinite;
+  }
+  .train-illus.done::before{display:none}
+  .train-illus.done{background:linear-gradient(135deg,#DCFCE7 0%,#BBF7D0 100%)}
+  .train-illus.done svg{color:var(--cta-hover)}
+  @keyframes spin{ to { transform:rotate(360deg) } }
+  .train-steps{margin-top:12px; display:flex; flex-direction:column; gap:8px}
+  .train-step{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 12px;
+    border:1px solid var(--border); border-radius:8px;
+    background:#F8FAFC;
+    font-size:13px; color:var(--text-sec);
+    transition:all 250ms ease;
+  }
+  .train-step .ic{
+    width:18px; height:18px; flex-shrink:0;
+    border-radius:50%; border:2px solid var(--border);
+    background:#fff;
+    display:grid; place-items:center;
+  }
+  .train-step .ic svg{width:10px; height:10px; opacity:0}
+  .train-step.active{
+    background:#EFF6FF; border-color:var(--primary); color:var(--text);
+  }
+  .train-step.active .ic{
+    border-color:var(--primary);
+    border-top-color:transparent;
+    animation: spin 0.8s linear infinite;
+  }
+  .train-step.done{
+    background:var(--cta-light); border-color:var(--cta);
+    color:#166534;
+  }
+  .train-step.done .ic{
+    background:var(--cta); border-color:var(--cta);
+  }
+  .train-step.done .ic svg{opacity:1; color:#fff}
+  /* Welcome splash */
+  .ob-welcome{
+    text-align:center; padding:40px 20px 20px;
+    flex:1; display:flex; flex-direction:column; justify-content:center;
+  }
+  .ob-welcome .logo-xl{
+    width:80px; height:80px; border-radius:20px;
+    background:linear-gradient(135deg,#2563EB 0%,#1D4ED8 100%);
+    display:grid; place-items:center;
+    color:#fff; font-weight:700; font-size:36px;
+    margin:0 auto 24px;
+    box-shadow: 0 12px 32px rgba(37,99,235,0.3);
+  }
+  .ob-welcome h1{
+    font-size:30px; font-weight:600; letter-spacing:-0.02em;
+    margin:0 0 8px;
+  }
+  .ob-welcome .sub{font-size:15px; color:var(--text-sec); margin:0 0 28px; line-height:1.5}
+  .ob-welcome .benefits{
+    display:flex; flex-direction:column; gap:12px;
+    max-width:280px; margin:0 auto 24px; text-align:left;
+  }
+  .ob-welcome .benefit{
+    display:flex; align-items:center; gap:12px;
+    font-size:14px; color:var(--text);
+  }
+  .ob-welcome .benefit .check{
+    width:24px; height:24px; border-radius:50%;
+    background:var(--cta-light); color:var(--cta-hover);
+    display:grid; place-items:center; flex-shrink:0;
+  }
+  .ob-welcome .benefit svg{width:14px; height:14px}
+  .ob-welcome .small-note{font-size:12px; color:var(--text-sec); margin-top:12px}
+  /* Test step number display + try asking */
+  .test-card{
+    background:linear-gradient(135deg,#EFF6FF 0%,#DBEAFE 100%);
+    border:1px solid #BFDBFE; border-radius:14px;
+    padding:20px; text-align:center;
+  }
+  .test-card .lbl{font-size:12px; color:var(--primary); font-weight:600; text-transform:uppercase; letter-spacing:0.06em}
+  .test-card .num{
+    font-size:28px; font-weight:600; letter-spacing:-0.02em;
+    margin:8px 0 14px;
+  }
+  .test-card .call-btn{
+    background:var(--cta); color:#fff;
+    border:none; padding:12px 24px; border-radius:999px;
+    font:inherit; font-weight:500; font-size:14px;
+    cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    box-shadow:0 4px 12px rgba(34,197,94,0.3);
+  }
+  .test-card .call-btn:hover{background:var(--cta-hover)}
+  .try-list{
+    background:#fff; border:1px solid var(--border); border-radius:12px;
+    padding:8px 14px; margin-top:14px;
+  }
+  .try-list .h{
+    font-size:12px; font-weight:600; color:var(--text-sec);
+    text-transform:uppercase; letter-spacing:0.05em;
+    padding:8px 0;
+  }
+  .try-list .q{
+    display:flex; align-items:flex-start; gap:8px;
+    padding:10px 0; font-size:13px;
+    border-top:1px solid var(--border);
+    color:var(--text);
+    line-height:1.4;
+  }
+  .try-list .q .ic{
+    width:18px; height:18px; flex-shrink:0; color:var(--primary);
+    margin-top:1px;
+  }
+  /* Go-live forwarding choices */
+  .forward-pick{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;
+  }
+  .forward-card{
+    border:1.5px solid var(--border); border-radius:12px;
+    padding:14px; cursor:pointer; background:#fff;
+    transition:all 150ms ease;
+  }
+  .forward-card .ic{
+    width:32px; height:32px; border-radius:8px;
+    background:var(--primary-light); color:var(--primary);
+    display:grid; place-items:center; margin-bottom:8px;
+  }
+  .forward-card .ic svg{width:18px; height:18px}
+  .forward-card .t{font-size:14px; font-weight:600; line-height:1.2}
+  .forward-card .s{font-size:11px; color:var(--text-sec); margin-top:4px; line-height:1.4}
+  .forward-card.selected{
+    border-color:var(--primary); background:var(--primary-light);
+  }
+  .forward-card.selected .ic{background:var(--primary); color:#fff}
+  /* Completion / "Chuck is live" */
+  .ob-done{
+    text-align:center; padding:32px 20px 20px;
+    flex:1; display:flex; flex-direction:column; justify-content:center;
+  }
+  .ob-done .badge{
+    width:88px; height:88px; border-radius:50%;
+    background:linear-gradient(135deg,#22C55E 0%,#16A34A 100%);
+    display:grid; place-items:center;
+    color:#fff; margin:0 auto 24px;
+    box-shadow:0 12px 32px rgba(34,197,94,0.3);
+    animation: pop 500ms cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes pop{
+    0%{transform:scale(0); opacity:0}
+    100%{transform:scale(1); opacity:1}
+  }
+  .ob-done .badge svg{width:44px; height:44px}
+  .ob-done h1{font-size:28px; font-weight:600; letter-spacing:-0.02em; margin:0 0 8px}
+  .ob-done .sub{font-size:15px; color:var(--text-sec); margin:0 0 24px; line-height:1.5}
+  .ob-done .summary{
+    background:#F0FDF4; border:1px solid #BBF7D0; border-radius:12px;
+    padding:14px; text-align:left; margin:0 auto 16px; max-width:280px;
+  }
+  .ob-done .summary .row{
+    display:flex; align-items:center; gap:10px;
+    padding:6px 0; font-size:13px; color:#166534;
+  }
+  .ob-done .summary .row svg{width:14px; height:14px; flex-shrink:0; color:var(--cta-hover)}
+  /* ============================================================ */
 
   /* Inputs */
   .field{margin-bottom:14px}
@@ -368,7 +745,6 @@
     box-shadow:0 0 0 3px rgba(37,99,235,0.15);
   }
   .textarea{min-height:80px; resize:vertical; line-height:1.5}
-
   /* Toggle */
   .toggle{
     width:42px; height:24px; background:var(--border); border-radius:12px;
@@ -383,7 +759,6 @@
   }
   .toggle.on{background:var(--cta)}
   .toggle.on::after{left:20px}
-
   .row-toggle{
     display:flex; align-items:center; justify-content:space-between;
     padding:14px 0;
@@ -392,7 +767,6 @@
   .row-toggle:last-child{border-bottom:none}
   .row-toggle .label{font-size:14px; font-weight:500}
   .row-toggle .sub{font-size:12px; color:var(--text-sec); margin-top:2px; max-width:240px}
-
   /* Radio options */
   .radio-card{
     display:flex; align-items:flex-start; gap:12px;
@@ -411,7 +785,6 @@
   .radio-card.selected .radio-dot{border-color:var(--primary); background:var(--primary); box-shadow:inset 0 0 0 3px #fff}
   .radio-body .t{font-size:14px; font-weight:500; line-height:1.3}
   .radio-body .s{font-size:12px; color:var(--text-sec); margin-top:2px; line-height:1.4}
-
   /* Pipeline pills */
   .status-Lead{background:#F3F4F6; color:#6B7280}
   .status-Qualified{background:#DBEAFE; color:#1D4ED8}
@@ -421,7 +794,6 @@
   .status-Progress{background:#FFEDD5; color:#9A3412}
   .status-Complete{background:#DCFCE7; color:#15803D}
   .status-Paid{background:#D1FAE5; color:#065F46}
-
   /* Calendar */
   .cal-strip{
     display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin:8px 0 16px;
@@ -440,7 +812,6 @@
     background:var(--cta); margin-left:auto; margin-right:auto;
   }
   .cal-day.today .badge{background:#fff}
-
   .event{
     display:flex; gap:12px; padding:12px;
     background:#fff; border:1px solid var(--border); border-radius:10px;
@@ -455,7 +826,6 @@
   .event .body{flex:1; min-width:0}
   .event .body .t{font-size:14px; font-weight:500; line-height:1.3}
   .event .body .s{font-size:12px; color:var(--text-sec); margin-top:2px}
-
   /* Timeline (customer detail) */
   .timeline{padding:8px 0}
   .tl-item{position:relative; padding-left:32px; padding-bottom:18px}
@@ -484,7 +854,6 @@
     font-style:italic; color:var(--text-sec);
     border-left:3px solid var(--primary); padding-left:10px; margin:8px 0;
   }
-
   /* Composer */
   .composer{
     display:flex; gap:8px; align-items:center;
@@ -494,7 +863,6 @@
     flex:1; border:1px solid var(--border); border-radius:10px;
     padding:10px 12px; font:inherit; font-size:14px;
   }
-
   /* Phone setup specific */
   .ai-bubble{
     background:var(--primary-light); color:var(--primary);
@@ -507,14 +875,12 @@
     padding:14px; border-radius:14px 14px 4px 14px;
     font-size:14px; line-height:1.5; max-width:80%; margin-left:auto; margin-bottom:8px;
   }
-
   /* Empty state */
   .empty{
     text-align:center; padding:40px 24px; color:var(--text-sec);
   }
   .empty h4{margin:8px 0 4px; color:var(--text); font-size:16px; font-weight:600}
   .empty p{margin:0; font-size:13px}
-
   /* Misc helpers */
   .flex{display:flex}
   .between{justify-content:space-between}
@@ -529,7 +895,6 @@
   .h-row:last-child{border-bottom:none}
   .h-row .label{font-size:14px; color:var(--text)}
   .h-row .val{font-size:14px; color:var(--text-sec); display:flex; align-items:center; gap:6px}
-
   /* Test call ringing screen */
   .ring-screen{
     position:absolute; inset:0; background:linear-gradient(180deg,#0f172a 0%, #1e293b 100%);
@@ -558,7 +923,6 @@
   }
   .ring-btn.end{background:#dc2626}
   .ring-btn.acc{background:var(--cta)}
-
   /* Pipeline horizontal scroller */
   .pipeline{display:flex; gap:12px; overflow-x:auto; padding-bottom:8px; margin:0 -4px}
   .pipeline::-webkit-scrollbar{display:none}
@@ -570,7 +934,6 @@
   .col-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
   .col-head .name{font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-sec)}
   .col-head .count{background:#F3F4F6; padding:2px 8px; border-radius:999px; font-size:12px; color:var(--text-sec); font-weight:500}
-
   .jobcard{
     background:#fff; border:1px solid var(--border); border-radius:10px;
     padding:10px; cursor:pointer;
@@ -580,14 +943,12 @@
   .jobcard .name{font-size:13px; font-weight:500; line-height:1.3}
   .jobcard .meta{font-size:11px; color:var(--text-sec); margin-top:4px}
   .jobcard .val{font-size:13px; font-weight:600; color:var(--cta-hover); margin-top:6px}
-
   /* Footer note */
   .footer-note{
     margin-top:32px; padding-top:24px;
     border-top:1px solid var(--border);
     color:var(--text-sec); font-size:13px; line-height:1.6;
   }
-
   /* Tag chip with x */
   .tag-chip{
     display:inline-flex; align-items:center; gap:6px;
@@ -595,7 +956,6 @@
     padding:4px 8px; border-radius:6px;
     font-size:12px; font-weight:500;
   }
-
   /* Score gauge */
   .gauge{
     display:flex; align-items:center; gap:12px;
@@ -612,7 +972,6 @@
 </style>
 </head>
 <body>
-
 <div class="stage">
   <aside class="side">
     <div class="brandline">
@@ -623,9 +982,9 @@
       </div>
     </div>
     <p>Chuck is the AI agent who answers every call, qualifies every lead, books the job, and follows up — so the owner can keep their hands on the tools.</p>
-
     <h2>Jump to a screen</h2>
     <div class="screens-list" id="screensList">
+      <button data-screen="onboarding"><span class="dot"></span>Onboarding wizard ▸</button>
       <button data-screen="today" class="active"><span class="dot"></span>Today</button>
       <button data-screen="customers"><span class="dot"></span>Customers (CRM)</button>
       <button data-screen="customer-detail"><span class="dot"></span>Customer detail</button>
@@ -634,31 +993,25 @@
       <button data-screen="intake"><span class="dot"></span>Intake & agent setup</button>
       <button data-screen="phone-setup"><span class="dot"></span>Phone setup</button>
       <button data-screen="reviews"><span class="dot"></span>Reviews</button>
-      <button data-screen="onboarding"><span class="dot"></span>Onboarding wizard</button>
       <button data-screen="testcall"><span class="dot"></span>Live test call</button>
     </div>
-
     <div class="legend">
       <strong>Built from</strong>
       Roundhouse master plan (Chuck MVP) · Hey Rosie reference flows · Minimal Material design system. Inter, 8px spacing, 12px cards, 44px touch targets.
     </div>
-
     <div class="footer-note">
-      Tap around the phone. The bottom tab bar and the screen list both navigate. Toggle the onboarding wizard to see the 4-step setup. Press the green "Test agent" button on Intake to trigger a simulated call.
+      Tap around the phone. The bottom tab bar and the screen list both navigate. Use "Onboarding wizard" to step through the 4-phase setup (Train → Customize → Test → Go Live), with sub-steps inside Customize.
     </div>
   </aside>
-
   <div class="phone-wrap">
     <div class="phone">
       <div class="screen" id="screen">
-
         <!-- ============================= TODAY ============================= -->
         <section class="view" data-view="today">
           <div class="status">
             <div>9:41</div>
             <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
           </div>
-
           <div class="app-header">
             <div>
               <div class="title">Good morning, Mike</div>
@@ -668,7 +1021,6 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
             </button>
           </div>
-
           <div class="content">
             <!-- Chuck status banner -->
             <div class="hello">
@@ -684,7 +1036,6 @@
                 <button>Listen back</button>
               </div>
             </div>
-
             <!-- KPIs -->
             <div class="section-title">This week</div>
             <div class="kpi-row">
@@ -709,7 +1060,6 @@
                 <div class="kpi-trend">▲ $7.2k</div>
               </div>
             </div>
-
             <div class="section-title">Activity</div>
             <div class="card" style="padding:4px 16px">
               <div class="activity-row">
@@ -753,7 +1103,6 @@
                 <div class="activity-time">Yesterday</div>
               </div>
             </div>
-
             <div class="section-title">Needs you</div>
             <div class="card">
               <div class="flex ai gap12">
@@ -777,14 +1126,12 @@
             </div>
           </div>
         </section>
-
         <!-- ============================= CUSTOMERS LIST ============================= -->
         <section class="view" data-view="customers" style="display:none">
           <div class="status">
             <div>9:41</div>
             <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
           </div>
-
           <div class="app-header">
             <div>
               <div class="title">Customers</div>
@@ -794,10 +1141,8 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             </button>
           </div>
-
           <div class="content">
             <input class="input" placeholder="Search by name, phone, address…" style="margin-bottom:12px"/>
-
             <div class="flex gap8 mb12" style="overflow-x:auto; padding-bottom:4px">
               <span class="pill pill-primary"><span class="pill-dot"></span>All 412</span>
               <span class="pill">New 18</span>
@@ -805,7 +1150,6 @@
               <span class="pill">Past due 3</span>
               <span class="pill">VIP 24</span>
             </div>
-
             <div class="section-title">New from Chuck</div>
             <div class="list">
               <div class="row-item" data-goto="customer-detail">
@@ -842,7 +1186,6 @@
                 </div>
               </div>
             </div>
-
             <div class="section-title">Recent</div>
             <div class="list">
               <div class="row-item">
@@ -892,14 +1235,12 @@
             </div>
           </div>
         </section>
-
         <!-- ============================= CUSTOMER DETAIL ============================= -->
         <section class="view" data-view="customer-detail" style="display:none">
           <div class="status">
             <div>9:41</div>
             <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
           </div>
-
           <div class="app-header">
             <button class="icon-btn" data-goto="customers" title="Back">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -912,7 +1253,6 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
             </button>
           </div>
-
           <div class="content">
             <div class="card" style="text-align:center; padding-top:24px">
               <div class="avatar" style="width:64px; height:64px; font-size:22px; margin:0 auto 12px">SC</div>
@@ -929,7 +1269,6 @@
                 <button class="btn btn-primary btn-sm" style="flex:1">＋ Job</button>
               </div>
             </div>
-
             <div class="card">
               <div class="card-title">Contact</div>
               <div class="h-row"><span class="label">Phone</span><span class="val">(612) 555-0184</span></div>
@@ -937,7 +1276,6 @@
               <div class="h-row"><span class="label">Lead source</span><span class="val">Google · "kitchen remodel near me"</span></div>
               <div class="h-row"><span class="label">Last contact</span><span class="val">Today, 8:42a</span></div>
             </div>
-
             <div class="card">
               <div class="card-title">Qualification</div>
               <div class="gauge">
@@ -954,7 +1292,6 @@
                 <div class="h-row"><span class="label">Property</span><span class="val">Residential · owner-occupied</span></div>
               </div>
             </div>
-
             <div class="card-title" style="margin-left:4px; margin-top:24px">Timeline</div>
             <div class="card">
               <div class="timeline">
@@ -991,14 +1328,12 @@
             </div>
           </div>
         </section>
-
         <!-- ============================= JOBS SCHEDULE ============================= -->
         <section class="view" data-view="jobs" style="display:none">
           <div class="status">
             <div>9:41</div>
             <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
           </div>
-
           <div class="app-header">
             <div>
               <div class="title">Schedule</div>
@@ -1008,7 +1343,6 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             </button>
           </div>
-
           <div class="content">
             <div class="flex gap8 mb12">
               <button class="btn btn-secondary btn-sm" style="flex:1; background:var(--primary); color:#fff; border-color:var(--primary)">Day</button>
@@ -1016,7 +1350,6 @@
               <button class="btn btn-secondary btn-sm" style="flex:1">Month</button>
               <button class="btn btn-secondary btn-sm" style="flex:1; background:#fff" data-goto="pipeline">Pipeline</button>
             </div>
-
             <div class="cal-strip">
               <div class="cal-day"><div class="dn">Mon</div><div class="dd">25</div></div>
               <div class="cal-day today"><div class="dn">Tue</div><div class="dd">26</div><div class="badge"></div></div>
@@ -1026,9 +1359,7 @@
               <div class="cal-day"><div class="dn">Sat</div><div class="dd">30</div></div>
               <div class="cal-day"><div class="dn">Sun</div><div class="dd">31</div></div>
             </div>
-
             <div class="section-title" style="margin-top:8px">Today · Tue May 26</div>
-
             <div class="event">
               <div class="time"><div class="t1">8:00</div><div class="t2">AM</div></div>
               <div class="body">
@@ -1057,7 +1388,6 @@
                 <div class="s">Review check-in · Chuck will dial</div>
               </div>
             </div>
-
             <div class="section-title">Tomorrow · Wed May 27</div>
             <div class="event">
               <div class="time"><div class="t1">9:00</div><div class="t2">AM</div></div>
@@ -1068,14 +1398,12 @@
             </div>
           </div>
         </section>
-
         <!-- ============================= PIPELINE ============================= -->
         <section class="view" data-view="pipeline" style="display:none">
           <div class="status">
             <div>9:41</div>
             <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
           </div>
-
           <div class="app-header">
             <div>
               <div class="title">Pipeline</div>
@@ -1085,7 +1413,6 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             </button>
           </div>
-
           <div class="content">
             <div class="pipeline">
               <div class="col">
@@ -1120,7 +1447,6 @@
                 <div class="jobcard"><div class="name">Wallace</div><div class="meta">Toilet install</div><div class="val">$540</div></div>
               </div>
             </div>
-
             <div class="card mt16">
               <div class="card-title">This month</div>
               <div class="kpi-row">
@@ -1132,14 +1458,12 @@
             </div>
           </div>
         </section>
-
         <!-- ============================= INTAKE ============================= -->
         <section class="view" data-view="intake" style="display:none">
           <div class="status">
             <div>9:41</div>
             <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
           </div>
-
           <div class="app-header">
             <div>
               <div class="title">Chuck</div>
@@ -1149,7 +1473,6 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </button>
           </div>
-
           <div class="content">
             <div class="card">
               <div class="flex ai between">
@@ -1160,7 +1483,6 @@
                 <div class="toggle on"></div>
               </div>
             </div>
-
             <div class="section-title">Service hours</div>
             <div class="card" style="padding:4px 16px">
               <div class="h-row"><span class="label">Mon–Fri</span><span class="val">7:00a – 5:00p</span></div>
@@ -1168,7 +1490,6 @@
               <div class="h-row"><span class="label">Sunday</span><span class="val">Closed</span></div>
               <div class="h-row"><span class="label">Emergencies</span><span class="val"><span class="pill pill-cta">24/7</span></span></div>
             </div>
-
             <div class="section-title">Phone setup</div>
             <div class="card">
               <div class="radio-card selected">
@@ -1193,7 +1514,6 @@
                 </div>
               </div>
             </div>
-
             <div class="section-title">Intake questions</div>
             <div class="card">
               <div class="h-row"><span class="label">What type of project?</span><span class="val">Required</span></div>
@@ -1204,7 +1524,6 @@
               <div class="h-row"><span class="label">How did you hear about us?</span><span class="val">Optional</span></div>
               <button class="btn btn-text mt8">＋ Add a question</button>
             </div>
-
             <div class="section-title">Qualification rules</div>
             <div class="card" style="padding:4px 16px">
               <div class="row-toggle">
@@ -1224,24 +1543,20 @@
                 <div class="toggle on"></div>
               </div>
             </div>
-
             <div class="section-title">Greeting script</div>
             <div class="card">
               <textarea class="textarea">Hi, thanks for calling Northland Plumbing! This is Chuck. Mike's out on a job — I can help you get set up. What kind of project are you calling about?</textarea>
               <div class="small mt8">Used when Chuck answers. Generated from your website on signup; edit any time.</div>
             </div>
-
             <button class="btn btn-primary btn-block mt16" onclick="showOnboarding()">Run setup wizard</button>
           </div>
         </section>
-
         <!-- ============================= PHONE SETUP DETAIL ============================= -->
         <section class="view" data-view="phone-setup" style="display:none">
           <div class="status">
             <div>9:41</div>
             <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
           </div>
-
           <div class="app-header">
             <button class="icon-btn" data-goto="intake" title="Back">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -1249,7 +1564,6 @@
             <div class="grow" style="text-align:center"><div class="title" style="font-size:18px">Phone setup</div></div>
             <div style="width:40px"></div>
           </div>
-
           <div class="content">
             <div class="card">
               <div class="card-title">Your Chuck number</div>
@@ -1260,7 +1574,6 @@
               <div class="small mt8">Forward your business line here to have Chuck answer missed calls.</div>
               <button class="btn btn-secondary btn-block mt12">Show forwarding instructions</button>
             </div>
-
             <div class="section-title">Preview a call</div>
             <div class="card" style="padding:14px">
               <div class="ai-bubble">Hi, thanks for calling Northland Plumbing! This is Chuck. What kind of project are you calling about?</div>
@@ -1272,14 +1585,12 @@
             <button class="btn btn-primary btn-block mt12" onclick="showRing()">📞 Place a test call</button>
           </div>
         </section>
-
         <!-- ============================= REVIEWS ============================= -->
         <section class="view" data-view="reviews" style="display:none">
           <div class="status">
             <div>9:41</div>
             <div class="right"><span>•••</span><span>📶</span><span class="battery"></span></div>
           </div>
-
           <div class="app-header">
             <div>
               <div class="title">Reviews</div>
@@ -1289,13 +1600,11 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
             </button>
           </div>
-
           <div class="content">
             <div class="kpi-row">
               <div class="kpi"><div class="kpi-label">Requests sent</div><div class="kpi-value">28</div><div class="kpi-trend">this month</div></div>
               <div class="kpi"><div class="kpi-label">Reviews left</div><div class="kpi-value">19</div><div class="kpi-trend">68% conversion</div></div>
             </div>
-
             <div class="section-title">Automation</div>
             <div class="card" style="padding:4px 16px">
               <div class="row-toggle">
@@ -1311,7 +1620,6 @@
                 <div class="toggle on"></div>
               </div>
             </div>
-
             <div class="section-title">Recent</div>
             <div class="card">
               <div class="flex ai between mb8">
@@ -1332,32 +1640,50 @@
             </div>
           </div>
         </section>
-
         <!-- ============================= ONBOARDING (overlay) ============================= -->
         <div class="overlay overlay-hidden" id="onboarding">
           <div class="ob-top">
-            <div class="flex ai gap8">
-              <div class="logo" style="width:32px; height:32px; font-size:16px; border-radius:8px">C</div>
-              <div class="strong">Set up Chuck</div>
+            <div class="left">
+              <button class="ob-back" id="ob-back" aria-label="Back">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div class="brand">
+                <div class="logo">C</div>
+                <div class="name">Set up Chuck</div>
+              </div>
             </div>
             <button class="ob-skip" onclick="hideOnboarding()">Close</button>
           </div>
-          <div class="ob-steps">
-            <div class="ob-step done" id="ob-1"></div>
-            <div class="ob-step active" id="ob-2"></div>
-            <div class="ob-step" id="ob-3"></div>
-            <div class="ob-step" id="ob-4"></div>
+          <div class="ob-phases" id="ob-phases">
+            <div class="ob-phase" data-phase="train">
+              <div class="num">1</div>
+              <div class="label">Train</div>
+            </div>
+            <div class="ob-phase" data-phase="customize">
+              <div class="num">2</div>
+              <div class="label">Customize</div>
+            </div>
+            <div class="ob-phase" data-phase="test">
+              <div class="num">3</div>
+              <div class="label">Test</div>
+            </div>
+            <div class="ob-phase" data-phase="golive">
+              <div class="num">4</div>
+              <div class="label">Go Live</div>
+            </div>
           </div>
-
+          <div class="ob-substeps" id="ob-substeps" style="display:none">
+            <div id="ob-substep-label">1 of 7</div>
+            <div class="bars" id="ob-substep-bars"></div>
+          </div>
           <div class="ob-content" id="ob-content">
             <!-- Step content gets injected -->
           </div>
-
           <div class="ob-cta">
+            <button class="ob-secondary" id="ob-secondary" style="display:none">Skip</button>
             <button class="btn btn-primary btn-block" id="ob-next">Continue</button>
           </div>
         </div>
-
         <!-- ============================= TEST CALL ============================= -->
         <div class="ring-screen ring-hidden" id="ring">
           <div class="small" style="color:rgba(255,255,255,0.6)">Incoming · Chuck simulation</div>
@@ -1378,7 +1704,6 @@
             </button>
           </div>
         </div>
-
         <!-- ============================= TAB BAR ============================= -->
         <nav class="tabbar">
           <button class="tab-btn active" data-tab="today" data-goto="today">
@@ -1402,12 +1727,10 @@
             Reviews
           </button>
         </nav>
-
       </div>
     </div>
   </div>
 </div>
-
 <script>
   // ---------- Screen routing ----------
   const tabMap = {
@@ -1427,7 +1750,6 @@
     document.querySelectorAll('.tab-btn').forEach(b=>{
       b.classList.toggle('active', b.dataset.tab===tabMap[screen]);
     });
-    // Scroll back to top of content
     document.querySelectorAll('.view').forEach(v=>{
       const c = v.querySelector('.content'); if(c) c.scrollTop = 0;
     });
@@ -1444,135 +1766,610 @@
     el.addEventListener('click', ()=> goto(el.dataset.screen));
   });
 
-  // ---------- Onboarding wizard ----------
-  const obSteps = [
+  // ============================================================
+  // ONBOARDING — Rosie-inspired 4-phase flow with sub-steps
+  // ============================================================
+  // Each step has: phase (welcome/train/customize/test/golive/done),
+  // subIndex (only for customize, 0-6), and a render function.
+  // Phase navigation chrome (4 tabs + sub-bar) reacts to phase.
+
+  const TRAINED_ON_CARD = `
+    <div class="trained-on">
+      <div class="label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        Chuck is trained on
+      </div>
+      <div class="row"><div class="k">Business website</div><div class="v">northlandplumbingmn.com</div></div>
+      <div class="row"><div class="k">Google Business</div><div class="v">Northland Plumbing</div></div>
+    </div>
+  `;
+
+  function chevronEdit(){
+    return `<button>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+      Make changes
+    </button>`;
+  }
+
+  const steps = [
+    /* 0 — Welcome */
     {
+      phase:'welcome',
+      cta:'Get started',
+      render: () => `
+        <div class="ob-welcome">
+          <div class="logo-xl">C</div>
+          <h1>Welcome to Chuck</h1>
+          <p class="sub">The AI agent that answers every call,<br>so you can keep your hands on the tools.</p>
+          <div class="benefits">
+            <div class="benefit">
+              <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              Picks up every missed call, 24/7
+            </div>
+            <div class="benefit">
+              <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              Qualifies leads on the call
+            </div>
+            <div class="benefit">
+              <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              Books estimates straight to your calendar
+            </div>
+            <div class="benefit">
+              <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              Forwards true emergencies to your cell
+            </div>
+          </div>
+          <div class="small-note">Set up in about 5 minutes · free 7-day trial</div>
+        </div>
+      `
+    },
+    /* 1 — Train: enter website */
+    {
+      phase:'train',
       eyebrow:'Step 1 of 4 · Train',
-      title:"Let's set Chuck up to sound like you.",
-      desc:"Paste your business website and Chuck will pull your services, hours, and phone — then draft a greeting in your voice.",
-      body:`
+      cta:'Train Chuck',
+      title:"First, let's find your business.",
+      desc:"Paste your business website. Chuck will pull your services, hours, phone, and draft a greeting in your voice — about 30 seconds.",
+      body: () => `
         <div class="field">
           <label>Business website</label>
-          <input class="input" value="northlandplumbingmn.com"/>
-          <div class="hint">We'll scrape services, hours, address, and phone number.</div>
+          <input class="input" value="northlandplumbingmn.com" id="ob-website"/>
+          <div class="hint">We'll scrape services, hours, address, and phone.</div>
         </div>
         <div class="field">
           <label>Business name</label>
           <input class="input" value="Northland Plumbing"/>
         </div>
         <div class="field">
-          <label>Service area</label>
-          <input class="input" value="Twin Cities · 25 mi radius of 55101"/>
-        </div>`,
-      cta:'Pull from website'
-    },
-    {
-      eyebrow:'Step 2 of 4 · Customize',
-      title:"Here's what Chuck will ask every caller. Edit anything.",
-      desc:"These are your intake questions and qualification rules. Used on every inbound call.",
-      body:`
-        <div class="card">
-          <div class="card-title">Intake questions</div>
-          <div class="h-row"><span class="label">What type of project?</span><span class="val">Required</span></div>
-          <div class="h-row"><span class="label">Timeline?</span><span class="val">Required</span></div>
-          <div class="h-row"><span class="label">Budget?</span><span class="val">Optional</span></div>
-          <div class="h-row"><span class="label">Residential or commercial?</span><span class="val">Required</span></div>
-          <div class="h-row"><span class="label">Service address?</span><span class="val">Required</span></div>
-          <div class="h-row"><span class="label">How did you hear about us?</span><span class="val">Optional</span></div>
-          <button class="btn btn-text mt8">＋ Add question</button>
+          <label>Owner / primary contact</label>
+          <input class="input" value="Mike Halvorsen"/>
         </div>
-        <div class="card">
-          <div class="card-title">Qualification rules</div>
-          <div class="h-row"><span class="label">Min project</span><span class="val">$250</span></div>
-          <div class="h-row"><span class="label">Service radius</span><span class="val">25 mi</span></div>
-          <div class="h-row"><span class="label">Residential / commercial</span><span class="val">Both</span></div>
-          <div class="h-row"><span class="label">Forward emergencies</span><span class="val">To your cell</span></div>
-        </div>`,
-      cta:'Looks good'
+      `
     },
+    /* 2 — Train: animated pull */
     {
+      phase:'train',
+      eyebrow:'Step 1 of 4 · Train',
+      cta:'Continue',
+      ctaDisabled:true,
+      title:"Training Chuck on your business.",
+      desc:"Hang tight — pulling everything Chuck needs to answer like you.",
+      onMount: () => trainingAnimation(),
+      body: () => `
+        <div class="train-stage">
+          <div class="train-illus" id="train-illus">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div class="train-steps" id="train-steps">
+            <div class="train-step" data-step="0"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Reading northlandplumbingmn.com</div>
+            <div class="train-step" data-step="1"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Pulling services & pricing pages</div>
+            <div class="train-step" data-step="2"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Detecting hours & service area</div>
+            <div class="train-step" data-step="3"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Drafting greeting in your voice</div>
+            <div class="train-step" data-step="4"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Connecting Google Business profile</div>
+          </div>
+        </div>
+      `
+    },
+    /* 3 — Train complete */
+    {
+      phase:'train',
+      eyebrow:'Step 1 of 4 · Train',
+      cta:'Customize Chuck',
+      title:"Training is complete.",
+      desc:"Chuck is ready to customize with your specific business info. Up next: confirm the details and tune Chuck's voice.",
+      body: () => `
+        <div class="train-stage">
+          <div class="train-illus done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div style="text-align:center; font-size:14px; font-weight:600">Chuck is ready</div>
+          <div style="text-align:center; font-size:13px; color:var(--text-sec); margin-top:6px">Pulled 4 pages · 9 services · hours · 1 phone</div>
+          <div class="train-steps" style="margin-top:14px">
+            <div class="train-step done"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Website read · 4 pages</div>
+            <div class="train-step done"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>9 services extracted</div>
+            <div class="train-step done"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Hours & service area set</div>
+            <div class="train-step done"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Greeting drafted</div>
+            <div class="train-step done"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Google Business linked</div>
+          </div>
+        </div>
+      `
+    },
+    /* 4 — Customize 1/7: business info */
+    {
+      phase:'customize', sub:0,
+      cta:'Continue',
+      title:"Customize Chuck",
+      desc:"Complete the following steps to help Chuck be accurate and effective for your callers. Don't worry — you can change anything later.",
+      body: () => `
+        ${TRAINED_ON_CARD}
+        <div class="confirm-card">
+          <div class="ct">Let's start by confirming your basic business info.</div>
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">Business name</span>
+            <span class="val" style="color:var(--text); font-weight:500">Northland Plumbing</span>
+          </div>
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">Business phone</span>
+            <span class="val" style="color:var(--text); font-weight:500">(651) 555-0182</span>
+          </div>
+          <div class="h-row" style="padding:8px 0; align-items:flex-start">
+            <span class="label" style="flex-shrink:0; padding-right:8px">Overview</span>
+            <span class="val" style="color:var(--text); text-align:right; font-size:12px; line-height:1.5; max-width:60%">Northland Plumbing is a family-owned plumbing company serving the Twin Cities since 2009 — water heaters, drains, repairs, and emergency service 24/7.</span>
+          </div>
+          <div class="changes-btn">${chevronEdit()}</div>
+        </div>
+      `
+    },
+    /* 5 — Customize 2/7: core services */
+    {
+      phase:'customize', sub:1,
+      cta:'These look right',
+      title:"Customize Chuck",
+      desc:"Confirm the core services Chuck found for your business.",
+      body: () => `
+        <div class="confirm-card">
+          <div class="ct">Here are the core services we found. Does this look right?</div>
+          <div class="service-chips">
+            <span class="service-chip">Water heater install & repair</span>
+            <span class="service-chip">Drain cleaning</span>
+            <span class="service-chip">Burst pipe / emergency</span>
+            <span class="service-chip">Toilet install</span>
+            <span class="service-chip">Sewer line repair</span>
+            <span class="service-chip">Garbage disposal</span>
+            <span class="service-chip">Sump pump</span>
+            <span class="service-chip">Boiler / furnace</span>
+            <span class="service-chip">Annual maintenance</span>
+          </div>
+          <div class="changes-btn">${chevronEdit()}</div>
+        </div>
+      `
+    },
+    /* 6 — Customize 3/7: voice & personality */
+    {
+      phase:'customize', sub:2,
+      cta:'Sounds good',
+      title:"Customize Chuck",
+      desc:"Choose a voice, name, and personality for your AI agent.",
+      body: () => `
+        <div class="confirm-card">
+          <div class="ct">Choose a voice and personality.</div>
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">Agent name</span>
+            <span class="val" style="color:var(--text); font-weight:500">Chuck</span>
+          </div>
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">Voice</span>
+            <span class="val" style="color:var(--text); font-weight:500">Mike — Midwest, warm</span>
+          </div>
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">Tone</span>
+            <span class="val" style="color:var(--text); font-weight:500">Friendly · plain-spoken</span>
+          </div>
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">Talking speed</span>
+            <span class="val" style="color:var(--text); font-weight:500">Average</span>
+          </div>
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">Background sounds</span>
+            <span class="val" style="color:var(--text); font-weight:500">Quiet office</span>
+          </div>
+          <div class="changes-btn">${chevronEdit()}</div>
+        </div>
+        <div class="small mt12" style="text-align:center">▶ Hear Chuck say your greeting</div>
+      `
+    },
+    /* 7 — Customize 4/7: greeting */
+    {
+      phase:'customize', sub:3,
+      cta:'Continue',
+      title:"Customize Chuck",
+      desc:"Make a great first impression with a personalized call greeting.",
+      body: () => `
+        <div class="confirm-card">
+          <div class="ct">Your call greeting.</div>
+          <div class="h-row" style="padding:8px 0; align-items:flex-start">
+            <span class="label" style="flex-shrink:0; padding-right:8px">Greeting</span>
+            <span class="val" style="color:var(--text); text-align:right; font-size:12px; line-height:1.5; max-width:62%">"Hi, thanks for calling Northland Plumbing! This is Chuck, Mike's AI assistant. Our call may be recorded for quality. What kind of project are you calling about?"</span>
+          </div>
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">Recording disclaimer</span>
+            <span class="val"><span class="pill pill-cta">Included</span></span>
+          </div>
+          <div class="changes-btn">${chevronEdit()}</div>
+        </div>
+      `
+    },
+    /* 8 — Customize 5/7: intake scenarios */
+    {
+      phase:'customize', sub:4,
+      cta:'Continue',
+      title:"Customize Chuck",
+      desc:"When Chuck takes a call, what should he ask? We've drafted scenarios based on your services.",
+      body: () => `
+        <div class="scenario">
+          <div class="head"><div class="t">Estimate request</div>
+            <span class="auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Auto-added</span></div>
+          <div class="body">Ask project type, timeline, budget range, service address, residential/commercial, and best callback time. Send Mike a photo upload prompt by SMS after the call.</div>
+        </div>
+        <div class="scenario">
+          <div class="head"><div class="t">Emergency call</div>
+            <span class="auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Auto-added</span></div>
+          <div class="body">Burst pipes, no heat, gas smell, sewer backup → confirm address, check if water is shut off, then forward to Mike's cell immediately.</div>
+        </div>
+        <div class="scenario">
+          <div class="head"><div class="t">General inquiry</div>
+            <span class="auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Auto-added</span></div>
+          <div class="body">Get caller name, phone, what they need, and offer to text the website or schedule a callback. Capture lead source.</div>
+        </div>
+        <div class="scenario add">＋ Write your own scenario</div>
+        <div class="small mt12" style="text-align:center">You can always edit or create more scenarios later.</div>
+      `
+    },
+    /* 9 — Customize 6/7: notifications */
+    {
+      phase:'customize', sub:5,
+      cta:'Continue',
+      title:"Customize Chuck",
+      desc:"Where should Chuck alert you when something happens?",
+      body: () => `
+        <div class="confirm-card" style="padding:14px 18px">
+          <div class="notif-row">
+            <div class="meta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+              <div><div class="t">Email</div><div class="s">mike@northlandplumbing.com</div></div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="notif-row">
+            <div class="meta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <div><div class="t">Text message</div><div class="s">(612) 555-0173</div></div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="notif-row">
+            <div class="meta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <div><div class="t">Forward emergencies</div><div class="s">Call (612) 555-0173 directly</div></div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="notif-row">
+            <div class="meta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+              <div><div class="t">Push to phone</div><div class="s">Once you install the Chuck app</div></div>
+            </div>
+            <div class="toggle"></div>
+          </div>
+        </div>
+      `
+    },
+    /* 10 — Customize 7/7: premium features */
+    {
+      phase:'customize', sub:6,
+      cta:'Continue',
+      title:"Customize Chuck",
+      desc:"Activate Chuck's premium features for your free trial. Toggle them now or later based on what you need.",
+      body: () => `
+        <div class="confirm-card" style="padding:14px 18px">
+          <div class="premium-row">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <div class="body">
+              <div class="t">Estimate booking <span class="premium-tag">Premium</span></div>
+              <div class="s">Chuck books appointments straight to your calendar</div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="premium-row">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <div class="body">
+              <div class="t">Photo intake by SMS <span class="premium-tag">Premium</span></div>
+              <div class="s">Auto-text callers asking for photos of the issue</div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="premium-row">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <div class="body">
+              <div class="t">Auto-quote drafting <span class="premium-tag">Premium</span></div>
+              <div class="s">Generate quotes from call notes for your approval</div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="premium-row">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div class="body">
+              <div class="t">Review request automation <span class="premium-tag">Premium</span></div>
+              <div class="s">Text Google review link after each job</div>
+            </div>
+            <div class="toggle"></div>
+          </div>
+          <div class="premium-row">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+            <div class="body">
+              <div class="t">Website chat widget <span class="premium-tag">Premium</span></div>
+              <div class="s">Convert website visitors with AI text conversations</div>
+            </div>
+            <div class="toggle"></div>
+          </div>
+        </div>
+      `
+    },
+    /* 11 — Test */
+    {
+      phase:'test',
       eyebrow:'Step 3 of 4 · Test',
-      title:"Call Chuck. Hear what your customers will hear.",
-      desc:"Only you can reach Chuck on this number until you go live. Try a few questions — Chuck will reply in your voice.",
-      body:`
-        <div class="card" style="text-align:center; padding:24px">
-          <div class="small">Your Chuck number</div>
-          <div style="font-size:26px; font-weight:600; margin:8px 0">(651) 555-0420</div>
-          <button class="btn btn-primary btn-block" onclick="showRing()">📞 Place test call</button>
+      cta:'Sounds great',
+      title:"Your agent is ready. Make your first test call.",
+      desc:"Only you can reach Chuck on this number until you go live. No real customers will get through yet.",
+      body: () => `
+        <div class="test-card">
+          <div class="lbl">Your Chuck number</div>
+          <div class="num">(651) 555-0420</div>
+          <button class="call-btn" onclick="showRing()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Place test call
+          </button>
         </div>
-        <div class="card">
-          <div class="card-title">Try asking…</div>
-          <div class="h-row"><span class="label">What services do you offer?</span></div>
-          <div class="h-row"><span class="label">Are you open Saturday?</span></div>
-          <div class="h-row"><span class="label">I need a new water heater installed.</span></div>
-          <div class="h-row"><span class="label">My basement is flooding right now.</span></div>
-        </div>`,
-      cta:'Sounds great'
+        <div class="try-list">
+          <div class="h">Try asking Chuck…</div>
+          <div class="q"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>What services do you offer?</div>
+          <div class="q"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Are you open Saturday?</div>
+          <div class="q"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>I need a new water heater installed.</div>
+          <div class="q"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>My basement is flooding right now!</div>
+        </div>
+        <div class="small mt12" style="text-align:center">After the call, you can listen to a transcript in your dashboard.</div>
+      `
     },
+    /* 12 — Go Live */
     {
-      eyebrow:'Step 4 of 4 · Go live',
+      phase:'golive',
+      eyebrow:'Step 4 of 4 · Go Live',
+      cta:'Go live →',
       title:"Forward your business line. Chuck takes it from here.",
-      desc:"Pick your phone setup, then we'll text you simple call-forwarding instructions for your carrier.",
-      body:`
-        <div class="card">
-          <div class="radio-card selected">
-            <div class="radio-dot"></div>
-            <div class="radio-body"><div class="t">Missed calls only</div><div class="s">Recommended for solo operators</div></div>
+      desc:"Pick how Chuck should answer. We'll text you the call-forwarding instructions for your carrier.",
+      body: () => `
+        <div class="forward-pick">
+          <div class="forward-card selected" data-fwd="forward">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></div>
+            <div class="t">Forward calls</div>
+            <div class="s">Keep your number, route missed calls to Chuck. <strong>Recommended.</strong></div>
           </div>
-          <div class="radio-card">
-            <div class="radio-dot"></div>
-            <div class="radio-body"><div class="t">After hours only</div><div class="s">Chuck takes over outside service hours</div></div>
-          </div>
-          <div class="radio-card">
-            <div class="radio-dot"></div>
-            <div class="radio-body"><div class="t">Always answer first</div><div class="s">Chuck qualifies, then transfers if needed</div></div>
+          <div class="forward-card" data-fwd="number">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+            <div class="t">Use Chuck's number</div>
+            <div class="s">Use (651) 555-0420 as your new business line.</div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-title">Invite your team</div>
-          <input class="input" placeholder="teammate@example.com"/>
-          <button class="btn btn-text mt8">＋ Send invite</button>
-        </div>`,
-      cta:'Go live →'
+        <div class="confirm-card" style="padding:14px 18px">
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">Phone system</span>
+            <span class="val" style="color:var(--text); font-weight:500">Mobile (cell)</span>
+          </div>
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">Carrier</span>
+            <span class="val" style="color:var(--text); font-weight:500">Verizon</span>
+          </div>
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">Forwarding code</span>
+            <span class="val" style="color:var(--text); font-weight:500; font-family:monospace">*72 6515550420</span>
+          </div>
+          <div class="h-row" style="padding:8px 0">
+            <span class="label">When to forward</span>
+            <span class="val" style="color:var(--text); font-weight:500">After 4 rings (missed)</span>
+          </div>
+          <div class="changes-btn">${chevronEdit()}</div>
+        </div>
+        <div class="small mt12" style="text-align:center">You can disable forwarding any time with **73# on your phone.</div>
+      `
+    },
+    /* 13 — Done */
+    {
+      phase:'done',
+      cta:'Go to dashboard',
+      render: () => `
+        <div class="ob-done">
+          <div class="badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h1>Chuck is live</h1>
+          <p class="sub">Your business line is forwarding to Chuck.<br>Sit back — he'll start answering calls immediately.</p>
+          <div class="summary">
+            <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Trained on 4 pages from your site</div>
+            <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>9 services · 3 intake scenarios live</div>
+            <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Alerts going to your email & phone</div>
+            <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Emergencies forward to (612) 555-0173</div>
+          </div>
+          <div class="small">Free for 7 days · cancel any time</div>
+        </div>
+      `
     }
   ];
-  let obIndex = 0;
-  function renderOb(){
-    const s = obSteps[obIndex];
-    document.getElementById('ob-content').innerHTML = `
-      <div class="ob-eyebrow">${s.eyebrow}</div>
-      <h1 class="ob-title">${s.title}</h1>
-      <p class="ob-desc">${s.desc}</p>
-      ${s.body}
-    `;
-    document.getElementById('ob-next').textContent = s.cta;
-    ['ob-1','ob-2','ob-3','ob-4'].forEach((id,i)=>{
-      const el = document.getElementById(id);
-      el.classList.remove('done','active');
-      if(i < obIndex) el.classList.add('done');
-      else if(i === obIndex) el.classList.add('active');
-    });
+
+  let stepIdx = 0;
+  const CUSTOMIZE_TOTAL = 7;
+
+  function trainingAnimation(){
+    const stepsEls = document.querySelectorAll('#train-steps .train-step');
+    const illus = document.getElementById('train-illus');
+    let i = 0;
+    if (stepsEls.length) stepsEls[0].classList.add('active');
+    const timer = setInterval(()=>{
+      if (i < stepsEls.length){
+        stepsEls[i].classList.remove('active');
+        stepsEls[i].classList.add('done');
+        i++;
+        if (i < stepsEls.length){
+          stepsEls[i].classList.add('active');
+        } else {
+          clearInterval(timer);
+          // unlock CTA, swap illustration
+          if (illus) illus.classList.add('done');
+          const next = document.getElementById('ob-next');
+          if (next){ next.disabled = false; next.textContent = 'Training complete →'; }
+        }
+      }
+    }, 750);
   }
+
+  function renderOb(){
+    const s = steps[stepIdx];
+    const content = document.getElementById('ob-content');
+    const cta = document.getElementById('ob-next');
+    const secondary = document.getElementById('ob-secondary');
+    const back = document.getElementById('ob-back');
+    const phases = document.getElementById('ob-phases');
+    const substeps = document.getElementById('ob-substeps');
+    const phasesEls = document.querySelectorAll('.ob-phase');
+
+    // Update phase highlights
+    const phaseOrder = ['train','customize','test','golive'];
+    const currentPhaseIdx = phaseOrder.indexOf(s.phase);
+    phasesEls.forEach((el,i)=>{
+      el.classList.remove('active','done');
+      if (s.phase === 'welcome' || s.phase === 'done'){
+        if (s.phase === 'done') el.classList.add('done');
+      } else if (i < currentPhaseIdx){
+        el.classList.add('done');
+      } else if (i === currentPhaseIdx){
+        el.classList.add('active');
+      }
+    });
+
+    // Show/hide phase row on welcome
+    phases.style.display = (s.phase === 'welcome') ? 'none' : '';
+
+    // Substeps bar — only on customize
+    if (s.phase === 'customize'){
+      substeps.style.display = '';
+      document.getElementById('ob-substep-label').textContent = `${s.sub+1} of ${CUSTOMIZE_TOTAL}`;
+      const bars = document.getElementById('ob-substep-bars');
+      bars.innerHTML = '';
+      for (let i=0;i<CUSTOMIZE_TOTAL;i++){
+        const b = document.createElement('div');
+        b.className = 'bar';
+        if (i < s.sub) b.classList.add('done');
+        else if (i === s.sub) b.classList.add('active');
+        bars.appendChild(b);
+      }
+    } else {
+      substeps.style.display = 'none';
+    }
+
+    // Back button
+    back.disabled = (stepIdx === 0);
+
+    // Render content
+    let html = '';
+    if (s.render){
+      html = s.render();
+    } else {
+      const eyebrow = s.eyebrow ? `<div class="ob-eyebrow">${s.eyebrow}</div>` : '';
+      const title = s.title ? `<h1 class="ob-title">${s.title}</h1>` : '';
+      const desc = s.desc ? `<p class="ob-desc">${s.desc}</p>` : '';
+      const body = s.body ? s.body() : '';
+      html = eyebrow + title + desc + body;
+    }
+    content.innerHTML = html;
+    content.scrollTop = 0;
+
+    // CTA state
+    cta.textContent = s.cta || 'Continue';
+    cta.disabled = !!s.ctaDisabled;
+
+    // Hide secondary by default
+    secondary.style.display = 'none';
+
+    // Hook up "Make changes" buttons (informational - no-op except visual feedback)
+    content.querySelectorAll('.changes-btn button, .scenario .add, .forward-card').forEach(el => {
+      if (el.classList.contains('forward-card')){
+        el.addEventListener('click', ()=>{
+          content.querySelectorAll('.forward-card').forEach(c=>c.classList.remove('selected'));
+          el.classList.add('selected');
+        });
+      }
+    });
+
+    // Toggle interaction inside onboarding
+    content.querySelectorAll('.toggle').forEach(t=>{
+      t.addEventListener('click', ()=> t.classList.toggle('on'));
+    });
+
+    // Mount hook (e.g., training animation)
+    if (s.onMount) s.onMount();
+  }
+
+  function obNext(){
+    const s = steps[stepIdx];
+    if (s.phase === 'done'){
+      hideOnboarding();
+      goto('today');
+      return;
+    }
+    if (stepIdx < steps.length - 1){
+      stepIdx++;
+      renderOb();
+    }
+  }
+
+  function obBack(){
+    if (stepIdx > 0){
+      stepIdx--;
+      renderOb();
+    }
+  }
+
   function showOnboarding(){
-    obIndex = 0; renderOb();
+    stepIdx = 0; renderOb();
     document.getElementById('onboarding').classList.remove('overlay-hidden');
   }
   function hideOnboarding(){
     document.getElementById('onboarding').classList.add('overlay-hidden');
   }
-  document.getElementById('ob-next').addEventListener('click', ()=>{
-    if(obIndex < obSteps.length - 1){
-      obIndex++; renderOb();
-    } else {
-      hideOnboarding();
-      goto('today');
-    }
+  document.getElementById('ob-next').addEventListener('click', obNext);
+  document.getElementById('ob-back').addEventListener('click', obBack);
+
+  // Allow tapping a phase to jump (only forward to current, or back to any visited)
+  document.querySelectorAll('.ob-phase').forEach((el,i)=>{
+    el.addEventListener('click', ()=>{
+      const target = ['train','customize','test','golive'][i];
+      // Find first step in that phase
+      const firstIdx = steps.findIndex(s => s.phase === target);
+      if (firstIdx === -1) return;
+      // Only jump if already reached (i.e., currently on or past)
+      const currentPhase = steps[stepIdx].phase;
+      const currentPhaseIdx = ['welcome','train','customize','test','golive','done'].indexOf(currentPhase);
+      const targetPhaseIdx = ['welcome','train','customize','test','golive','done'].indexOf(target);
+      if (targetPhaseIdx <= currentPhaseIdx){
+        stepIdx = firstIdx;
+        renderOb();
+      }
+    });
   });
 
   // ---------- Test call ringing ----------
   function showRing(){ document.getElementById('ring').classList.remove('ring-hidden'); }
   function hideRing(){ document.getElementById('ring').classList.add('ring-hidden'); }
-
   // Radio card single-select inside intake
   document.querySelectorAll('[data-view="intake"] .card .radio-card').forEach(card=>{
     card.addEventListener('click', ()=>{
@@ -1580,21 +2377,17 @@
       card.classList.add('selected');
     });
   });
-
-  // Toggle interaction
+  // Toggle interaction (outside onboarding)
   document.querySelectorAll('.toggle').forEach(t=>{
     t.addEventListener('click', ()=> t.classList.toggle('on'));
   });
-
   // Expose helpers used by inline onclick from injected ob content
   window.showRing = showRing;
   window.hideRing = hideRing;
   window.showOnboarding = showOnboarding;
   window.hideOnboarding = hideOnboarding;
-
   // Start on Today
   goto('today');
 </script>
-
 </body>
 </html>
