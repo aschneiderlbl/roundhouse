@@ -926,6 +926,56 @@
     padding:4px 8px; border-radius:6px;
     font-size:12px; font-weight:500;
   }
+  /* Call recording player */
+  .call-player{
+    display:flex; align-items:center; gap:12px;
+    padding:12px;
+    background:#fff; border:1px solid var(--border); border-radius:10px;
+  }
+  .call-player .play{
+    width:38px; height:38px; border-radius:50%;
+    background:var(--primary); color:#fff;
+    border:none; cursor:pointer;
+    display:grid; place-items:center;
+    flex-shrink:0;
+    box-shadow:0 2px 6px rgba(37,99,235,0.3);
+  }
+  .call-player .play svg{width:16px; height:16px}
+  .call-player .meta{flex:1; min-width:0}
+  .call-player .wave{
+    display:flex; align-items:center; gap:2px;
+    height:24px;
+  }
+  .call-player .wave span{
+    flex:1; background:#CBD5E1; border-radius:1px;
+    display:inline-block;
+  }
+  .call-player .wave span.played{background:var(--primary)}
+  .call-player .time{
+    font-size:11px; color:var(--text-sec);
+    display:flex; justify-content:space-between;
+    margin-top:4px; font-variant-numeric:tabular-nums;
+  }
+  /* Transcript lines */
+  .transcript{
+    margin-top:10px;
+    background:#F9FAFB; border:1px solid var(--border); border-radius:10px;
+    padding:12px;
+  }
+  .transcript .line{
+    display:flex; gap:10px; padding:6px 0;
+    font-size:13px; line-height:1.5;
+  }
+  .transcript .line + .line{border-top:1px solid var(--border)}
+  .transcript .who{
+    flex-shrink:0; width:54px;
+    font-size:11px; font-weight:600;
+    color:var(--text-sec); text-transform:uppercase;
+    letter-spacing:0.04em; padding-top:2px;
+  }
+  .transcript .who.chuck{color:var(--primary)}
+  .transcript .who.caller{color:#6D28D9}
+  .transcript .txt{flex:1; color:var(--text)}
   /* Score gauge */
   .gauge{
     display:flex; align-items:center; gap:12px;
@@ -1129,7 +1179,6 @@
                   <div class="row-sub">Landscape curbing · captured today</div>
                 </div>
                 <div class="row-right">
-                  <span class="pill pill-cta status-Qualified">Qualified</span>
                   <span class="row-time">8:42a</span>
                 </div>
               </div>
@@ -1140,7 +1189,6 @@
                   <div class="row-sub">Gutter cleaning · photos received</div>
                 </div>
                 <div class="row-right">
-                  <span class="pill status-Qualified">Qualified</span>
                   <span class="row-time">7:31a</span>
                 </div>
               </div>
@@ -1151,7 +1199,6 @@
                   <div class="row-sub">Fallen tree · forwarded to you</div>
                 </div>
                 <div class="row-right">
-                  <span class="pill pill-error">Emergency</span>
                   <span class="row-time">2:14a</span>
                 </div>
               </div>
@@ -1165,7 +1212,6 @@
                   <div class="row-sub">Curbing + paver border · quote sent</div>
                 </div>
                 <div class="row-right">
-                  <span class="pill status-Quoted">Quoted</span>
                   <span class="row-time">Yest</span>
                 </div>
               </div>
@@ -1176,7 +1222,6 @@
                   <div class="row-sub">Spring cleanup · review left</div>
                 </div>
                 <div class="row-right">
-                  <span class="pill status-Paid">Paid</span>
                   <span class="row-time">Yest</span>
                 </div>
               </div>
@@ -1187,7 +1232,6 @@
                   <div class="row-sub">Seasonal snow contract · on calendar</div>
                 </div>
                 <div class="row-right">
-                  <span class="pill status-Scheduled">Scheduled</span>
                   <span class="row-time">Fri</span>
                 </div>
               </div>
@@ -1198,7 +1242,6 @@
                   <div class="row-sub">Annual maintenance · follow-up due</div>
                 </div>
                 <div class="row-right">
-                  <span class="pill">Lead</span>
                   <span class="row-time">5/19</span>
                 </div>
               </div>
@@ -1217,7 +1260,7 @@
             </button>
             <div class="grow" style="text-align:center">
               <div class="title" style="font-size:16px">Sarah Chen</div>
-              <div class="subtitle">Qualified · $4.2k–6k est.</div>
+              <div class="subtitle">$4.2k–6k est.</div>
             </div>
             <button class="icon-btn" title="More">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
@@ -1243,7 +1286,6 @@
               <div class="card-title">Contact</div>
               <div class="h-row"><span class="label">Phone</span><span class="val">(612) 555-0184</span></div>
               <div class="h-row"><span class="label">Email</span><span class="val">sarah.chen@gmail.com</span></div>
-              <div class="h-row"><span class="label">Lead source</span><span class="val">Google · "landscape curbing near me"</span></div>
               <div class="h-row"><span class="label">Last contact</span><span class="val">Today, 8:42a</span></div>
             </div>
             <div class="card">
@@ -1287,18 +1329,78 @@
                   <div class="tl-dot">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                   </div>
-                  <div class="tl-content"><span class="strong">Inbound call</span> — 7 min · qualified</div>
-                  <div class="tl-meta">Chuck answered · 8:42a · <a href="#" style="color:var(--primary)">listen</a> · <a href="#" style="color:var(--primary)">transcript</a></div>
-                  <div class="tl-card">
-                    <div class="quote">"I'd like to put in decorative curbing around the flower beds and along the driveway. We're hoping to get it done in about three to four weeks."</div>
-                    <div class="small">Chuck captured: project type, timeline, service address, lead source, photo prompt sent.</div>
+                  <div class="tl-content"><span class="strong">Inbound call</span> — 7 min 12 sec</div>
+                  <div class="tl-meta">Chuck answered · 8:42a</div>
+                  <div class="call-player" style="margin-top:8px">
+                    <button class="play" aria-label="Play recording">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                    </button>
+                    <div class="meta">
+                      <div class="wave">
+                        <span class="played" style="height:6px"></span>
+                        <span class="played" style="height:14px"></span>
+                        <span class="played" style="height:8px"></span>
+                        <span class="played" style="height:18px"></span>
+                        <span class="played" style="height:10px"></span>
+                        <span class="played" style="height:20px"></span>
+                        <span class="played" style="height:12px"></span>
+                        <span style="height:16px"></span>
+                        <span style="height:8px"></span>
+                        <span style="height:22px"></span>
+                        <span style="height:10px"></span>
+                        <span style="height:14px"></span>
+                        <span style="height:18px"></span>
+                        <span style="height:6px"></span>
+                        <span style="height:12px"></span>
+                        <span style="height:20px"></span>
+                        <span style="height:8px"></span>
+                        <span style="height:16px"></span>
+                        <span style="height:10px"></span>
+                        <span style="height:14px"></span>
+                        <span style="height:22px"></span>
+                        <span style="height:6px"></span>
+                        <span style="height:12px"></span>
+                        <span style="height:18px"></span>
+                      </div>
+                      <div class="time"><span>3:14</span><span>7:12</span></div>
+                    </div>
+                  </div>
+                  <div class="transcript">
+                    <div class="line">
+                      <div class="who chuck">Chuck</div>
+                      <div class="txt">Hi, thanks for calling Shoreview Outdoor Services! This is Chuck. How can we help you today?</div>
+                    </div>
+                    <div class="line">
+                      <div class="who caller">Sarah</div>
+                      <div class="txt">Hi, I'd like to put in some decorative curbing around the flower beds and along the driveway.</div>
+                    </div>
+                    <div class="line">
+                      <div class="who chuck">Chuck</div>
+                      <div class="txt">Great — curbing is one of our specialties. When do you need the work done?</div>
+                    </div>
+                    <div class="line">
+                      <div class="who caller">Sarah</div>
+                      <div class="txt">We're hoping to get it done in about three or four weeks if possible.</div>
+                    </div>
+                    <div class="line">
+                      <div class="who chuck">Chuck</div>
+                      <div class="txt">That should work. Can I get the service address and a good callback number?</div>
+                    </div>
+                    <div class="line">
+                      <div class="who caller">Sarah</div>
+                      <div class="txt">Sure — 4220 Birchwood Lane in Shoreview. Best number is 612-555-0184.</div>
+                    </div>
+                    <div class="line">
+                      <div class="who chuck">Chuck</div>
+                      <div class="txt">Perfect. Robin will give you a call back today to set up an on-site estimate. I'll also text you so you can send a couple of photos of the yard ahead of time.</div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
-        <!-- ============================= JOBS SCHEDULE ============================= -->
+        <!-- ============================= JOBS LIST ============================= -->
         <section class="view" data-view="jobs" style="display:none">
           <div class="status">
             <div>9:41</div>
@@ -1306,64 +1408,115 @@
           </div>
           <div class="app-header">
             <div>
-              <div class="title">Schedule</div>
-              <div class="subtitle">3 jobs today</div>
+              <div class="title">Jobs</div>
+              <div class="subtitle">9 open · 3 today</div>
             </div>
             <button class="icon-btn" title="Add">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             </button>
           </div>
           <div class="content">
-            <div class="flex gap8 mb12">
-              <button class="btn btn-secondary btn-sm" style="flex:1; background:var(--primary); color:#fff; border-color:var(--primary)">Day</button>
-              <button class="btn btn-secondary btn-sm" style="flex:1">Week</button>
-              <button class="btn btn-secondary btn-sm" style="flex:1">Month</button>
-              <button class="btn btn-secondary btn-sm" style="flex:1; background:#fff" data-goto="pipeline">Pipeline</button>
-            </div>
-            <div class="cal-strip">
-              <div class="cal-day"><div class="dn">Mon</div><div class="dd">25</div></div>
-              <div class="cal-day today"><div class="dn">Tue</div><div class="dd">26</div><div class="badge"></div></div>
-              <div class="cal-day"><div class="dn">Wed</div><div class="dd">27</div><div class="badge"></div></div>
-              <div class="cal-day"><div class="dn">Thu</div><div class="dd">28</div></div>
-              <div class="cal-day"><div class="dn">Fri</div><div class="dd">29</div><div class="badge"></div></div>
-              <div class="cal-day"><div class="dn">Sat</div><div class="dd">30</div></div>
-              <div class="cal-day"><div class="dn">Sun</div><div class="dd">31</div></div>
-            </div>
-            <div class="section-title" style="margin-top:8px">Today · Tue May 26</div>
-            <div class="event">
-              <div class="time"><div class="t1">8:00</div><div class="t2">AM</div></div>
-              <div class="body">
-                <div class="t">Curbing install · Patel residence <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
-                <div class="s">2210 Oak St · 4h · Robin</div>
+            <input class="input" placeholder="Search jobs…" style="margin-bottom:12px"/>
+            <div class="section-title">Today</div>
+            <div class="list">
+              <div class="row-item">
+                <div class="avatar">JP</div>
+                <div class="row-body">
+                  <div class="row-name">Curbing install · Patel residence</div>
+                  <div class="row-sub">2210 Oak St · 4h · Robin</div>
+                </div>
+                <div class="row-right">
+                  <span class="row-time">8:00a</span>
+                </div>
+              </div>
+              <div class="row-item">
+                <div class="avatar">TR</div>
+                <div class="row-body">
+                  <div class="row-name">Gutter cleaning estimate · Reilly</div>
+                  <div class="row-sub">87 Linden Ct · photos in CRM</div>
+                </div>
+                <div class="row-right">
+                  <span class="row-time">10:30a</span>
+                </div>
+              </div>
+              <div class="row-item">
+                <div class="avatar">HF</div>
+                <div class="row-body">
+                  <div class="row-name">Gutter cleaning · Hoffman</div>
+                  <div class="row-sub">5512 Greenway · 2h · Eric</div>
+                </div>
+                <div class="row-right">
+                  <span class="row-time">1:00p</span>
+                </div>
               </div>
             </div>
-            <div class="event">
-              <div class="time"><div class="t1">10:30</div><div class="t2">AM</div></div>
-              <div class="body">
-                <div class="t">Estimate · Reilly gutter cleaning <span class="pill pill-primary" style="margin-left:6px">Estimate</span></div>
-                <div class="s">87 Linden Ct · photos in CRM</div>
+            <div class="section-title">Tomorrow</div>
+            <div class="list">
+              <div class="row-item">
+                <div class="avatar">JP</div>
+                <div class="row-body">
+                  <div class="row-name">Curbing + paver border · Patel</div>
+                  <div class="row-sub">$4,820 · 6h · Robin + Eric</div>
+                </div>
+                <div class="row-right">
+                  <span class="row-time">9:00a</span>
+                </div>
               </div>
             </div>
-            <div class="event">
-              <div class="time"><div class="t1">1:00</div><div class="t2">PM</div></div>
-              <div class="body">
-                <div class="t">Gutter cleaning · Hoffman <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
-                <div class="s">5512 Greenway · 2h · Eric</div>
+            <div class="section-title">This week</div>
+            <div class="list">
+              <div class="row-item">
+                <div class="avatar gray">MA</div>
+                <div class="row-body">
+                  <div class="row-name">Seasonal snow contract · Alvarez</div>
+                  <div class="row-sub">$1,280 · prep visit · Robin</div>
+                </div>
+                <div class="row-right">
+                  <span class="row-time">Fri 26</span>
+                </div>
+              </div>
+              <div class="row-item">
+                <div class="avatar gray">LC</div>
+                <div class="row-body">
+                  <div class="row-name">Landscape refresh · Carter</div>
+                  <div class="row-sub">$6,150 · 2-day install · Robin + Eric</div>
+                </div>
+                <div class="row-right">
+                  <span class="row-time">Sat 27</span>
+                </div>
+              </div>
+              <div class="row-item">
+                <div class="avatar gray">SC</div>
+                <div class="row-body">
+                  <div class="row-name">On-site estimate · Chen</div>
+                  <div class="row-sub">4220 Birchwood Ln · curbing project</div>
+                </div>
+                <div class="row-right">
+                  <span class="row-time">Mon 6/1</span>
+                </div>
               </div>
             </div>
-            <div class="event">
-              <div class="time"><div class="t1">3:30</div><div class="t2">PM</div></div>
-              <div class="body">
-                <div class="t">Follow-up call · Kowalski <span class="pill pill-warning" style="margin-left:6px">Follow-up</span></div>
-                <div class="s">Review check-in · Chuck will dial</div>
+            <div class="section-title">Later</div>
+            <div class="list">
+              <div class="row-item">
+                <div class="avatar gray">EH</div>
+                <div class="row-body">
+                  <div class="row-name">Annual maintenance · Huang</div>
+                  <div class="row-sub">Awaiting callback · follow-up due</div>
+                </div>
+                <div class="row-right">
+                  <span class="row-time">TBD</span>
+                </div>
               </div>
-            </div>
-            <div class="section-title">Tomorrow · Wed May 27</div>
-            <div class="event">
-              <div class="time"><div class="t1">9:00</div><div class="t2">AM</div></div>
-              <div class="body">
-                <div class="t">Curbing + paver border · Patel <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
-                <div class="s">$4,820 · 6h · Robin + Eric</div>
+              <div class="row-item">
+                <div class="avatar gray">BA</div>
+                <div class="row-body">
+                  <div class="row-name">Mulch refresh · Adams</div>
+                  <div class="row-sub">$280 est. · needs quote</div>
+                </div>
+                <div class="row-right">
+                  <span class="row-time">TBD</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1575,14 +1728,6 @@
             <div class="card" style="padding:4px 16px">
               <div class="row-toggle">
                 <div><div class="label">Google review request</div><div class="sub">SMS 1 hour after job marked Complete</div></div>
-                <div class="toggle on"></div>
-              </div>
-              <div class="row-toggle">
-                <div><div class="label">Written testimonial</div><div class="sub">Email if customer rates 5★</div></div>
-                <div class="toggle on"></div>
-              </div>
-              <div class="row-toggle">
-                <div><div class="label">Referral nudge</div><div class="sub">"Know anyone else who could use us?" · 7 days post-job</div></div>
                 <div class="toggle on"></div>
               </div>
             </div>
@@ -1943,7 +2088,7 @@
       phase:'test',
       eyebrow:'Step 3 of 4 · Test',
       cta:'Sounds great',
-      title:"Your agent is ready. Make your first test call.",
+      title:"Chuck is ready. Make your first test call.",
       desc:"Only you can reach Chuck on this number until you go live. No real customers will get through yet.",
       body: () => `
         <div class="test-card">
