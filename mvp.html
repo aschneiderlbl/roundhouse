@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Chuck — AI ops for home services</title>
+<title>ROUNDHOUSE — ops for home services</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -319,7 +319,6 @@
   .tab-btn svg{width:22px; height:22px}
   .tab-btn.active{color:var(--primary)}
   .tab-btn:hover{color:var(--primary)}
-
   /* ============================================================ */
   /* ONBOARDING (expanded, Rosie-inspired)                         */
   /* ============================================================ */
@@ -487,63 +486,34 @@
     border:1px solid var(--border); border-radius:999px;
     padding:6px 12px; font-size:13px; line-height:1.3;
   }
-  /* Suggestion auto-added scenario card */
-  .scenario{
+  /* Question rows for default intake */
+  .question-list{
+    display:flex; flex-direction:column; gap:10px; margin-top:8px;
+  }
+  .question-row{
     background:#fff; border:1px solid var(--border); border-radius:10px;
-    padding:12px; margin-top:10px;
+    padding:14px; display:flex; align-items:flex-start; gap:12px;
   }
-  .scenario .head{display:flex; align-items:center; gap:8px; margin-bottom:6px}
-  .scenario .head .t{font-size:14px; font-weight:600}
-  .scenario .auto{
-    display:inline-flex; align-items:center; gap:4px;
-    background:#FEF3C7; color:#92400E;
-    border-radius:999px; padding:2px 8px;
-    font-size:11px; font-weight:500;
+  .question-row .qnum{
+    width:28px; height:28px; border-radius:50%;
+    background:var(--primary-light); color:var(--primary);
+    display:grid; place-items:center; font-size:13px; font-weight:600;
+    flex-shrink:0;
   }
-  .scenario .auto svg{width:10px; height:10px}
-  .scenario .body{font-size:12px; color:var(--text-sec); line-height:1.5}
-  .scenario .add{
-    margin-top:10px; padding:8px;
+  .question-row .qtxt{font-size:14px; line-height:1.4; color:var(--text); flex:1}
+  .question-row .qtag{
+    font-size:10px; font-weight:600; text-transform:uppercase;
+    letter-spacing:0.04em; color:var(--cta-hover);
+    background:var(--cta-light); padding:2px 6px; border-radius:4px;
+    margin-top:4px; display:inline-block;
+  }
+  .add-question{
+    margin-top:10px; padding:10px;
     border:1px dashed var(--border); border-radius:8px;
     text-align:center; font-size:13px; color:var(--text-sec); cursor:pointer;
     display:flex; align-items:center; justify-content:center; gap:6px;
   }
-  .scenario .add:hover{border-color:var(--primary); color:var(--primary); background:var(--primary-light)}
-  /* Notification row */
-  .notif-row{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:14px 0; border-bottom:1px solid var(--border);
-  }
-  .notif-row:last-child{border-bottom:none}
-  .notif-row .meta{display:flex; align-items:center; gap:10px}
-  .notif-row .meta svg{color:var(--primary); width:18px; height:18px}
-  .notif-row .meta .t{font-size:14px; font-weight:500}
-  .notif-row .meta .s{font-size:12px; color:var(--text-sec); margin-top:2px}
-  .notif-row .right{display:flex; align-items:center; gap:8px}
-  .notif-row .val{font-size:12px; color:var(--text-sec); max-width:120px; text-align:right}
-  /* Premium feature row */
-  .premium-row{
-    display:flex; align-items:center; gap:12px;
-    padding:14px 0; border-bottom:1px solid var(--border);
-  }
-  .premium-row:last-child{border-bottom:none}
-  .premium-row .ic{
-    width:36px; height:36px; border-radius:10px;
-    background:var(--primary-light); color:var(--primary);
-    display:grid; place-items:center; flex-shrink:0;
-  }
-  .premium-row .ic svg{width:18px; height:18px}
-  .premium-row .body{flex:1; min-width:0}
-  .premium-row .body .t{
-    font-size:14px; font-weight:500;
-    display:flex; align-items:center; gap:6px;
-  }
-  .premium-row .premium-tag{
-    background:#FEF3C7; color:#92400E;
-    font-size:10px; font-weight:600; text-transform:uppercase;
-    letter-spacing:0.04em; padding:1px 6px; border-radius:4px;
-  }
-  .premium-row .body .s{font-size:12px; color:var(--text-sec); margin-top:2px}
+  .add-question:hover{border-color:var(--primary); color:var(--primary); background:var(--primary-light)}
   /* Training progress (Step 1 animated checks) */
   .train-stage{
     background:#fff; border:1px solid var(--border); border-radius:14px;
@@ -615,9 +585,10 @@
     width:80px; height:80px; border-radius:20px;
     background:linear-gradient(135deg,#2563EB 0%,#1D4ED8 100%);
     display:grid; place-items:center;
-    color:#fff; font-weight:700; font-size:36px;
+    color:#fff; font-weight:700; font-size:30px;
     margin:0 auto 24px;
     box-shadow: 0 12px 32px rgba(37,99,235,0.3);
+    letter-spacing:-0.04em;
   }
   .ob-welcome h1{
     font-size:30px; font-weight:600; letter-spacing:-0.02em;
@@ -729,7 +700,6 @@
   }
   .ob-done .summary .row svg{width:14px; height:14px; flex-shrink:0; color:var(--cta-hover)}
   /* ============================================================ */
-
   /* Inputs */
   .field{margin-bottom:14px}
   .field label{display:block; font-size:13px; font-weight:500; margin-bottom:6px; color:var(--text)}
@@ -975,13 +945,13 @@
 <div class="stage">
   <aside class="side">
     <div class="brandline">
-      <div class="logo">C</div>
+      <div class="logo">R</div>
       <div>
-        <div class="brand-name">Chuck</div>
-        <div class="brand-sub">AI ops for home services</div>
+        <div class="brand-name">ROUNDHOUSE</div>
+        <div class="brand-sub">ops for home services</div>
       </div>
     </div>
-    <p>Chuck is the AI agent who answers every call, qualifies every lead, books the job, and follows up — so the owner can keep their hands on the tools.</p>
+    <p>Chuck answers every call, qualifies every lead, books the job, and follows up — so the owner can keep their hands on the tools.</p>
     <h2>Jump to a screen</h2>
     <div class="screens-list" id="screensList">
       <button data-screen="onboarding"><span class="dot"></span>Onboarding wizard ▸</button>
@@ -997,7 +967,7 @@
     </div>
     <div class="legend">
       <strong>Built from</strong>
-      Roundhouse master plan (Chuck MVP) · Hey Rosie reference flows · Minimal Material design system. Inter, 8px spacing, 12px cards, 44px touch targets.
+      ROUNDHOUSE master plan (Chuck MVP) · Hey Rosie reference flows · Minimal Material design system. Inter, 8px spacing, 12px cards, 44px touch targets.
     </div>
     <div class="footer-note">
       Tap around the phone. The bottom tab bar and the screen list both navigate. Use "Onboarding wizard" to step through the 4-phase setup (Train → Customize → Test → Go Live), with sub-steps inside Customize.
@@ -1014,7 +984,7 @@
           </div>
           <div class="app-header">
             <div>
-              <div class="title">Good morning, Mike</div>
+              <div class="title">Good morning, Robin</div>
               <div class="subtitle">Tuesday · May 26</div>
             </div>
             <button class="icon-btn" title="Notifications">
@@ -1066,7 +1036,7 @@
                 <div class="activity-icon call"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
                 <div class="activity-body">
                   <div class="activity-title">Sarah Chen booked an estimate</div>
-                  <div class="activity-meta">Kitchen remodel · Mon 3:00pm · 7 min call</div>
+                  <div class="activity-meta">Landscape curbing · Mon 3:00pm · 7 min call</div>
                 </div>
                 <div class="activity-time">8:42a</div>
               </div>
@@ -1074,7 +1044,7 @@
                 <div class="activity-icon sms"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
                 <div class="activity-body">
                   <div class="activity-title">Photos received from Tom Reilly</div>
-                  <div class="activity-meta">3 images · roof leak above garage</div>
+                  <div class="activity-meta">3 images · clogged gutters above garage</div>
                 </div>
                 <div class="activity-time">7:31a</div>
               </div>
@@ -1082,7 +1052,7 @@
                 <div class="activity-icon miss"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div>
                 <div class="activity-body">
                   <div class="activity-title">Emergency forwarded to you</div>
-                  <div class="activity-meta">Burst pipe · 4451 Maple Ave · Dana Lee</div>
+                  <div class="activity-meta">Fallen tree blocking driveway · 4451 Maple Ave · Dana Lee</div>
                 </div>
                 <div class="activity-time">2:14a</div>
               </div>
@@ -1090,7 +1060,7 @@
                 <div class="activity-icon review"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
                 <div class="activity-body">
                   <div class="activity-title">New Google review · 5 stars</div>
-                  <div class="activity-meta">"Mike was fast and honest." — Diane K.</div>
+                  <div class="activity-meta">"Robin's crew was fast and honest." — Diane K.</div>
                 </div>
                 <div class="activity-time">Yesterday</div>
               </div>
@@ -1098,7 +1068,7 @@
                 <div class="activity-icon job"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
                 <div class="activity-body">
                   <div class="activity-title">Job moved to "Quoted"</div>
-                  <div class="activity-meta">Patel residence · $4,820 water heater</div>
+                  <div class="activity-meta">Patel residence · $4,820 curbing + paver border</div>
                 </div>
                 <div class="activity-time">Yesterday</div>
               </div>
@@ -1109,7 +1079,7 @@
                 <div class="avatar amber">!</div>
                 <div class="grow">
                   <div class="row-name">Approve quote for Patel residence</div>
-                  <div class="row-sub">Chuck drafted — $4,820 · 50 gal hybrid</div>
+                  <div class="row-sub">Chuck drafted — $4,820 · 180 ft decorative curbing</div>
                 </div>
                 <button class="btn btn-primary btn-sm">Review</button>
               </div>
@@ -1156,7 +1126,7 @@
                 <div class="avatar">SC</div>
                 <div class="row-body">
                   <div class="row-name">Sarah Chen</div>
-                  <div class="row-sub">Kitchen remodel · captured today</div>
+                  <div class="row-sub">Landscape curbing · captured today</div>
                 </div>
                 <div class="row-right">
                   <span class="pill pill-cta status-Qualified">Qualified</span>
@@ -1167,7 +1137,7 @@
                 <div class="avatar green">TR</div>
                 <div class="row-body">
                   <div class="row-name">Tom Reilly</div>
-                  <div class="row-sub">Roof leak · photos received</div>
+                  <div class="row-sub">Gutter cleaning · photos received</div>
                 </div>
                 <div class="row-right">
                   <span class="pill status-Qualified">Qualified</span>
@@ -1178,7 +1148,7 @@
                 <div class="avatar amber">DL</div>
                 <div class="row-body">
                   <div class="row-name">Dana Lee</div>
-                  <div class="row-sub">Burst pipe · forwarded to you</div>
+                  <div class="row-sub">Fallen tree · forwarded to you</div>
                 </div>
                 <div class="row-right">
                   <span class="pill pill-error">Emergency</span>
@@ -1192,7 +1162,7 @@
                 <div class="avatar gray">JP</div>
                 <div class="row-body">
                   <div class="row-name">Jay Patel</div>
-                  <div class="row-sub">Water heater · quote sent</div>
+                  <div class="row-sub">Curbing + paver border · quote sent</div>
                 </div>
                 <div class="row-right">
                   <span class="pill status-Quoted">Quoted</span>
@@ -1203,7 +1173,7 @@
                 <div class="avatar gray">DK</div>
                 <div class="row-body">
                   <div class="row-name">Diane Kowalski</div>
-                  <div class="row-sub">Furnace tune-up · review left</div>
+                  <div class="row-sub">Spring cleanup · review left</div>
                 </div>
                 <div class="row-right">
                   <span class="pill status-Paid">Paid</span>
@@ -1214,7 +1184,7 @@
                 <div class="avatar gray">MA</div>
                 <div class="row-body">
                   <div class="row-name">Mark Alvarez</div>
-                  <div class="row-sub">Sump pump install · on calendar</div>
+                  <div class="row-sub">Seasonal snow contract · on calendar</div>
                 </div>
                 <div class="row-right">
                   <span class="pill status-Scheduled">Scheduled</span>
@@ -1247,7 +1217,7 @@
             </button>
             <div class="grow" style="text-align:center">
               <div class="title" style="font-size:16px">Sarah Chen</div>
-              <div class="subtitle">Qualified · $18k–24k est.</div>
+              <div class="subtitle">Qualified · $4.2k–6k est.</div>
             </div>
             <button class="icon-btn" title="More">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
@@ -1257,9 +1227,9 @@
             <div class="card" style="text-align:center; padding-top:24px">
               <div class="avatar" style="width:64px; height:64px; font-size:22px; margin:0 auto 12px">SC</div>
               <div style="font-size:20px; font-weight:600">Sarah Chen</div>
-              <div class="small mt8">4220 Birchwood Ln · Maple Grove</div>
+              <div class="small mt8">4220 Birchwood Ln · Shoreview</div>
               <div class="flex ai gap8" style="justify-content:center; margin-top:16px">
-                <span class="tag-chip">Kitchen remodel</span>
+                <span class="tag-chip">Landscape curbing</span>
                 <span class="tag-chip">Residential</span>
                 <span class="tag-chip">Premium</span>
               </div>
@@ -1273,7 +1243,7 @@
               <div class="card-title">Contact</div>
               <div class="h-row"><span class="label">Phone</span><span class="val">(612) 555-0184</span></div>
               <div class="h-row"><span class="label">Email</span><span class="val">sarah.chen@gmail.com</span></div>
-              <div class="h-row"><span class="label">Lead source</span><span class="val">Google · "kitchen remodel near me"</span></div>
+              <div class="h-row"><span class="label">Lead source</span><span class="val">Google · "landscape curbing near me"</span></div>
               <div class="h-row"><span class="label">Last contact</span><span class="val">Today, 8:42a</span></div>
             </div>
             <div class="card">
@@ -1286,9 +1256,9 @@
                 </div>
               </div>
               <div class="mt12">
-                <div class="h-row"><span class="label">Project type</span><span class="val">Full kitchen remodel</span></div>
-                <div class="h-row"><span class="label">Timeline</span><span class="val">6–8 weeks out</span></div>
-                <div class="h-row"><span class="label">Budget</span><span class="val">$18k–24k</span></div>
+                <div class="h-row"><span class="label">Project type</span><span class="val">Decorative concrete curbing</span></div>
+                <div class="h-row"><span class="label">Timeline</span><span class="val">3–4 weeks out</span></div>
+                <div class="h-row"><span class="label">Budget</span><span class="val">$4.2k–6k</span></div>
                 <div class="h-row"><span class="label">Property</span><span class="val">Residential · owner-occupied</span></div>
               </div>
             </div>
@@ -1310,7 +1280,7 @@
                   <div class="tl-content"><span class="strong">SMS sent</span> — confirmation + photo prompt</div>
                   <div class="tl-meta">Chuck · 8:44a</div>
                   <div class="tl-card">
-                    "Hi Sarah! Mike's confirmed for Mon 6/1 at 3pm. Want to send a few pics of the kitchen so we can come prepared? Reply with photos any time."
+                    "Hi Sarah! Robin is confirmed for Mon 6/1 at 3pm. Want to send a few pics of the yard area so we can come prepared? Reply with photos any time."
                   </div>
                 </div>
                 <div class="tl-item">
@@ -1320,8 +1290,8 @@
                   <div class="tl-content"><span class="strong">Inbound call</span> — 7 min · qualified</div>
                   <div class="tl-meta">Chuck answered · 8:42a · <a href="#" style="color:var(--primary)">listen</a> · <a href="#" style="color:var(--primary)">transcript</a></div>
                   <div class="tl-card">
-                    <div class="quote">"I'd like to redo the whole kitchen — cabinets, counters, the works. We're hoping to start in about six weeks."</div>
-                    <div class="small">Chuck captured: project type, timeline, budget, service address, lead source, photo prompt sent.</div>
+                    <div class="quote">"I'd like to put in decorative curbing around the flower beds and along the driveway. We're hoping to get it done in about three to four weeks."</div>
+                    <div class="small">Chuck captured: project type, timeline, service address, lead source, photo prompt sent.</div>
                   </div>
                 </div>
               </div>
@@ -1363,21 +1333,21 @@
             <div class="event">
               <div class="time"><div class="t1">8:00</div><div class="t2">AM</div></div>
               <div class="body">
-                <div class="t">Furnace tune-up · Patel residence <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
-                <div class="s">2210 Oak St · 1.5h · Mike</div>
+                <div class="t">Curbing install · Patel residence <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
+                <div class="s">2210 Oak St · 4h · Robin</div>
               </div>
             </div>
             <div class="event">
               <div class="time"><div class="t1">10:30</div><div class="t2">AM</div></div>
               <div class="body">
-                <div class="t">Estimate · Reilly roof leak <span class="pill pill-primary" style="margin-left:6px">Estimate</span></div>
+                <div class="t">Estimate · Reilly gutter cleaning <span class="pill pill-primary" style="margin-left:6px">Estimate</span></div>
                 <div class="s">87 Linden Ct · photos in CRM</div>
               </div>
             </div>
             <div class="event">
               <div class="time"><div class="t1">1:00</div><div class="t2">PM</div></div>
               <div class="body">
-                <div class="t">Drain cleaning · Hoffman <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
+                <div class="t">Gutter cleaning · Hoffman <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
                 <div class="s">5512 Greenway · 2h · Eric</div>
               </div>
             </div>
@@ -1392,8 +1362,8 @@
             <div class="event">
               <div class="time"><div class="t1">9:00</div><div class="t2">AM</div></div>
               <div class="body">
-                <div class="t">Water heater install · Patel <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
-                <div class="s">$4,820 · 4h · Mike + Eric</div>
+                <div class="t">Curbing + paver border · Patel <span class="pill status-Scheduled" style="margin-left:6px">Job</span></div>
+                <div class="s">$4,820 · 6h · Robin + Eric</div>
               </div>
             </div>
           </div>
@@ -1418,33 +1388,33 @@
               <div class="col">
                 <div class="col-head"><span class="name">Lead</span><span class="count">5</span></div>
                 <div class="jobcard"><div class="name">Eleanor Huang</div><div class="meta">Annual maintenance</div><div class="val">$320 est.</div></div>
-                <div class="jobcard"><div class="name">Bryce Adams</div><div class="meta">Leaky faucet</div><div class="val">$180 est.</div></div>
-                <div class="jobcard"><div class="name">Olivia Park</div><div class="meta">New thermostat</div><div class="val">$450 est.</div></div>
+                <div class="jobcard"><div class="name">Bryce Adams</div><div class="meta">Mulch refresh</div><div class="val">$280 est.</div></div>
+                <div class="jobcard"><div class="name">Olivia Park</div><div class="meta">Gutter cleaning</div><div class="val">$220 est.</div></div>
               </div>
               <div class="col">
                 <div class="col-head"><span class="name">Qualified</span><span class="count">3</span></div>
-                <div class="jobcard"><div class="name">Sarah Chen</div><div class="meta">Kitchen remodel</div><div class="val">$18–24k</div></div>
-                <div class="jobcard"><div class="name">Tom Reilly</div><div class="meta">Roof leak</div><div class="val">$2.4k</div></div>
+                <div class="jobcard"><div class="name">Sarah Chen</div><div class="meta">Landscape curbing</div><div class="val">$4.2k–6k</div></div>
+                <div class="jobcard"><div class="name">Tom Reilly</div><div class="meta">Gutter cleaning</div><div class="val">$340</div></div>
               </div>
               <div class="col">
                 <div class="col-head"><span class="name">Quoted</span><span class="count">2</span></div>
-                <div class="jobcard"><div class="name">Jay Patel</div><div class="meta">Water heater · 50gal</div><div class="val">$4,820</div></div>
-                <div class="jobcard"><div class="name">Lin Carter</div><div class="meta">Sewer line repair</div><div class="val">$6,150</div></div>
+                <div class="jobcard"><div class="name">Jay Patel</div><div class="meta">Curbing + paver border</div><div class="val">$4,820</div></div>
+                <div class="jobcard"><div class="name">Lin Carter</div><div class="meta">Full landscape refresh</div><div class="val">$6,150</div></div>
               </div>
               <div class="col">
                 <div class="col-head"><span class="name">Scheduled</span><span class="count">4</span></div>
-                <div class="jobcard"><div class="name">Mark Alvarez</div><div class="meta">Sump pump · Fri</div><div class="val">$1,280</div></div>
-                <div class="jobcard"><div class="name">Hoffman</div><div class="meta">Drain · today 1pm</div><div class="val">$420</div></div>
+                <div class="jobcard"><div class="name">Mark Alvarez</div><div class="meta">Snow contract · Fri</div><div class="val">$1,280</div></div>
+                <div class="jobcard"><div class="name">Hoffman</div><div class="meta">Gutters · today 1pm</div><div class="val">$420</div></div>
               </div>
               <div class="col">
                 <div class="col-head"><span class="name">Complete</span><span class="count">6</span></div>
-                <div class="jobcard"><div class="name">Diane Kowalski</div><div class="meta">Tune-up · review left</div><div class="val">$220</div></div>
-                <div class="jobcard"><div class="name">McNeal</div><div class="meta">Garbage disposal</div><div class="val">$340</div></div>
+                <div class="jobcard"><div class="name">Diane Kowalski</div><div class="meta">Spring cleanup · review left</div><div class="val">$220</div></div>
+                <div class="jobcard"><div class="name">McNeal</div><div class="meta">Sod patch repair</div><div class="val">$340</div></div>
               </div>
               <div class="col">
                 <div class="col-head"><span class="name">Paid</span><span class="count">11</span></div>
-                <div class="jobcard"><div class="name">Reyes</div><div class="meta">Boiler repair</div><div class="val">$1,650</div></div>
-                <div class="jobcard"><div class="name">Wallace</div><div class="meta">Toilet install</div><div class="val">$540</div></div>
+                <div class="jobcard"><div class="name">Reyes</div><div class="meta">Curbing install</div><div class="val">$1,650</div></div>
+                <div class="jobcard"><div class="name">Wallace</div><div class="meta">Gutter guards</div><div class="val">$540</div></div>
               </div>
             </div>
             <div class="card mt16">
@@ -1485,8 +1455,8 @@
             </div>
             <div class="section-title">Service hours</div>
             <div class="card" style="padding:4px 16px">
-              <div class="h-row"><span class="label">Mon–Fri</span><span class="val">7:00a – 5:00p</span></div>
-              <div class="h-row"><span class="label">Saturday</span><span class="val">8:00a – 12:00p</span></div>
+              <div class="h-row"><span class="label">Mon–Fri</span><span class="val">8:30a – 5:00p</span></div>
+              <div class="h-row"><span class="label">Saturday</span><span class="val">Closed</span></div>
               <div class="h-row"><span class="label">Sunday</span><span class="val">Closed</span></div>
               <div class="h-row"><span class="label">Emergencies</span><span class="val"><span class="pill pill-cta">24/7</span></span></div>
             </div>
@@ -1495,43 +1465,39 @@
               <div class="radio-card selected">
                 <div class="radio-dot"></div>
                 <div class="radio-body">
-                  <div class="t">AI answers missed calls only</div>
+                  <div class="t">Chuck answers missed calls only</div>
                   <div class="s">Chuck picks up after 4 rings if you don't. Recommended for solo operators.</div>
                 </div>
               </div>
               <div class="radio-card">
                 <div class="radio-dot"></div>
                 <div class="radio-body">
-                  <div class="t">AI answers after hours</div>
+                  <div class="t">Chuck answers after hours</div>
                   <div class="s">Chuck takes over outside of service hours.</div>
                 </div>
               </div>
               <div class="radio-card">
                 <div class="radio-dot"></div>
                 <div class="radio-body">
-                  <div class="t">AI always answers first</div>
+                  <div class="t">Chuck always answers first</div>
                   <div class="s">Chuck qualifies every caller before transferring.</div>
                 </div>
               </div>
             </div>
             <div class="section-title">Intake questions</div>
             <div class="card">
-              <div class="h-row"><span class="label">What type of project?</span><span class="val">Required</span></div>
-              <div class="h-row"><span class="label">Timeline?</span><span class="val">Required</span></div>
-              <div class="h-row"><span class="label">Budget?</span><span class="val">Optional</span></div>
-              <div class="h-row"><span class="label">Residential or commercial?</span><span class="val">Required</span></div>
-              <div class="h-row"><span class="label">Service address?</span><span class="val">Required</span></div>
-              <div class="h-row"><span class="label">How did you hear about us?</span><span class="val">Optional</span></div>
+              <div class="h-row"><span class="label">What service are you interested in?</span><span class="val">Required</span></div>
+              <div class="h-row"><span class="label">When do you need the work done?</span><span class="val">Required</span></div>
               <button class="btn btn-text mt8">＋ Add a question</button>
             </div>
             <div class="section-title">Qualification rules</div>
             <div class="card" style="padding:4px 16px">
               <div class="row-toggle">
-                <div><div class="label">Minimum project size</div><div class="sub">Skip leads under $250</div></div>
+                <div><div class="label">Minimum project size</div><div class="sub">Skip leads under $200</div></div>
                 <div class="toggle on"></div>
               </div>
               <div class="row-toggle">
-                <div><div class="label">Service area boundary</div><div class="sub">Within 25 mi of 55101</div></div>
+                <div><div class="label">Service area boundary</div><div class="sub">Within 25 mi of Shoreview, MN</div></div>
                 <div class="toggle on"></div>
               </div>
               <div class="row-toggle">
@@ -1539,13 +1505,13 @@
                 <div class="toggle"></div>
               </div>
               <div class="row-toggle">
-                <div><div class="label">Forward emergencies</div><div class="sub">Burst pipes, no heat, gas leaks → your cell</div></div>
+                <div><div class="label">Forward emergencies</div><div class="sub">Storm damage, fallen trees → your cell</div></div>
                 <div class="toggle on"></div>
               </div>
             </div>
             <div class="section-title">Greeting script</div>
             <div class="card">
-              <textarea class="textarea">Hi, thanks for calling Northland Plumbing! This is Chuck. Mike's out on a job — I can help you get set up. What kind of project are you calling about?</textarea>
+              <textarea class="textarea">Hi, thanks for calling Shoreview Outdoor Services! This is Chuck — Robin's out on a job, but I can help you get set up. What service are you interested in?</textarea>
               <div class="small mt8">Used when Chuck answers. Generated from your website on signup; edit any time.</div>
             </div>
             <button class="btn btn-primary btn-block mt16" onclick="showOnboarding()">Run setup wizard</button>
@@ -1576,11 +1542,11 @@
             </div>
             <div class="section-title">Preview a call</div>
             <div class="card" style="padding:14px">
-              <div class="ai-bubble">Hi, thanks for calling Northland Plumbing! This is Chuck. What kind of project are you calling about?</div>
-              <div class="user-bubble">My water heater's leaking. I need someone out today.</div>
-              <div class="ai-bubble">Sorry to hear that — leaks are no fun. Where's the leak coming from, and is water still flowing?</div>
-              <div class="user-bubble">It's pooling on the floor. I shut the water off.</div>
-              <div class="ai-bubble">Good move. I can get someone scheduled for today. What's the service address?</div>
+              <div class="ai-bubble">Hi, thanks for calling Shoreview Outdoor Services! This is Chuck. What service are you interested in?</div>
+              <div class="user-bubble">I'd like to get a quote on decorative curbing around my front yard.</div>
+              <div class="ai-bubble">Great — curbing is one of our specialties. When are you hoping to get the work done?</div>
+              <div class="user-bubble">Sometime in the next month if possible.</div>
+              <div class="ai-bubble">Perfect. Let me grab a few quick details so Robin can come prepared. What's the service address?</div>
             </div>
             <button class="btn btn-primary btn-block mt12" onclick="showRing()">📞 Place a test call</button>
           </div>
@@ -1626,8 +1592,8 @@
                 <div class="strong">Diane Kowalski</div>
                 <div style="color:#F59E0B">★★★★★</div>
               </div>
-              <div class="small">Furnace tune-up · Yesterday</div>
-              <div class="tl-card mt8">"Mike was fast, honest, and clean. Booking through their automated system was the smoothest experience I've had with a contractor. Will definitely use again."</div>
+              <div class="small">Spring cleanup · Yesterday</div>
+              <div class="tl-card mt8">"Robin and the crew were fast, honest, and clean. Booking through their automated system was the smoothest experience I've had with a contractor. Will definitely use again."</div>
               <button class="btn btn-text btn-sm mt8">Share to Facebook</button>
             </div>
             <div class="card">
@@ -1635,7 +1601,7 @@
                 <div class="strong">Bill McNeal</div>
                 <div style="color:#F59E0B">★★★★★</div>
               </div>
-              <div class="small">Garbage disposal · 5/22</div>
+              <div class="small">Sod patch repair · 5/22</div>
               <div class="tl-card mt8">"Same-day fix. Pricing was clear up front. Highly recommend."</div>
             </div>
           </div>
@@ -1648,7 +1614,7 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
               </button>
               <div class="brand">
-                <div class="logo">C</div>
+                <div class="logo">R</div>
                 <div class="name">Set up Chuck</div>
               </div>
             </div>
@@ -1673,7 +1639,7 @@
             </div>
           </div>
           <div class="ob-substeps" id="ob-substeps" style="display:none">
-            <div id="ob-substep-label">1 of 7</div>
+            <div id="ob-substep-label">1 of 4</div>
             <div class="bars" id="ob-substep-bars"></div>
           </div>
           <div class="ob-content" id="ob-content">
@@ -1693,7 +1659,7 @@
           <div class="ring-av">C</div>
           <div style="margin-top:32px; color:rgba(255,255,255,0.75); text-align:center; max-width:240px; font-size:14px; line-height:1.5">
             "Try asking — <em>what services do you offer?</em>"<br>
-            <em style="color:rgba(255,255,255,0.55)">or</em> "I need a new water heater installed."
+            <em style="color:rgba(255,255,255,0.55)">or</em> "I'd like a quote on decorative curbing."
           </div>
           <div class="ring-actions">
             <button class="ring-btn end" onclick="hideRing()">
@@ -1765,32 +1731,25 @@
   document.querySelectorAll('.screens-list button').forEach(el=>{
     el.addEventListener('click', ()=> goto(el.dataset.screen));
   });
-
   // ============================================================
-  // ONBOARDING — Rosie-inspired 4-phase flow with sub-steps
+  // ONBOARDING — 4-phase flow with sub-steps
   // ============================================================
-  // Each step has: phase (welcome/train/customize/test/golive/done),
-  // subIndex (only for customize, 0-6), and a render function.
-  // Phase navigation chrome (4 tabs + sub-bar) reacts to phase.
-
   const TRAINED_ON_CARD = `
     <div class="trained-on">
       <div class="label">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         Chuck is trained on
       </div>
-      <div class="row"><div class="k">Business website</div><div class="v">northlandplumbingmn.com</div></div>
-      <div class="row"><div class="k">Google Business</div><div class="v">Northland Plumbing</div></div>
+      <div class="row"><div class="k">Business website</div><div class="v">shoreviewoutdoorservices.com</div></div>
+      <div class="row"><div class="k">Google Business</div><div class="v">Shoreview Outdoor Services</div></div>
     </div>
   `;
-
   function chevronEdit(){
     return `<button>
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
       Make changes
     </button>`;
   }
-
   const steps = [
     /* 0 — Welcome */
     {
@@ -1798,9 +1757,9 @@
       cta:'Get started',
       render: () => `
         <div class="ob-welcome">
-          <div class="logo-xl">C</div>
-          <h1>Welcome to Chuck</h1>
-          <p class="sub">The AI agent that answers every call,<br>so you can keep your hands on the tools.</p>
+          <div class="logo-xl">R</div>
+          <h1>Welcome to ROUNDHOUSE</h1>
+          <p class="sub">Chuck answers every call,<br>so you can keep your hands on the tools.</p>
           <div class="benefits">
             <div class="benefit">
               <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
@@ -1833,16 +1792,16 @@
       body: () => `
         <div class="field">
           <label>Business website</label>
-          <input class="input" value="northlandplumbingmn.com" id="ob-website"/>
+          <input class="input" value="shoreviewoutdoorservices.com" id="ob-website"/>
           <div class="hint">We'll scrape services, hours, address, and phone.</div>
         </div>
         <div class="field">
           <label>Business name</label>
-          <input class="input" value="Northland Plumbing"/>
+          <input class="input" value="Shoreview Outdoor Services"/>
         </div>
         <div class="field">
           <label>Owner / primary contact</label>
-          <input class="input" value="Mike Halvorsen"/>
+          <input class="input" value="Robin"/>
         </div>
       `
     },
@@ -1861,7 +1820,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           </div>
           <div class="train-steps" id="train-steps">
-            <div class="train-step" data-step="0"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Reading northlandplumbingmn.com</div>
+            <div class="train-step" data-step="0"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Reading shoreviewoutdoorservices.com</div>
             <div class="train-step" data-step="1"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Pulling services & pricing pages</div>
             <div class="train-step" data-step="2"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Detecting hours & service area</div>
             <div class="train-step" data-step="3"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Drafting greeting in your voice</div>
@@ -1876,17 +1835,17 @@
       eyebrow:'Step 1 of 4 · Train',
       cta:'Customize Chuck',
       title:"Training is complete.",
-      desc:"Chuck is ready to customize with your specific business info. Up next: confirm the details and tune Chuck's voice.",
+      desc:"Chuck is ready to customize with your specific business info. Up next: confirm the details.",
       body: () => `
         <div class="train-stage">
           <div class="train-illus done">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
           <div style="text-align:center; font-size:14px; font-weight:600">Chuck is ready</div>
-          <div style="text-align:center; font-size:13px; color:var(--text-sec); margin-top:6px">Pulled 4 pages · 9 services · hours · 1 phone</div>
+          <div style="text-align:center; font-size:13px; color:var(--text-sec); margin-top:6px">Pulled 4 pages · 5 services · hours · 1 phone</div>
           <div class="train-steps" style="margin-top:14px">
             <div class="train-step done"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Website read · 4 pages</div>
-            <div class="train-step done"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>9 services extracted</div>
+            <div class="train-step done"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>5 services extracted</div>
             <div class="train-step done"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Hours & service area set</div>
             <div class="train-step done"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Greeting drafted</div>
             <div class="train-step done"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>Google Business linked</div>
@@ -1894,7 +1853,7 @@
         </div>
       `
     },
-    /* 4 — Customize 1/7: business info */
+    /* 4 — Customize 1/4: business info */
     {
       phase:'customize', sub:0,
       cta:'Continue',
@@ -1906,21 +1865,21 @@
           <div class="ct">Let's start by confirming your basic business info.</div>
           <div class="h-row" style="padding:8px 0">
             <span class="label">Business name</span>
-            <span class="val" style="color:var(--text); font-weight:500">Northland Plumbing</span>
+            <span class="val" style="color:var(--text); font-weight:500">Shoreview Outdoor Services</span>
           </div>
           <div class="h-row" style="padding:8px 0">
             <span class="label">Business phone</span>
-            <span class="val" style="color:var(--text); font-weight:500">(651) 555-0182</span>
+            <span class="val" style="color:var(--text); font-weight:500">(651) 338-0075</span>
           </div>
           <div class="h-row" style="padding:8px 0; align-items:flex-start">
             <span class="label" style="flex-shrink:0; padding-right:8px">Overview</span>
-            <span class="val" style="color:var(--text); text-align:right; font-size:12px; line-height:1.5; max-width:60%">Northland Plumbing is a family-owned plumbing company serving the Twin Cities since 2009 — water heaters, drains, repairs, and emergency service 24/7.</span>
+            <span class="val" style="color:var(--text); text-align:right; font-size:12px; line-height:1.5; max-width:60%">A family-owned outdoor services company serving Shoreview, MN — decorative landscape curbing, snow removal, gutter cleaning, and seasonal maintenance.</span>
           </div>
           <div class="changes-btn">${chevronEdit()}</div>
         </div>
       `
     },
-    /* 5 — Customize 2/7: core services */
+    /* 5 — Customize 2/4: core services */
     {
       phase:'customize', sub:1,
       cta:'These look right',
@@ -1930,57 +1889,19 @@
         <div class="confirm-card">
           <div class="ct">Here are the core services we found. Does this look right?</div>
           <div class="service-chips">
-            <span class="service-chip">Water heater install & repair</span>
-            <span class="service-chip">Drain cleaning</span>
-            <span class="service-chip">Burst pipe / emergency</span>
-            <span class="service-chip">Toilet install</span>
-            <span class="service-chip">Sewer line repair</span>
-            <span class="service-chip">Garbage disposal</span>
-            <span class="service-chip">Sump pump</span>
-            <span class="service-chip">Boiler / furnace</span>
-            <span class="service-chip">Annual maintenance</span>
+            <span class="service-chip">Landscape curbing</span>
+            <span class="service-chip">Snow removal</span>
+            <span class="service-chip">Gutter cleaning</span>
+            <span class="service-chip">Seasonal cleanup</span>
+            <span class="service-chip">More outdoor solutions</span>
           </div>
           <div class="changes-btn">${chevronEdit()}</div>
         </div>
       `
     },
-    /* 6 — Customize 3/7: voice & personality */
+    /* 6 — Customize 3/4: greeting */
     {
       phase:'customize', sub:2,
-      cta:'Sounds good',
-      title:"Customize Chuck",
-      desc:"Choose a voice, name, and personality for your AI agent.",
-      body: () => `
-        <div class="confirm-card">
-          <div class="ct">Choose a voice and personality.</div>
-          <div class="h-row" style="padding:8px 0">
-            <span class="label">Agent name</span>
-            <span class="val" style="color:var(--text); font-weight:500">Chuck</span>
-          </div>
-          <div class="h-row" style="padding:8px 0">
-            <span class="label">Voice</span>
-            <span class="val" style="color:var(--text); font-weight:500">Mike — Midwest, warm</span>
-          </div>
-          <div class="h-row" style="padding:8px 0">
-            <span class="label">Tone</span>
-            <span class="val" style="color:var(--text); font-weight:500">Friendly · plain-spoken</span>
-          </div>
-          <div class="h-row" style="padding:8px 0">
-            <span class="label">Talking speed</span>
-            <span class="val" style="color:var(--text); font-weight:500">Average</span>
-          </div>
-          <div class="h-row" style="padding:8px 0">
-            <span class="label">Background sounds</span>
-            <span class="val" style="color:var(--text); font-weight:500">Quiet office</span>
-          </div>
-          <div class="changes-btn">${chevronEdit()}</div>
-        </div>
-        <div class="small mt12" style="text-align:center">▶ Hear Chuck say your greeting</div>
-      `
-    },
-    /* 7 — Customize 4/7: greeting */
-    {
-      phase:'customize', sub:3,
       cta:'Continue',
       title:"Customize Chuck",
       desc:"Make a great first impression with a personalized call greeting.",
@@ -1989,7 +1910,7 @@
           <div class="ct">Your call greeting.</div>
           <div class="h-row" style="padding:8px 0; align-items:flex-start">
             <span class="label" style="flex-shrink:0; padding-right:8px">Greeting</span>
-            <span class="val" style="color:var(--text); text-align:right; font-size:12px; line-height:1.5; max-width:62%">"Hi, thanks for calling Northland Plumbing! This is Chuck, Mike's AI assistant. Our call may be recorded for quality. What kind of project are you calling about?"</span>
+            <span class="val" style="color:var(--text); text-align:right; font-size:12px; line-height:1.5; max-width:62%">"Hi, thanks for calling Shoreview Outdoor Services! This is Chuck. Our call may be recorded for quality. What service are you interested in?"</span>
           </div>
           <div class="h-row" style="padding:8px 0">
             <span class="label">Recording disclaimer</span>
@@ -1999,123 +1920,34 @@
         </div>
       `
     },
-    /* 8 — Customize 5/7: intake scenarios */
+    /* 7 — Customize 4/4: default intake questions */
     {
-      phase:'customize', sub:4,
+      phase:'customize', sub:3,
       cta:'Continue',
       title:"Customize Chuck",
-      desc:"When Chuck takes a call, what should he ask? We've drafted scenarios based on your services.",
+      desc:"When Chuck takes a call, these are the questions he'll ask by default.",
       body: () => `
-        <div class="scenario">
-          <div class="head"><div class="t">Estimate request</div>
-            <span class="auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Auto-added</span></div>
-          <div class="body">Ask project type, timeline, budget range, service address, residential/commercial, and best callback time. Send Mike a photo upload prompt by SMS after the call.</div>
+        <div class="question-list">
+          <div class="question-row">
+            <div class="qnum">1</div>
+            <div class="qtxt">
+              What service are you interested in?
+              <div><span class="qtag">Required</span></div>
+            </div>
+          </div>
+          <div class="question-row">
+            <div class="qnum">2</div>
+            <div class="qtxt">
+              When do you need the work done?
+              <div><span class="qtag">Required</span></div>
+            </div>
+          </div>
         </div>
-        <div class="scenario">
-          <div class="head"><div class="t">Emergency call</div>
-            <span class="auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Auto-added</span></div>
-          <div class="body">Burst pipes, no heat, gas smell, sewer backup → confirm address, check if water is shut off, then forward to Mike's cell immediately.</div>
-        </div>
-        <div class="scenario">
-          <div class="head"><div class="t">General inquiry</div>
-            <span class="auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Auto-added</span></div>
-          <div class="body">Get caller name, phone, what they need, and offer to text the website or schedule a callback. Capture lead source.</div>
-        </div>
-        <div class="scenario add">＋ Write your own scenario</div>
-        <div class="small mt12" style="text-align:center">You can always edit or create more scenarios later.</div>
+        <div class="add-question">＋ Add a question</div>
+        <div class="small mt12" style="text-align:center">You can always edit or add more questions later.</div>
       `
     },
-    /* 9 — Customize 6/7: notifications */
-    {
-      phase:'customize', sub:5,
-      cta:'Continue',
-      title:"Customize Chuck",
-      desc:"Where should Chuck alert you when something happens?",
-      body: () => `
-        <div class="confirm-card" style="padding:14px 18px">
-          <div class="notif-row">
-            <div class="meta">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
-              <div><div class="t">Email</div><div class="s">mike@northlandplumbing.com</div></div>
-            </div>
-            <div class="toggle on"></div>
-          </div>
-          <div class="notif-row">
-            <div class="meta">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              <div><div class="t">Text message</div><div class="s">(612) 555-0173</div></div>
-            </div>
-            <div class="toggle on"></div>
-          </div>
-          <div class="notif-row">
-            <div class="meta">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              <div><div class="t">Forward emergencies</div><div class="s">Call (612) 555-0173 directly</div></div>
-            </div>
-            <div class="toggle on"></div>
-          </div>
-          <div class="notif-row">
-            <div class="meta">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-              <div><div class="t">Push to phone</div><div class="s">Once you install the Chuck app</div></div>
-            </div>
-            <div class="toggle"></div>
-          </div>
-        </div>
-      `
-    },
-    /* 10 — Customize 7/7: premium features */
-    {
-      phase:'customize', sub:6,
-      cta:'Continue',
-      title:"Customize Chuck",
-      desc:"Activate Chuck's premium features for your free trial. Toggle them now or later based on what you need.",
-      body: () => `
-        <div class="confirm-card" style="padding:14px 18px">
-          <div class="premium-row">
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-            <div class="body">
-              <div class="t">Estimate booking <span class="premium-tag">Premium</span></div>
-              <div class="s">Chuck books appointments straight to your calendar</div>
-            </div>
-            <div class="toggle on"></div>
-          </div>
-          <div class="premium-row">
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-            <div class="body">
-              <div class="t">Photo intake by SMS <span class="premium-tag">Premium</span></div>
-              <div class="s">Auto-text callers asking for photos of the issue</div>
-            </div>
-            <div class="toggle on"></div>
-          </div>
-          <div class="premium-row">
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-            <div class="body">
-              <div class="t">Auto-quote drafting <span class="premium-tag">Premium</span></div>
-              <div class="s">Generate quotes from call notes for your approval</div>
-            </div>
-            <div class="toggle on"></div>
-          </div>
-          <div class="premium-row">
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-            <div class="body">
-              <div class="t">Review request automation <span class="premium-tag">Premium</span></div>
-              <div class="s">Text Google review link after each job</div>
-            </div>
-            <div class="toggle"></div>
-          </div>
-          <div class="premium-row">
-            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-            <div class="body">
-              <div class="t">Website chat widget <span class="premium-tag">Premium</span></div>
-              <div class="s">Convert website visitors with AI text conversations</div>
-            </div>
-            <div class="toggle"></div>
-          </div>
-        </div>
-      `
-    },
-    /* 11 — Test */
+    /* 8 — Test */
     {
       phase:'test',
       eyebrow:'Step 3 of 4 · Test',
@@ -2134,14 +1966,14 @@
         <div class="try-list">
           <div class="h">Try asking Chuck…</div>
           <div class="q"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>What services do you offer?</div>
-          <div class="q"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Are you open Saturday?</div>
-          <div class="q"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>I need a new water heater installed.</div>
-          <div class="q"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>My basement is flooding right now!</div>
+          <div class="q"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Do you do landscape curbing?</div>
+          <div class="q"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Can I get a quote for gutter cleaning?</div>
+          <div class="q"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>I need someone for snow removal this winter.</div>
         </div>
         <div class="small mt12" style="text-align:center">After the call, you can listen to a transcript in your dashboard.</div>
       `
     },
-    /* 12 — Go Live */
+    /* 9 — Go Live */
     {
       phase:'golive',
       eyebrow:'Step 4 of 4 · Go Live',
@@ -2183,7 +2015,7 @@
         <div class="small mt12" style="text-align:center">You can disable forwarding any time with **73# on your phone.</div>
       `
     },
-    /* 13 — Done */
+    /* 10 — Done */
     {
       phase:'done',
       cta:'Go to dashboard',
@@ -2196,19 +2028,17 @@
           <p class="sub">Your business line is forwarding to Chuck.<br>Sit back — he'll start answering calls immediately.</p>
           <div class="summary">
             <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Trained on 4 pages from your site</div>
-            <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>9 services · 3 intake scenarios live</div>
-            <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Alerts going to your email & phone</div>
-            <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Emergencies forward to (612) 555-0173</div>
+            <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>5 services live · 2 intake questions</div>
+            <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Greeting tuned to your voice</div>
+            <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Emergencies forward to your cell</div>
           </div>
           <div class="small">Free for 7 days · cancel any time</div>
         </div>
       `
     }
   ];
-
   let stepIdx = 0;
-  const CUSTOMIZE_TOTAL = 7;
-
+  const CUSTOMIZE_TOTAL = 4;
   function trainingAnimation(){
     const stepsEls = document.querySelectorAll('#train-steps .train-step');
     const illus = document.getElementById('train-illus');
@@ -2231,7 +2061,6 @@
       }
     }, 750);
   }
-
   function renderOb(){
     const s = steps[stepIdx];
     const content = document.getElementById('ob-content');
@@ -2241,7 +2070,6 @@
     const phases = document.getElementById('ob-phases');
     const substeps = document.getElementById('ob-substeps');
     const phasesEls = document.querySelectorAll('.ob-phase');
-
     // Update phase highlights
     const phaseOrder = ['train','customize','test','golive'];
     const currentPhaseIdx = phaseOrder.indexOf(s.phase);
@@ -2255,10 +2083,8 @@
         el.classList.add('active');
       }
     });
-
     // Show/hide phase row on welcome
     phases.style.display = (s.phase === 'welcome') ? 'none' : '';
-
     // Substeps bar — only on customize
     if (s.phase === 'customize'){
       substeps.style.display = '';
@@ -2275,10 +2101,8 @@
     } else {
       substeps.style.display = 'none';
     }
-
     // Back button
     back.disabled = (stepIdx === 0);
-
     // Render content
     let html = '';
     if (s.render){
@@ -2292,16 +2116,13 @@
     }
     content.innerHTML = html;
     content.scrollTop = 0;
-
     // CTA state
     cta.textContent = s.cta || 'Continue';
     cta.disabled = !!s.ctaDisabled;
-
     // Hide secondary by default
     secondary.style.display = 'none';
-
-    // Hook up "Make changes" buttons (informational - no-op except visual feedback)
-    content.querySelectorAll('.changes-btn button, .scenario .add, .forward-card').forEach(el => {
+    // Hook up "Make changes" / forward-card / scenario interactions
+    content.querySelectorAll('.changes-btn button, .add-question, .forward-card').forEach(el => {
       if (el.classList.contains('forward-card')){
         el.addEventListener('click', ()=>{
           content.querySelectorAll('.forward-card').forEach(c=>c.classList.remove('selected'));
@@ -2309,16 +2130,13 @@
         });
       }
     });
-
     // Toggle interaction inside onboarding
     content.querySelectorAll('.toggle').forEach(t=>{
       t.addEventListener('click', ()=> t.classList.toggle('on'));
     });
-
     // Mount hook (e.g., training animation)
     if (s.onMount) s.onMount();
   }
-
   function obNext(){
     const s = steps[stepIdx];
     if (s.phase === 'done'){
@@ -2331,14 +2149,12 @@
       renderOb();
     }
   }
-
   function obBack(){
     if (stepIdx > 0){
       stepIdx--;
       renderOb();
     }
   }
-
   function showOnboarding(){
     stepIdx = 0; renderOb();
     document.getElementById('onboarding').classList.remove('overlay-hidden');
@@ -2348,7 +2164,6 @@
   }
   document.getElementById('ob-next').addEventListener('click', obNext);
   document.getElementById('ob-back').addEventListener('click', obBack);
-
   // Allow tapping a phase to jump (only forward to current, or back to any visited)
   document.querySelectorAll('.ob-phase').forEach((el,i)=>{
     el.addEventListener('click', ()=>{
@@ -2366,7 +2181,6 @@
       }
     });
   });
-
   // ---------- Test call ringing ----------
   function showRing(){ document.getElementById('ring').classList.remove('ring-hidden'); }
   function hideRing(){ document.getElementById('ring').classList.add('ring-hidden'); }
