@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="canonical" href="https://heyroundhouse.com/banks/"><title>Roundhouse · Text Chuck</title>
+<meta name="theme-color" content="#FAF7F2"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Outfit:wght@300;700&amp;display=swap">
+<style>
+:root {
+  --paper:#faf7f2; --wash:#efe7d8; --ink:#0b1220; --copy:#5a5751; --muted:#6b675f;
+  --rule:#e3ddd2; --action:#12603a; --shell:#f8fafc; --soft:#f1f5f9;
+  --app-ink:#0f172a; --app-copy:#475569; --app-rule:#d1d5db; --app-action:#15803d;
+}
+* { box-sizing:border-box }
+body { margin:0; min-height:100vh; display:flex; flex-direction:column; background:var(--paper); color:var(--copy); font:16px/1.625 Inter,Arial,sans-serif }
+header, main, footer { width:min(100%,1240px); margin-inline:auto; padding-inline:clamp(20px,5vw,64px) }
+header,footer,.bar,form { display:flex; align-items:center; justify-content:space-between; gap:12px }
+header { min-height:80px; border-bottom:1px solid var(--rule) }
+.brand { display:flex; gap:10px; align-items:center; color:var(--ink); font:700 24px/1 Outfit,Arial,sans-serif; letter-spacing:-.04em }
+.mark { display:grid; place-items:center; width:32px; height:32px; border-radius:7px; background:var(--action); color:white; font-size:20px }
+small,.caption { font-size:13.5px; line-height:20px; color:var(--muted) }
+main { flex:1; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; gap:clamp(24px,6vw,80px); padding-block:96px }
+h1 { text-wrap:balance; color:var(--ink); font:300 48px/52px Outfit,Arial,sans-serif; letter-spacing:-.035em; margin:16px 0 }
+h1 strong { font-weight:700 }
+.lead { font-size:18px; line-height:28px; max-width:42ch; margin:0 0 24px }
+button,input { font:inherit }
+button { cursor:pointer; border:1px solid transparent; min-height:44px; border-radius:8px; padding:10px 16px; background:var(--app-action); color:white; font-weight:600; transition:background-color 150ms,border-color 150ms,color 150ms }
+button:hover { background:#166534 } button:active { background:#14532d }
+button:disabled { cursor:default; background:var(--soft); color:var(--app-copy); border-color:var(--app-rule) }
+:focus-visible { outline:3px solid var(--action); outline-offset:3px }
+.primary { background:var(--action); padding:12px 24px }
+.primary:hover { background:#0f5231 }
+.caption { margin:8px 0 24px }
+details { border-top:1px solid var(--rule); max-width:46ch; padding-top:12px }
+summary { cursor:pointer; color:var(--action); font-weight:600; padding:8px 0 }
+details p { margin:12px 0 }
+.phone { background:var(--shell); color:var(--app-ink); border:1px solid var(--app-rule); border-radius:12px; overflow:hidden; font-size:15px; line-height:1.5 }
+.bar { padding:12px 16px; border-bottom:1px solid #e5e7eb; background:white }
+.avatar { display:grid; place-items:center; width:40px; height:40px; border-radius:10px; background:var(--soft); font-weight:700 }
+.identity { flex:1 }.identity small { display:block; color:var(--app-copy) }
+.plain { color:var(--app-copy); background:white; font-size:14px }.plain:hover { background:var(--soft) }
+.thread { height:310px; overflow:auto; padding:16px; display:flex; flex-direction:column; gap:12px }
+.bubble { white-space:pre-line; max-width:88%; border-radius:12px 12px 12px 4px; padding:12px 16px; background:white; border:1px solid #e5e7eb; align-self:flex-start; overflow-wrap:anywhere }
+.mine { background:var(--app-ink); color:white; border-color:var(--app-ink); align-self:flex-end; border-radius:12px 12px 4px 12px }
+.date { align-self:center; font-size:13px; color:var(--app-copy); text-align:center }
+.options { display:flex; gap:8px; flex-wrap:wrap; padding:8px 16px; background:white }
+.options:empty { display:none }
+.options button { background:white; color:var(--app-copy); border-color:var(--app-rule); font-size:14px }
+.options button:hover { background:var(--soft) }
+form { padding:12px 16px; border-top:1px solid #e5e7eb; background:white; gap:8px }
+input { min-width:0; width:100%; min-height:44px; border:1px solid var(--app-rule); border-radius:8px; padding:8px 12px; color:var(--app-ink); background:white }
+input:disabled { background:var(--shell) }
+footer { border-top:1px solid var(--rule); background:var(--wash); padding-block:20px; font-size:13.5px }
+@media(max-width:1023px) { header,main,footer { padding-inline:32px } }
+@media(max-width:767px) {
+  header,main,footer { padding-inline:20px }
+  header { min-height:64px } main { grid-template-columns:1fr; gap:32px; padding-block:64px }
+  h1 { font-size:32px; line-height:35px }.lead { font-size:16.5px; line-height:26px }
+  .thread { height:270px }.bar,form { padding-inline:12px }.plain { padding-inline:8px }
+}
+@media(prefers-reduced-motion:reduce) { button { transition:none } }
+</style>
+<header><span class="brand"><span class="mark" aria-hidden="true">R</span>Roundhouse</span><small>Bank partner demo</small></header>
+<main><section><small>Small-business banking</small><h1>Who still <strong>owes me money?</strong></h1><p class="lead">Ask Chuck by text. He checks your invoices against deposits, flags a payment that needs a second look, and drafts a reminder for you to approve.</p><button class="primary" id="start">Text Chuck</button><p class="caption">Opens a simulated message thread with sample records.</p><details><summary>The bank partnership</summary><p>I built Roundhouse as an AI assistant for small businesses. I’m looking for a Minnesota bank to pilot it with local owners. I’d bring the assistant and run the pilot. Your bankers would help select customers and decide which account information they could share with permission.</p><p>Andrew Schneider · White Bear Lake</p></details></section>
+<section class="phone" aria-label="Simulated Messages"><div class="bar"><span class="avatar">C</span><div class="identity"><b>Chuck</b><small>Roundhouse assistant</small></div><button class="plain" id="reset">Restart</button></div><div class="thread" id="thread" role="log" aria-live="polite"></div><div class="options" id="options"></div><form id="compose"><input id="message" aria-label="Text to Chuck" autocomplete="off" maxlength="600"><button id="send">Send</button></form></section></main>
+<footer><span>Roundhouse · Minnesota</span><span>Interactive prototype</span></footer>
+<script>
+const el = id => document.getElementById(id);
+let stage, code, matched, approved, draft, oakOpen;
+function bubble(text, kind='bubble') {
+  const item = document.createElement('div');
+  item.className = kind;
+  item.textContent = text;
+  el('thread').append(item);
+  el('thread').scrollTop = el('thread').scrollHeight;
+}
+function options(...items) {
+  el('options').replaceChildren();
+  for (const label of items) {
+    const button = document.createElement('button');
+    button.textContent = label;
+    button.onclick = () => reply(label);
+    el('options').append(button);
+  }
+}
+function reset() {
+  stage='idle'; matched=false; approved=false; oakOpen=false;
+  draft='Hi Sam, just checking in on invoice 1042 for $1,250 for the deck repair. Could you let me know when to expect payment? Thanks!';
+  el('thread').replaceChildren(); options();
+  bubble('Sample conversation · North Shore Carpentry','date');
+  bubble('Who still owes me money?', 'bubble mine');
+  bubble('Birch Lane owes $1,250 for the deck repair. I also found a $2,400 deposit that might be from Oak Street. Want to check it before we send a reminder?');
+  el('message').value=''; el('message').placeholder='Message'; el('send').disabled=el('message').disabled=true;
+  el('start').textContent='Text Chuck';
+}
+function start() {
+  if(stage==='idle'){
+    stage='invite';code=crypto.getRandomValues(new Uint32Array(1))[0].toString(36).slice(-5).toUpperCase();
+    el('thread').replaceChildren();bubble('New message to Chuck · simulated','date');
+    el('message').disabled=el('send').disabled=false;
+    el('message').value='Connect North Shore Carpentry. Code '+code;
+    el('start').textContent='Return to conversation';
+  }
+  el('message').focus();
+}
+function overview() {
+  stage='active';
+  const oak=matched?'Oak Street’s $2,400 invoice is paid.':oakOpen?'Oak Street’s $2,400 invoice remains open. You marked the deposit as unrelated.':'A $2,400 deposit might cover Oak Street’s invoice 1043. The memo only says “remodel,” so I’ve held the reminder.';
+  bubble('Birch Lane owes $1,250 on invoice 1042, due October 30. '+(approved?'You approved its reminder in this demo. ':'')+'Cedar Ridge’s $850 deposit references invoice 1041 and covers it in full.\n\n'+oak);
+  options(...(!matched&&!oakOpen?['Review $2,400 deposit']:[]),...(!approved?['Draft Birch Lane reminder']:[]),'Show invoice summary');
+}
+function reply(raw) {
+  const value=raw.trim(); if(!value || stage==='idle')return;
+  bubble(value,'bubble mine');el('message').value='';const q=value.toLowerCase();
+  if(stage==='invite'){
+    if(!value.toUpperCase().includes(code)){bubble('Please send the invitation code '+code+' to open the sample account.');return;}
+    stage='active';bubble('Hi, I’m Chuck. I’ve connected this demo thread to North Shore Carpentry’s sample invoices and checking account. What would you like to check?');options('Who still owes me money?');return;
+  }
+  if(stage==='edit'){draft=value;stage='draft';bubble('Revised draft for Birch Lane:\n\n'+draft);options('Approve reminder','Edit wording','Cancel');return;}
+  if(stage==='draft' && /^(approve reminder|approve|yes|send it)$/.test(q)){
+    approved=true;stage='active';bubble('Approval recorded for Birch Lane invoice 1042. In this demo, the message stays here. The $1,250 invoice is still open.');options('Show invoice summary');return;
+  }
+  if(stage==='draft' && /edit|change/.test(q)){stage='edit';bubble('Type the complete reminder you’d like me to use.');options();return;}
+  if(stage==='review' && /^(confirm match|yes|that’s oak street|unrelated deposit|no)$/.test(q)){
+    matched=!/unrelated|^no$/.test(q);oakOpen=!matched;bubble(matched?'Matched the $2,400 deposit to Oak Street invoice 1043. I’ve marked it paid.':'Deposit left unmatched. Oak Street invoice 1043 stays open.');overview();return;
+  }
+  if(/review|deposit/.test(q)&&!matched&&!oakOpen){stage='review';bubble('November 5 · ACH deposit · $2,400 · memo “remodel.” Oak Street invoice 1043 is also $2,400. There’s no invoice number in the memo. Do you recognize this as their payment?');options('Confirm match','Unrelated deposit','Cancel');return;}
+  if(/draft|remind/.test(q)&&!approved){stage='draft';bubble('Draft for Sam at Birch Lane:\n\n'+draft+'\n\nApprove this reminder?');options('Approve reminder','Edit wording','Cancel');return;}
+  if(/owe|summar|invoice|cancel|balance|unpaid/.test(q)){overview();return;}
+  bubble('Try “Who still owes me money?” to see the sample invoices and available next steps.');options('Who still owes me money?');
+}
+el('start').onclick=start;el('reset').onclick=reset;el('compose').onsubmit=e=>{e.preventDefault();reply(el('message').value);};reset();
+</script></html>
