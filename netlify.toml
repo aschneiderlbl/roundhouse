@@ -1,0 +1,4 @@
+# heyroundhouse.com serves only the site/ folder.
+# For a Netlify Drop deploy, drop the contents of site/.
+[build]
+  publish = "site"
