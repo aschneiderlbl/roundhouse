@@ -20,7 +20,7 @@ a{color:#12603a}a:hover{color:#0d4a2c}
   .hero{grid-template-columns:1fr !important;padding-top:40px !important}
   .h1{font-size:42px !important;line-height:46px !important}
   .three{grid-template-columns:1fr !important}
-  .six{grid-template-columns:1fr !important}
+  .six{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
   .four{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
   .founder{grid-template-columns:1fr !important;gap:24px !important}
   .founder img{max-width:240px}
@@ -128,7 +128,15 @@ a{color:#12603a}a:hover{color:#0d4a2c}
   <section id="handles" style="max-width: 1180px; margin: 0 auto; padding: 80px 24px">
     <h2 style="margin: 0 0 12px; color: #0b1220; font-family: Outfit, Arial, sans-serif; font-weight: 700; font-size: 36px; letter-spacing: -0.03em">What Dispatch handles in the thread</h2>
     <p style="margin: 0 0 40px; font-size: 18px; max-width: 54ch">The back-and-forth with customers, handled for you.</p>
-    <div class="six" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+    <div class="six" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px">
+      <div style="border: 1px solid #e3ddd2; border-radius: 14px; padding: 24px; background: #ffffff">
+        <h3 style="margin: 0 0 6px; color: #0b1220; font-size: 18px">New customers</h3>
+        <p style="margin: 0">Answers new leads right away, gets the details and books the first visit.</p>
+      </div>
+      <div style="border: 1px solid #e3ddd2; border-radius: 14px; padding: 24px; background: #ffffff">
+        <h3 style="margin: 0 0 6px; color: #0b1220; font-size: 18px">Quotes</h3>
+        <p style="margin: 0">Sends the quote and follows up until the customer says yes.</p>
+      </div>
       <div style="border: 1px solid #e3ddd2; border-radius: 14px; padding: 24px; background: #ffffff">
         <h3 style="margin: 0 0 6px; color: #0b1220; font-size: 18px">Scheduling</h3>
         <p style="margin: 0">Books the job, moves it when plans change, and confirms the day before.</p>
