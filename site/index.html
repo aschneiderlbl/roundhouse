@@ -21,6 +21,8 @@ a{color:#12603a}a:hover{color:#0d4a2c}
   .h1{font-size:42px !important;line-height:46px !important}
   .three{grid-template-columns:1fr !important}
   .six{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+  .foot{grid-template-columns:1fr 1fr !important}
+  .foot > div:first-child{grid-column:1 / -1}
   .four{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
   .founder{grid-template-columns:1fr !important;gap:24px !important}
   .founder img{max-width:240px}
@@ -251,9 +253,12 @@ a{color:#12603a}a:hover{color:#0d4a2c}
   </section>
 
   <footer style="border-top: 1px solid #e3ddd2; background: #efe7d8">
-    <div style="max-width: 1180px; margin: 0 auto; padding: 20px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 13.5px; color: #5a5751">
-      <span>Roundhouse · White Bear Lake, Minnesota</span>
-      <span><a href="terms/">Terms</a> · <a href="privacy/">Privacy</a></span>
+    <div class="foot" style="max-width: 1180px; margin: 0 auto; padding: 48px 24px 24px; display: grid; grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr)); gap: 32px">
+      <div><div style="display: flex; align-items: center; gap: 10px; color: #0b1220; font-family: Outfit, Arial, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.04em"><span aria-hidden="true" style="display: grid; place-items: center; width: 28px; height: 28px; border-radius: 6px; background: #12603a; color: #ffffff; font-size: 17px">R</span>Roundhouse</div><p style="margin: 10px 0 0; font-size: 14px; line-height: 21px">Run your back office by text, too.</p></div>
+      <div><div style="font-size: 12.5px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: #6b675f; margin-bottom: 10px">Product</div><a href="#how" style="display: block; padding: 4px 0; color: #0b1220; text-decoration: none; font-size: 14px">How it works</a><a href="#handles" style="display: block; padding: 4px 0; color: #0b1220; text-decoration: none; font-size: 14px">What Dispatch handles</a><a href="#industries" style="display: block; padding: 4px 0; color: #0b1220; text-decoration: none; font-size: 14px">Industries</a><a href="#pricing" style="display: block; padding: 4px 0; color: #0b1220; text-decoration: none; font-size: 14px">Pricing</a><a href="#faq" style="display: block; padding: 4px 0; color: #0b1220; text-decoration: none; font-size: 14px">FAQ</a></div>
+      <div><div style="font-size: 12.5px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: #6b675f; margin-bottom: 10px">Company</div><a href="#founder" style="display: block; padding: 4px 0; color: #0b1220; text-decoration: none; font-size: 14px">About</a><a href="sms:+16515055520" data-sms style="display: block; padding: 4px 0; color: #0b1220; text-decoration: none; font-size: 14px">Text Dispatch</a></div>
+      <div><div style="font-size: 12.5px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: #6b675f; margin-bottom: 10px">Legal</div><a href="terms/" style="display: block; padding: 4px 0; color: #0b1220; text-decoration: none; font-size: 14px">Terms</a><a href="privacy/" style="display: block; padding: 4px 0; color: #0b1220; text-decoration: none; font-size: 14px">Privacy</a></div>
+      <div style="grid-column: 1 / -1; border-top: 1px solid #e3ddd2; padding-top: 18px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: 13.5px; color: #6b675f"><span>© 2026 Roundhouse. All rights reserved.</span><span>Made in White Bear Lake, Minnesota.</span></div>
     </div>
   </footer>
 </div>
