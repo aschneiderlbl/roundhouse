@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roundhouse prototype: Robin's setup and a leaf cleanup</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;500;700&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#faf7f2;color:#5a5751;font:16px/1.55 Inter,Arial,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:40px 24px 64px}
+.brand{display:flex;align-items:center;gap:10px;color:#0b1220;font:700 20px Outfit,Arial,sans-serif;letter-spacing:-.04em}
+.mark{display:grid;place-items:center;width:28px;height:28px;border-radius:6px;background:#12603a;color:#fff;font-size:17px}
+h1{margin:24px 0 8px;color:#0b1220;font:700 40px/1.1 Outfit,Arial,sans-serif;letter-spacing:-.03em}
+.lede{margin:0 0 28px;font-size:17px;max-width:70ch}
+.groups{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.group{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.gname{width:170px;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6b675f}
+.pill{min-height:40px;padding:0 14px;border-radius:999px;cursor:pointer;font:600 14px Inter,Arial,sans-serif;background:#fff;color:#0b1220;border:1px solid #d8d0c2}
+.pill:hover{border-color:#12603a}.pill[aria-pressed=true]{background:#12603a;color:#fff;border-color:#12603a}
+.walk{display:grid;grid-template-columns:380px minmax(0,1fr);gap:48px;align-items:start}
+.owner{margin:0 0 10px;text-align:center;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6b675f}
+.phone{width:100%;max-width:360px;margin:0 auto;background:#0b1220;border-radius:46px;padding:10px;box-shadow:0 30px 70px -30px rgba(11,18,32,.45);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif}
+.screen{background:#fff;border-radius:37px;overflow:hidden;min-height:600px;display:flex;flex-direction:column}
+.top{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;padding:16px 12px 10px;background:#f6f6f6;border-bottom:1px solid #e5e5ea}
+.avs{display:flex;justify-content:center}.av{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#a0a4ad;color:#fff;font-size:13px;font-weight:600;border:2px solid #f6f6f6}.av+.av{margin-left:-9px}.av.rh{background:#12603a}
+.tname{font-size:11.5px;color:#000;text-align:center;margin-top:4px}
+.msgs{flex:1;display:flex;flex-direction:column;gap:3px;padding:12px 12px 10px;font-size:14px;line-height:19px}
+.time{align-self:center;font-size:11px;color:#8e8e93;margin:8px 0 4px}
+.name{align-self:flex-start;font-size:11px;color:#8e8e93;margin:6px 0 1px 12px}
+.me{align-self:flex-end;max-width:78%;background:#007aff;color:#fff;padding:7px 12px;border-radius:18px;margin-top:4px}
+.them{align-self:flex-start;max-width:80%;background:#e9e9eb;color:#000;padding:7px 12px;border-radius:18px}
+.them .lnk{display:block;color:#007aff;text-decoration:underline}
+.photo{align-self:flex-start;width:70%;aspect-ratio:4/3;border-radius:18px;background:linear-gradient(160deg,#6f9a52,#4f7a3a 55%,#3d6230);display:flex;align-items:flex-end;padding:10px;color:#fff;font-size:12px;font-weight:600}
+.bar{display:flex;align-items:center;gap:8px;padding:6px 12px 16px}.plus{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#e9e9eb;color:#8e8e93;font-size:20px}.field{flex:1;height:32px;border:1px solid #d1d1d6;border-radius:16px;display:flex;align-items:center;padding:0 12px;color:#8e8e93;font-size:14px}
+.url{padding:16px 14px 10px;background:#f6f6f6;border-bottom:1px solid #e5e5ea;display:flex;justify-content:center}.url span{padding:6px 14px;border-radius:10px;background:#e3e3e8;color:#3c3c43;font-size:12.5px}
+.web{flex:1;padding:22px 18px;display:flex;flex-direction:column;gap:14px;font-family:Inter,Arial,sans-serif}
+.web h3{margin:0;color:#0b1220;font-size:22px;line-height:1.2}.web .item{display:flex;gap:8px;font-size:14px;color:#0b1220}.web .item b{color:#12603a}
+.done{margin-top:6px;padding:12px 14px;border-radius:10px;background:#e7f0ea;color:#12603a;font-weight:600;font-size:14.5px}
+.webbtn{margin-top:auto;display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:10px;background:#12603a;color:#fff;font-weight:600;font-size:15px}
+.note{font-size:11.5px;color:#8e8e93;text-align:center}
+.count{font-size:14px;font-weight:600;color:#12603a}
+h2{margin:6px 0 10px;color:#0b1220;font:700 32px/1.15 Outfit,Arial,sans-serif;letter-spacing:-.03em}
+.summary{margin:0 0 28px;font-size:18px;line-height:28px;max-width:52ch}
+.behind{background:#fff;border:1px solid #e3ddd2;border-radius:14px;padding:22px 24px}
+.blabel{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6b675f;margin-bottom:10px}
+.brow{display:grid;grid-template-columns:130px minmax(0,1fr);gap:16px;padding:12px 0;border-top:1px solid #efe7d8}.brow .tool{color:#12603a;font-weight:600;font-size:14.5px}.brow .txt{color:#0b1220;font-size:15px;line-height:22px}
+.nav{display:flex;gap:12px;margin-top:28px}.nav button{min-height:48px;padding:0 22px;border-radius:10px;font:600 16px Inter,Arial,sans-serif;cursor:pointer}
+.back{border:1px solid #d8d0c2;background:#fff;color:#0b1220}.fwd{border:0;background:#12603a;color:#fff}
+@media (max-width:900px){.walk{grid-template-columns:1fr}.gname{width:100%}h1{font-size:32px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><span class="mark" aria-hidden="true">R</span>Roundhouse</div>
+  <h1>How Roundhouse works with Robin</h1>
+  <p class="lede">First, Robin at Shoreview Outdoor Services sets up Roundhouse in a few texts. Then Andrew books a fall leaf cleanup and Roundhouse, Robin’s AI assistant, runs the job by text. Prices, times and the address are placeholders.</p>
+  <div class="groups" id="groups"></div>
+  <div class="walk">
+    <div><div class="owner" id="owner"></div><div class="phone" role="img" id="phone"><div class="screen" id="screen"></div></div></div>
+    <div>
+      <div class="count" id="count"></div>
+      <h2 id="title"></h2>
+      <p class="summary" id="summary"></p>
+      <div class="behind"><div class="blabel">Behind the scenes</div><div id="behind"></div></div>
+      <div class="nav" id="nav"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const R = 'Robin', H = 'Roundhouse';
+    const t = (text) => ({ kind: 'time', text });
+    const me = (text) => ({ kind: 'me', text });
+    const them = (name, text, link) => ({ kind: 'them', name, text, link });
+    const photo = () => ({ kind: 'photo' });
+    const P = 'Robin’s phone', C = 'Andrew’s phone';
+    const S = 'Robin’s setup', J = 'Andrew’s leaf cleanup';
+    const steps = [
+      { group: S, label: '1. Text Roundhouse', title: 'Robin texts Roundhouse from the website', phone: P, thread: 'Roundhouse', av: ['RH'],
+        summary: 'Robin taps “Text Roundhouse” on heyroundhouse.com. Messages opens with a hello already written, and sending it is the whole signup.',
+        msgs: [t('Monday 7:40 AM'), me('Hi Roundhouse! I’d like help with my customer texts.'), them(H, 'Hi! I’m Roundhouse, an AI admin assistant. What’s your business called?'), me('Shoreview Outdoor Services'), them(H, 'Great, Robin. First, connect Gmail so I can send quotes and invoices from your email and see your calendar.', 'Connect Gmail')],
+        behind: [['Website', 'The button opens Messages with the hello filled in'], ['Roundhouse', 'Creates Robin’s account from his phone number. No form, no password.']] },
+      { group: S, label: '2. Connect Gmail', title: 'Robin connects Gmail', phone: P, web: { url: 'heyroundhouse.com/connect', title: 'Connect Gmail', body: 'Roundhouse will use your Google account to:', items: ['Send quotes and invoices from your email', 'Check your calendar before booking a job', 'Add booked jobs to your calendar'], done: true, doneText: 'Gmail connected as Shoreview Outdoor Services', button: 'Continue with Google', note: 'Google asks you to approve this access. You can disconnect any time.' },
+        summary: 'The link opens a Roundhouse page. Robin taps Continue with Google, approves access on Google’s own screen, and lands back here connected.',
+        behind: [['Google', 'Robin approves access to Gmail and Google Calendar on Google’s sign-in screen'], ['Roundhouse', 'Texts Robin: “Gmail connected. Next, QuickBooks.”']] },
+      { group: S, label: '3. Connect QuickBooks', title: 'Robin connects QuickBooks', phone: P, web: { url: 'heyroundhouse.com/connect', title: 'Connect QuickBooks', body: 'Roundhouse will use QuickBooks to:', items: ['Look up your customers, services and prices', 'Create quotes and invoices', 'See when invoices are paid'], done: true, doneText: 'QuickBooks connected', button: 'Continue with QuickBooks', note: 'QuickBooks asks you to approve this access. You can disconnect any time.' },
+        summary: 'Same thing for QuickBooks: one tap, approve on QuickBooks’ screen, and Roundhouse can see his customers, prices and payments.',
+        behind: [['QuickBooks', 'Robin approves access on QuickBooks’ sign-in screen'], ['Roundhouse', 'Learns Robin’s services and prices so quotes match what he charges']] },
+      { group: S, label: '4. Add to chats', title: 'Robin adds Roundhouse to his chats', phone: P, thread: 'Roundhouse', av: ['RH'],
+        summary: 'That’s setup. From now on, when a customer texts Robin, he adds Roundhouse to the thread like adding anyone to a group text.',
+        msgs: [them(H, 'QuickBooks connected. You’re all set!'), them(H, 'Save this number as Roundhouse. When a customer texts you, add me to the thread and I’ll handle scheduling, quotes, invoices and follow-ups.'), them(H, 'I’ll always check with you before a quote or invoice goes out.'), me('Sounds good')],
+        behind: [['Roundhouse', 'Ready to join Robin’s customer threads'], ['Robin', 'Saves Roundhouse as a contact']] },
+      { group: J, label: '1. Sign up', title: 'Andrew texts Robin', phone: C, thread: 'Robin & Roundhouse', av: ['R', 'RH'],
+        summary: 'Andrew texts Robin like he always would. Robin adds Roundhouse to the thread, and Roundhouse introduces itself and gets the details.',
+        msgs: [t('Tuesday 6:02 PM'), me('Hi Robin! Can you do a leaf cleanup at my place this fall?'), them(R, 'Yes! Adding Roundhouse, my assistant, to get you set up.'), them(H, 'Hi Andrew, this is Roundhouse, Robin’s AI assistant. What’s the address, and is it front and back?'), me('Front and back, 123 Oak Ave.')],
+        behind: [['Roundhouse', 'Joins the thread and says it’s an AI assistant'], ['QuickBooks', 'Adds Andrew as a new customer with his address']] },
+      { group: J, label: '2. Quote', title: 'Robin sends a quote', phone: C, thread: 'Robin & Roundhouse', av: ['R', 'RH'],
+        summary: 'Roundhouse drafts the quote from Robin’s prices, Robin approves it with one text, and Andrew gets it in the thread along with what happens next.',
+        msgs: [them(H, 'Robin’s quote for a front and back leaf cleanup with haul-away is $250.'), them(H, 'Text me when your leaves are all down and I’ll get you on the schedule.'), me('Sounds good, will do!')],
+        behind: [['Robin, privately', 'Roundhouse: “Quote for Andrew, front and back cleanup, $250. OK to send?” Robin: “Yes.”'], ['QuickBooks', 'Saves the approved quote'], ['Gmail', 'Emails Andrew a copy of the quote']] },
+      { group: J, label: '3. Leaves down', title: 'Andrew’s leaves are down', phone: C, thread: 'Robin & Roundhouse', av: ['R', 'RH'],
+        summary: 'Weeks later, Andrew picks the same thread back up. Roundhouse already has the quote, so nobody repeats anything.',
+        msgs: [t('Nov 12, 4:15 PM'), me('Leaves are all down!'), them(H, 'Great, let me check Robin’s schedule.')],
+        behind: [['Roundhouse', 'Finds Andrew’s approved quote and starts booking']] },
+      { group: J, label: '4. Schedule', title: 'They pick a time', phone: C, thread: 'Robin & Roundhouse', av: ['R', 'RH'],
+        summary: 'Roundhouse offers times that are open on Robin’s calendar and books the one Andrew picks.',
+        msgs: [them(H, 'Robin can come Thursday 1–3pm or Friday 9–11am. Which works?'), me('Friday morning'), them(H, 'You’re booked Friday, 9–11am. I’ll text you when Robin’s on the way.')],
+        behind: [['Google Calendar', 'Checks Robin’s open times and adds the job Friday 9–11am'], ['Robin, privately', '“New job Friday 9–11am: Andrew, 123 Oak Ave, $250.”']] },
+      { group: J, label: '5. On the way', title: 'Robin is on the way', phone: C, thread: 'Robin & Roundhouse', av: ['R', 'RH'],
+        summary: 'Robin texts Roundhouse as he heads out, and Roundhouse lets Andrew know when to expect him.',
+        msgs: [t('Friday 8:48 AM'), them(H, 'Robin is on the way, about 15 minutes out.')],
+        behind: [['Robin, privately', 'Robin texts Roundhouse: “Heading to Andrew’s.”']] },
+      { group: J, label: '6. Done', title: 'Done, with a photo', phone: C, thread: 'Robin & Roundhouse', av: ['R', 'RH'],
+        summary: 'When the job is done, Robin sends Roundhouse a photo. Roundhouse shares it with Andrew so he can see the result even if he isn’t home.',
+        msgs: [t('Friday 10:35 AM'), them(H, 'All done! Here’s your yard.'), photo()],
+        behind: [['Robin, privately', 'Robin texts Roundhouse a photo and “done.”']] },
+      { group: J, label: '7. Invoice', title: 'The invoice goes out', phone: C, thread: 'Robin & Roundhouse', av: ['R', 'RH'],
+        summary: 'Roundhouse turns the approved quote into an invoice and emails it to Andrew. Robin doesn’t write anything.',
+        msgs: [them(H, 'I’ve sent the $250 invoice to your email on file.', 'View and pay invoice')],
+        behind: [['QuickBooks', 'Turns the approved quote into an invoice'], ['Gmail', 'Sends the invoice to Andrew from Robin’s email']] },
+      { group: J, label: '8. Pay', title: 'Andrew pays', phone: C, thread: 'Robin & Roundhouse', av: ['R', 'RH'],
+        summary: 'Andrew pays from the invoice. Roundhouse sees the payment and closes out the job for Robin.',
+        msgs: [me('Paid!'), them(H, 'Got it, thank you!')],
+        behind: [['QuickBooks', 'Records Andrew’s $250 payment and marks the invoice paid'], ['Robin, privately', '“Andrew paid $250. Job closed.”']] },
+      { group: J, label: '9. Review', title: 'Thanks and a review', phone: C, thread: 'Robin & Roundhouse', av: ['R', 'RH'],
+        summary: 'Roundhouse thanks Andrew and asks for a review while the job is fresh.',
+        msgs: [them(H, 'Thanks for choosing Shoreview Outdoor Services, Andrew! Would you mind leaving Robin a quick review?', 'Leave a Google review'), me('Happy to!')],
+        behind: [['Roundhouse', 'Sends Robin’s Google review link'], ['Robin, privately', 'A weekly summary of jobs, payments and new reviews']] }
+    ];
+    
+  var i = 0;
+  var esc = function(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+  var setupCount = steps.filter(function(s){ return s.group === S; }).length;
+  function render(){
+    var cur = steps[i];
+    document.getElementById('groups').innerHTML = [S, J].map(function(g){
+      return '<div class="group"><span class="gname">' + esc(g) + '</span>' + steps.map(function(s, n){
+        return s.group === g ? '<button class="pill" data-n="' + n + '" aria-pressed="' + (n === i) + '">' + esc(s.label) + '</button>' : '';
+      }).join('') + '</div>';
+    }).join('');
+    document.getElementById('owner').textContent = cur.phone;
+    document.getElementById('phone').setAttribute('aria-label', cur.phone + ': ' + cur.title);
+    var h = '';
+    if (cur.web) {
+      var w = cur.web;
+      h += '<div class="url"><span>' + esc(w.url) + '</span></div><div class="web"><div class="brand" style="font-size:18px"><span class="mark" style="width:26px;height:26px;font-size:15px" aria-hidden="true">R</span>Roundhouse</div><h3>' + esc(w.title) + '</h3><div style="font-size:14px;line-height:21px">' + esc(w.body) + '</div>';
+      w.items.forEach(function(it){ h += '<div class="item"><b aria-hidden="true">✓</b>' + esc(it) + '</div>'; });
+      if (w.done) h += '<div class="done">' + esc(w.doneText) + '</div>';
+      h += '<div class="webbtn">' + esc(w.button) + '</div><div class="note">' + esc(w.note) + '</div></div>';
+    } else {
+      h += '<div class="top"><svg aria-hidden="true" width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="#007aff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px"><path d="M10 2L2 10l8 8"/></svg><div><div class="avs">' + cur.av.map(function(l){ return '<span class="av' + (l === 'RH' ? ' rh' : '') + '" aria-hidden="true">' + (l === 'RH' ? 'R' : esc(l)) + '</span>'; }).join('') + '</div><div class="tname">' + esc(cur.thread) + ' <span style="color:#8e8e93">›</span></div></div><span></span></div><div class="msgs">';
+      var last = null;
+      cur.msgs.forEach(function(m){
+        if (m.kind === 'time') { h += '<div class="time">' + esc(m.text) + '</div>'; last = null; }
+        else if (m.kind === 'me') { h += '<div class="me">' + esc(m.text) + '</div>'; last = null; }
+        else if (m.kind === 'photo') { h += '<div class="photo">Photo: the finished yard</div>'; }
+        else { if (m.name !== last) h += '<div class="name">' + esc(m.name) + '</div>'; last = m.name; h += '<div class="them">' + esc(m.text) + (m.link ? '<span class="lnk">' + esc(m.link) + '</span>' : '') + '</div>'; }
+      });
+      h += '</div><div class="bar"><span class="plus" aria-hidden="true">+</span><span class="field" aria-hidden="true">iMessage</span></div>';
+    }
+    document.getElementById('screen').innerHTML = h;
+    document.getElementById('count').textContent = cur.group === S ? 'Setup, step ' + (i + 1) + ' of ' + setupCount : 'The job, step ' + (i - setupCount + 1) + ' of ' + (steps.length - setupCount);
+    document.getElementById('title').textContent = cur.title;
+    document.getElementById('summary').textContent = cur.summary;
+    document.getElementById('behind').innerHTML = cur.behind.map(function(b){ return '<div class="brow"><div class="tool">' + esc(b[0]) + '</div><div class="txt">' + esc(b[1]) + '</div></div>'; }).join('');
+    var nav = '';
+    if (i > 0) nav += '<button class="back" data-go="-1">Back</button>';
+    nav += i < steps.length - 1 ? '<button class="fwd" data-go="1">Next step</button>' : '<button class="fwd" data-n="0">Start over</button>';
+    document.getElementById('nav').innerHTML = nav;
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.n !== undefined) i = +b.dataset.n;
+    else if (b.dataset.go) i = Math.max(0, Math.min(steps.length - 1, i + (+b.dataset.go)));
+    else return;
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
